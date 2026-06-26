@@ -65,23 +65,27 @@ that Fig. 3.2 aggregates. **Provenance:** `real_dag_dependencies.py` (Algorithms
 
 ## F4 — Shuffled-DAG causal control  → Bab 4 (Fig. 4.x)
 
-**Caption (ID):** *Gambar 4.x. Kontrol kausal shuffled-DAG: transfer durable lintas-keluarga teramati 0,0992
-dibanding plasebo (masa-depan→masa-lalu) 0,0405 (residu 0,0587), p-permutasi 0,0099 atas 100 pengacakan (rerata
-null −0,0144). Confound proximity (0,132) dan same-family (0,117) **lebih besar** dari efek lintas-keluarga —
-sehingga efek nyata tetapi tidak murni kausal. Sampel 1/10.*
+**Caption (ID):** *Gambar 4.x. Kontrol kausal shuffled-DAG (sampel penuh, K=1000): transfer durable lintas-keluarga
+teramati 0,091 dibanding plasebo (masa-depan→masa-lalu) 0,038 (residu +0,053), p-permutasi < 0,001 atas 1000
+pengacakan (rerata null −0,014). Confound proximity (0,134) dan same-family (0,119) **lebih besar** dari efek
+lintas-keluarga — sehingga efek nyata tetapi tidak murni kausal. Sampel penuh: 1.976.020 baris / 232.440 pembelajar.*
 
-**Caption (EN):** Shuffled-DAG causal control — observed cross-family durable transfer 0.0992 vs future→past
-placebo 0.0405 (residual 0.0587), permutation p = 0.0099 over 100 shuffles (null −0.0144). Proximity (0.132) and
-same-family (0.117) confounds are **larger** — the effect is real but not cleanly causal. 1/10 sample.
+**Caption (EN):** Shuffled-DAG causal control (full sample, K=1000) — observed cross-family durable transfer 0.091 vs
+future→past placebo 0.038 (residual +0.053), permutation p < 0.001 over 1000 shuffles (null −0.014). Proximity (0.134)
+and same-family (0.119) confounds are **larger** — the effect is real but not cleanly causal. Full sample: 1,976,020 rows.
 
 **What it shows / why it matters.** This is the figure that **earns the honesty caveat** in README / REPRODUCIBILITY
-§5 ("transfer = a placebo-corrected residual … correlational/topological, **not** causal"). It plots the observed
-cross-family durable effect against a future→past placebo and a 100-shuffle permutation null, and — crucially —
-shows the proximity / same-family confounds are *larger* than the cross-family effect. Use it to support, not
-overclaim, the transfer result. **Provenance:** `tier5_topology_mag.json` — seal `51b8b51a`, run `13b43797`; fields
-`b_durable_CROSS_past` (0.0992), `b_FUTURE_cross_PLACEBO` (0.0405), `b_durable_SAME` (0.117), `b_proximity` (0.132),
-`cross_perm_p` (0.0099), `perm_K` (100), `null_mean` (−0.0144), `n_rows` (200,418), `n_users` (23,450); `mode` = 1/10 sample.
+§5 ("transfer = a placebo-corrected residual … correlational/topological, **not** causal") — and it now matches the
+thesis headline exactly (**+0.053, p<0.001, K=1000**), so figure and prose agree. It plots the observed cross-family
+durable effect against a future→past placebo and a 1000-shuffle permutation null, and — crucially — shows the
+proximity / same-family confounds are *larger* than the cross-family effect. Use it to support, not overclaim, the
+transfer result. **Provenance:** `prospective_probe_v3_full_K1000.json` (full sample, seed 20260531;
+`probe_prospective_transfer_v3.py --full --permutations 1000`); fields `b_durable_CROSS_past` (0.09147),
+`b_FUTURE_cross_PLACEBO` (0.03812), `b_durable_SAME` (0.11865), `b_proximity` (0.13372), `cross_perm_p` (0.000999),
+`perm_K` (1000), `null_mean` (−0.01376), `n_rows` (1,976,020), `n_users` (232,440); `mode` = full.
 
-> Note: F4's residual (0.0587) is the **shuffled-DAG control run on a 1/10 sample** and corroborates — but is not
-> identical to — the anchor's headline transfer residual **+0.053** (full run, README §Provenance). Report each with
-> its own provenance; do not equate them.
+> Note: F4 is the **full-sample K=1000** run, so its residual **+0.053** is the same value as the thesis/README headline
+> transfer residual — figure and prose agree. (The earlier 1/10-sample probe `tier5_topology_mag.json` gave a
+> consistent but distinct 0.059 at K=100/p=0.0099; the full run supersedes it for the figure.)
+
+*All four figure files now use Indonesian labels (decimal commas, no "F#" prefix); the captions above are provided ID + EN for pasting.*

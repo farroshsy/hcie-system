@@ -1,6 +1,6 @@
 <svg viewBox="0 0 1040 720" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img">
-<title>Algorithms &amp; Programming strand — node-level detail across grade bands</title>
-<desc>Five concept rows (Algorithms, Variables, Control, Modularity, Program Development) laid out across four grade-band columns K-2, 3-5, 6-8, 9-12, connected by weighted transfer edges, with three incident practice links.</desc>
+<title>Area Algoritma &amp; Pemrograman — detail tingkat-simpul lintas jenjang kelas</title>
+<desc>Lima baris konsep (Algoritma, Variabel, Kontrol, Modularitas, Pengembangan Program) ditata pada empat kolom jenjang kelas K-2, 3-5, 6-8, 9-12, terhubung oleh sisi transfer berbobot, dengan tiga tautan praktik insiden.</desc>
 <rect width="1040" height="720" fill="#ffffff"/>
 <defs>
 <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -10,8 +10,8 @@
 <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
 </marker>
 </defs>
-<text x="32" y="42" font-size="22" font-weight="bold" fill="#0f172a">Algorithms &amp; Programming strand</text>
-<text x="32" y="64" font-size="13" fill="#475569">node-level detail across grade bands (real_dag_dependencies.py)</text>
+<text x="32" y="42" font-size="22" font-weight="bold" fill="#0f172a">Area Algoritma &amp; Pemrograman</text>
+<text x="32" y="64" font-size="13" fill="#475569">detail tingkat-simpul lintas jenjang kelas (real_dag_dependencies.py)</text>
 <text x="200" y="104" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">K-2</text>
 <text x="420" y="104" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">3-5</text>
 <text x="640" y="104" font-size="13" font-weight="bold" fill="#1e293b" text-anchor="middle">6-8</text>
@@ -32,59 +32,59 @@
 <line x1="200" y1="556" x2="200" y2="184" stroke="#334155" stroke-width="1.6" marker-end="url(#arrowGray)"/>
 <path d="M880,184 L980,184 L980,544 L770,544 L770,556" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#arrowGray)"/>
 <path d="M880,254 L1006,254 L1006,536 L901,536 L901,556" fill="none" stroke="#334155" stroke-width="1.6" marker-end="url(#arrowGray)"/>
-<g><rect x="295" y="154" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="166" font-size="10" fill="#2563eb" text-anchor="middle">0.85</text></g>
-<g><rect x="515" y="154" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="530" y="166" font-size="10" fill="#2563eb" text-anchor="middle">0.85</text></g>
-<g><rect x="735" y="154" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="750" y="166" font-size="10" fill="#2563eb" text-anchor="middle">0.85</text></g>
-<g><rect x="295" y="224" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="236" font-size="10" fill="#2563eb" text-anchor="middle">0.90</text></g>
-<g><rect x="515" y="224" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="530" y="236" font-size="10" fill="#2563eb" text-anchor="middle">0.90</text></g>
-<g><rect x="735" y="224" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="750" y="236" font-size="10" fill="#2563eb" text-anchor="middle">0.90</text></g>
-<g><rect x="295" y="294" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="306" font-size="10" fill="#2563eb" text-anchor="middle">0.85</text></g>
-<g><rect x="515" y="294" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="530" y="306" font-size="10" fill="#2563eb" text-anchor="middle">0.85</text></g>
-<g><rect x="735" y="294" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="750" y="306" font-size="10" fill="#2563eb" text-anchor="middle">0.85</text></g>
-<g><rect x="295" y="364" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="376" font-size="10" fill="#2563eb" text-anchor="middle">0.80</text></g>
-<g><rect x="735" y="364" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="750" y="376" font-size="10" fill="#2563eb" text-anchor="middle">0.80</text></g>
-<g><rect x="295" y="434" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="446" font-size="10" fill="#2563eb" text-anchor="middle">0.85</text></g>
-<g><rect x="166" y="362" width="30" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8"/><text x="181" y="374" font-size="10" fill="#334155" text-anchor="middle">0.80</text></g>
-<g><rect x="965" y="320" width="30" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8"/><text x="980" y="332" font-size="10" fill="#334155" text-anchor="middle">0.90</text></g>
-<g><rect x="991" y="392" width="30" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8"/><text x="1006" y="404" font-size="10" fill="#334155" text-anchor="middle">0.85</text></g>
-<g><rect x="130" y="140" width="140" height="44" rx="8" fill="#dcfce7" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="167" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Algorithms</text></g>
-<g><rect x="350" y="140" width="140" height="44" rx="8" fill="#dcfce7" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="167" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Algorithms</text></g>
-<g><rect x="570" y="140" width="140" height="44" rx="8" fill="#dcfce7" stroke="#1e293b" stroke-width="1.4"/><text x="640" y="167" font-size="12" fill="#0f172a" text-anchor="middle">6-8 Algorithms</text></g>
-<g><rect x="790" y="140" width="140" height="44" rx="8" fill="#dcfce7" stroke="#1e293b" stroke-width="1.4"/><text x="860" y="167" font-size="12" fill="#0f172a" text-anchor="middle">9-12 Algorithms</text></g>
-<g><rect x="130" y="210" width="140" height="44" rx="8" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="237" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Variables</text></g>
-<g><rect x="350" y="210" width="140" height="44" rx="8" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="237" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Variables</text></g>
-<g><rect x="570" y="210" width="140" height="44" rx="8" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/><text x="640" y="237" font-size="12" fill="#0f172a" text-anchor="middle">6-8 Variables</text></g>
-<g><rect x="790" y="210" width="140" height="44" rx="8" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/><text x="860" y="237" font-size="12" fill="#0f172a" text-anchor="middle">9-12 Variables</text></g>
-<g><rect x="130" y="280" width="140" height="44" rx="8" fill="#fef9c3" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="307" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Control</text></g>
-<g><rect x="350" y="280" width="140" height="44" rx="8" fill="#fef9c3" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="307" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Control</text></g>
-<g><rect x="570" y="280" width="140" height="44" rx="8" fill="#fef9c3" stroke="#1e293b" stroke-width="1.4"/><text x="640" y="307" font-size="12" fill="#0f172a" text-anchor="middle">6-8 Control</text></g>
-<g><rect x="790" y="280" width="140" height="44" rx="8" fill="#fef9c3" stroke="#1e293b" stroke-width="1.4"/><text x="860" y="307" font-size="12" fill="#0f172a" text-anchor="middle">9-12 Control</text></g>
-<g><rect x="130" y="350" width="140" height="44" rx="8" fill="#fae8ff" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="377" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Modularity</text></g>
-<g><rect x="350" y="350" width="140" height="44" rx="8" fill="#fae8ff" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="377" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Modularity</text></g>
-<g><rect x="570" y="350" width="140" height="44" rx="8" fill="#fae8ff" stroke="#1e293b" stroke-width="1.4"/><text x="640" y="377" font-size="12" fill="#0f172a" text-anchor="middle">6-8 Modularity</text></g>
-<g><rect x="790" y="350" width="140" height="44" rx="8" fill="#fae8ff" stroke="#1e293b" stroke-width="1.4"/><text x="860" y="377" font-size="12" fill="#0f172a" text-anchor="middle">9-12 Modularity</text></g>
-<g><rect x="120" y="420" width="160" height="44" rx="8" fill="#ffedd5" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="447" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Program Dev.</text></g>
-<g><rect x="340" y="420" width="160" height="44" rx="8" fill="#ffedd5" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="447" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Program Dev.</text></g>
+<g><rect x="295" y="154" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="166" font-size="10" fill="#2563eb" text-anchor="middle">0,85</text></g>
+<g><rect x="515" y="154" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="530" y="166" font-size="10" fill="#2563eb" text-anchor="middle">0,85</text></g>
+<g><rect x="735" y="154" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="750" y="166" font-size="10" fill="#2563eb" text-anchor="middle">0,85</text></g>
+<g><rect x="295" y="224" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="236" font-size="10" fill="#2563eb" text-anchor="middle">0,90</text></g>
+<g><rect x="515" y="224" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="530" y="236" font-size="10" fill="#2563eb" text-anchor="middle">0,90</text></g>
+<g><rect x="735" y="224" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="750" y="236" font-size="10" fill="#2563eb" text-anchor="middle">0,90</text></g>
+<g><rect x="295" y="294" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="306" font-size="10" fill="#2563eb" text-anchor="middle">0,85</text></g>
+<g><rect x="515" y="294" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="530" y="306" font-size="10" fill="#2563eb" text-anchor="middle">0,85</text></g>
+<g><rect x="735" y="294" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="750" y="306" font-size="10" fill="#2563eb" text-anchor="middle">0,85</text></g>
+<g><rect x="295" y="364" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="376" font-size="10" fill="#2563eb" text-anchor="middle">0,80</text></g>
+<g><rect x="735" y="364" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="750" y="376" font-size="10" fill="#2563eb" text-anchor="middle">0,80</text></g>
+<g><rect x="295" y="434" width="30" height="16" rx="3" fill="#ffffff" stroke="#bfdbfe" stroke-width="0.8"/><text x="310" y="446" font-size="10" fill="#2563eb" text-anchor="middle">0,85</text></g>
+<g><rect x="166" y="362" width="30" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8"/><text x="181" y="374" font-size="10" fill="#334155" text-anchor="middle">0,80</text></g>
+<g><rect x="965" y="320" width="30" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8"/><text x="980" y="332" font-size="10" fill="#334155" text-anchor="middle">0,90</text></g>
+<g><rect x="991" y="392" width="30" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8"/><text x="1006" y="404" font-size="10" fill="#334155" text-anchor="middle">0,85</text></g>
+<g><rect x="130" y="140" width="140" height="44" rx="8" fill="#dcfce7" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="167" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Algoritma</text></g>
+<g><rect x="350" y="140" width="140" height="44" rx="8" fill="#dcfce7" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="167" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Algoritma</text></g>
+<g><rect x="570" y="140" width="140" height="44" rx="8" fill="#dcfce7" stroke="#1e293b" stroke-width="1.4"/><text x="640" y="167" font-size="12" fill="#0f172a" text-anchor="middle">6-8 Algoritma</text></g>
+<g><rect x="790" y="140" width="140" height="44" rx="8" fill="#dcfce7" stroke="#1e293b" stroke-width="1.4"/><text x="860" y="167" font-size="12" fill="#0f172a" text-anchor="middle">9-12 Algoritma</text></g>
+<g><rect x="130" y="210" width="140" height="44" rx="8" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="237" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Variabel</text></g>
+<g><rect x="350" y="210" width="140" height="44" rx="8" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="237" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Variabel</text></g>
+<g><rect x="570" y="210" width="140" height="44" rx="8" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/><text x="640" y="237" font-size="12" fill="#0f172a" text-anchor="middle">6-8 Variabel</text></g>
+<g><rect x="790" y="210" width="140" height="44" rx="8" fill="#dbeafe" stroke="#1e293b" stroke-width="1.4"/><text x="860" y="237" font-size="12" fill="#0f172a" text-anchor="middle">9-12 Variabel</text></g>
+<g><rect x="130" y="280" width="140" height="44" rx="8" fill="#fef9c3" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="307" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Kontrol</text></g>
+<g><rect x="350" y="280" width="140" height="44" rx="8" fill="#fef9c3" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="307" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Kontrol</text></g>
+<g><rect x="570" y="280" width="140" height="44" rx="8" fill="#fef9c3" stroke="#1e293b" stroke-width="1.4"/><text x="640" y="307" font-size="12" fill="#0f172a" text-anchor="middle">6-8 Kontrol</text></g>
+<g><rect x="790" y="280" width="140" height="44" rx="8" fill="#fef9c3" stroke="#1e293b" stroke-width="1.4"/><text x="860" y="307" font-size="12" fill="#0f172a" text-anchor="middle">9-12 Kontrol</text></g>
+<g><rect x="130" y="350" width="140" height="44" rx="8" fill="#fae8ff" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="377" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Modularitas</text></g>
+<g><rect x="350" y="350" width="140" height="44" rx="8" fill="#fae8ff" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="377" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Modularitas</text></g>
+<g><rect x="570" y="350" width="140" height="44" rx="8" fill="#fae8ff" stroke="#1e293b" stroke-width="1.4"/><text x="640" y="377" font-size="12" fill="#0f172a" text-anchor="middle">6-8 Modularitas</text></g>
+<g><rect x="790" y="350" width="140" height="44" rx="8" fill="#fae8ff" stroke="#1e293b" stroke-width="1.4"/><text x="860" y="377" font-size="12" fill="#0f172a" text-anchor="middle">9-12 Modularitas</text></g>
+<g><rect x="120" y="420" width="160" height="44" rx="8" fill="#ffedd5" stroke="#1e293b" stroke-width="1.4"/><text x="200" y="447" font-size="12" fill="#0f172a" text-anchor="middle">K-2 Pengembangan Program</text></g>
+<g><rect x="340" y="420" width="160" height="44" rx="8" fill="#ffedd5" stroke="#1e293b" stroke-width="1.4"/><text x="420" y="447" font-size="12" fill="#0f172a" text-anchor="middle">3-5 Pengembangan Program</text></g>
 <g><rect x="120" y="556" width="160" height="44" rx="8" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.4" stroke-dasharray="3 2"/><text x="200" y="583" font-size="12" fill="#0f172a" text-anchor="middle">practice_communication</text></g>
 <g><rect x="688" y="556" width="164" height="44" rx="8" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.4" stroke-dasharray="3 2"/><text x="770" y="583" font-size="12" fill="#0f172a" text-anchor="middle">practice_abstractions</text></g>
 <g><rect x="816" y="556" width="170" height="44" rx="8" fill="#f1f5f9" stroke="#1e293b" stroke-width="1.4" stroke-dasharray="3 2"/><text x="901" y="583" font-size="12" fill="#0f172a" text-anchor="middle">practice_artifact_creation</text></g>
 <g>
 <rect x="732" y="636" width="276" height="62" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="746" y="654" font-size="12" font-weight="bold" fill="#0f172a">Legend</text>
+<text x="746" y="654" font-size="12" font-weight="bold" fill="#0f172a">Legenda</text>
 <line x1="746" y1="669" x2="780" y2="669" stroke="#2563eb" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
-<text x="788" y="673" font-size="11" fill="#334155">internal transfer (weighted)</text>
+<text x="788" y="673" font-size="11" fill="#334155">transfer internal (berbobot)</text>
 <line x1="746" y1="687" x2="780" y2="687" stroke="#334155" stroke-width="1.6" marker-end="url(#arrowGray)"/>
-<text x="788" y="691" font-size="11" fill="#334155">incident practice link (weighted)</text>
+<text x="788" y="691" font-size="11" fill="#334155">tautan praktik insiden (berbobot)</text>
 </g>
 <g>
 <rect x="32" y="624" width="232" height="78" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="46" y="642" font-size="12" font-weight="bold" fill="#0f172a">Concept (algorithms area)</text>
-<rect x="46" y="650" width="12" height="12" rx="2" fill="#dcfce7" stroke="#1e293b" stroke-width="1"/><text x="64" y="660" font-size="11" fill="#334155">Algorithms</text>
-<rect x="160" y="650" width="12" height="12" rx="2" fill="#dbeafe" stroke="#1e293b" stroke-width="1"/><text x="178" y="660" font-size="11" fill="#334155">Variables</text>
-<rect x="46" y="668" width="12" height="12" rx="2" fill="#fef9c3" stroke="#1e293b" stroke-width="1"/><text x="64" y="678" font-size="11" fill="#334155">Control</text>
-<rect x="160" y="668" width="12" height="12" rx="2" fill="#fae8ff" stroke="#1e293b" stroke-width="1"/><text x="178" y="678" font-size="11" fill="#334155">Modularity</text>
-<rect x="46" y="686" width="12" height="12" rx="2" fill="#ffedd5" stroke="#1e293b" stroke-width="1"/><text x="64" y="696" font-size="11" fill="#334155">Program Dev.</text>
-<rect x="160" y="686" width="12" height="12" rx="2" fill="#f1f5f9" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 2"/><text x="178" y="696" font-size="11" fill="#334155">Practice</text>
+<text x="46" y="642" font-size="12" font-weight="bold" fill="#0f172a">Konsep (area algoritma)</text>
+<rect x="46" y="650" width="12" height="12" rx="2" fill="#dcfce7" stroke="#1e293b" stroke-width="1"/><text x="64" y="660" font-size="11" fill="#334155">Algoritma</text>
+<rect x="160" y="650" width="12" height="12" rx="2" fill="#dbeafe" stroke="#1e293b" stroke-width="1"/><text x="178" y="660" font-size="11" fill="#334155">Variabel</text>
+<rect x="46" y="668" width="12" height="12" rx="2" fill="#fef9c3" stroke="#1e293b" stroke-width="1"/><text x="64" y="678" font-size="11" fill="#334155">Kontrol</text>
+<rect x="160" y="668" width="12" height="12" rx="2" fill="#fae8ff" stroke="#1e293b" stroke-width="1"/><text x="178" y="678" font-size="11" fill="#334155">Modularitas</text>
+<rect x="46" y="686" width="12" height="12" rx="2" fill="#ffedd5" stroke="#1e293b" stroke-width="1"/><text x="64" y="696" font-size="11" fill="#334155">Pengembangan Program</text>
+<rect x="160" y="686" width="12" height="12" rx="2" fill="#f1f5f9" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 2"/><text x="178" y="696" font-size="11" fill="#334155">Praktik</text>
 </g>
-<text x="32" y="706" font-size="11" font-style="italic" fill="#94a3b8">Source: real_dag_dependencies.py — Algorithms &amp; Programming strand (18 concept nodes, internal + incident transfer edges)</text>
+<text x="32" y="706" font-size="11" font-style="italic" fill="#94a3b8">Sumber: real_dag_dependencies.py — Area Algoritma &amp; Pemrograman (18 simpul konsep, sisi transfer internal + insiden)</text>
 </svg>

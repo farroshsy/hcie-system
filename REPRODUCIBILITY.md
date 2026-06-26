@@ -53,10 +53,11 @@ returns the same manifest idempotently. It does **not** by itself prove value-re
   null controls. It is **correlational/topological**, not causal inference (no intervention/counterfactual).
 
   ![Shuffled-DAG causal control](docs/figures/F4-causal.png)
-  <sub>The shuffled-DAG control: observed cross-family durable transfer **0.0992** vs future→past placebo **0.0405**
-  (residual 0.0587), permutation **p=0.0099** over 100 shuffles. Proximity (**0.132**) and same-family (**0.117**)
-  confounds are <em>larger</em> than the cross-family effect — real, but not cleanly causal. Run on a 1/10 sample
-  (`tier5_topology_mag.json`, seal-51b8b51a); corroborates but ≠ the anchor's +0.053. Full set: <a href="docs/FIGURES.md">docs/FIGURES.md</a>.</sub>
+  <sub>The shuffled-DAG control (full sample, K=1000): observed cross-family durable transfer **0.091** vs future→past
+  placebo **0.038** (residual **+0.053**), permutation **p&lt;0.001** over 1000 shuffles (null −0.014). Proximity (**0.134**)
+  and same-family (**0.119**) confounds are <em>larger</em> than the cross-family effect — real, but not cleanly causal.
+  Full sample: 1,976,020 rows / 232,440 learners (`prospective_probe_v3_full_K1000.json`, seed 20260531) — this is the
+  figure behind the headline +0.053. Full set: <a href="docs/FIGURES.md">docs/FIGURES.md</a>.</sub>
 
 ## 6. Scope & limits (read this)
 - "Bit-identical" applies to the **deterministic brain harness** (§3 #1), not to full live re-execution: the

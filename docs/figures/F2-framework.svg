@@ -1,6 +1,6 @@
 <svg viewBox="0 0 1040 760" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img">
-<title>F2 — K-12 CS Framework dependency graph that HCIE adapts over</title>
-<desc>Five core CS areas as swimlanes across four grade bands K-2, 3-5, 6-8, 9-12, with within-area prerequisite arrows and cross-area transfer arrows into the computational-thinking practice chain.</desc>
+<title>Graf dependensi Kerangka CS K-12 yang diadaptasi alur /learn</title>
+<desc>Lima area inti CS sebagai swimlane di empat jenjang kelas K-2, 3-5, 6-8, 9-12, dengan panah prasyarat dalam-area dan panah transfer lintas-area menuju rantai praktik berpikir komputasional.</desc>
 <rect width="1040" height="760" fill="#ffffff"/>
 <defs>
 <marker id="arrow" markerWidth="10" markerHeight="10" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse">
@@ -8,8 +8,8 @@
 </marker>
 </defs>
 
-<text x="40" y="40" font-size="22" font-weight="700" fill="#0f172a">F2 · K-12 CS Framework dependency graph the /learn flow adapts over</text>
-<text x="40" y="62" font-size="13" fill="#475569">Areas as swimlanes, grade bands as columns. Solid = prerequisite progression · Dashed = cross-area transfer (real weights).</text>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#0f172a">Graf Dependensi Kerangka CS K-12 yang Diadaptasi Alur /learn</text>
+<text x="40" y="62" font-size="13" fill="#475569">Area sebagai swimlane, jenjang kelas sebagai kolom. Garis penuh = progresi prasyarat · Garis putus = transfer lintas-area (bobot riil).</text>
 
 <!-- Grade band column headers -->
 <text x="335" y="96" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">K-2</text>
@@ -19,73 +19,73 @@
 
 <!-- ===================== LANE 1: Computing Systems ===================== -->
 <rect x="36" y="108" width="968" height="84" fill="#eff6ff" stroke="#dbeafe" stroke-width="1"/>
-<text x="48" y="134" font-size="13" font-weight="700" fill="#1e3a8a">Computing</text>
-<text x="48" y="150" font-size="13" font-weight="700" fill="#1e3a8a">Systems</text>
-<text x="48" y="168" font-size="10" fill="#64748b">devices · HW/SW</text>
+<text x="48" y="134" font-size="13" font-weight="700" fill="#1e3a8a">Sistem</text>
+<text x="48" y="150" font-size="13" font-weight="700" fill="#1e3a8a">Komputasi</text>
+<text x="48" y="168" font-size="10" fill="#64748b">perangkat · HW/SW</text>
 
 <rect x="285" y="118" width="100" height="44" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
-<text x="335" y="143" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">Comp. Systems</text>
+<text x="335" y="143" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">Sistem Komp.</text>
 <text x="335" y="156" font-size="10" fill="#1e40af" text-anchor="middle">K-2</text>
 
 <rect x="460" y="118" width="100" height="44" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
-<text x="510" y="143" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">Comp. Systems</text>
+<text x="510" y="143" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">Sistem Komp.</text>
 <text x="510" y="156" font-size="10" fill="#1e40af" text-anchor="middle">3-5</text>
 
 <rect x="635" y="118" width="100" height="44" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
-<text x="685" y="143" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">Comp. Systems</text>
+<text x="685" y="143" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">Sistem Komp.</text>
 <text x="685" y="156" font-size="10" fill="#1e40af" text-anchor="middle">6-8</text>
 
 <rect x="810" y="118" width="100" height="44" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
-<text x="860" y="143" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">Comp. Systems</text>
+<text x="860" y="143" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">Sistem Komp.</text>
 <text x="860" y="156" font-size="10" fill="#1e40af" text-anchor="middle">9-12</text>
 
 <line x1="385" y1="140" x2="458" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="560" y1="140" x2="633" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="735" y1="140" x2="808" y2="140" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <rect x="406" y="125" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="422" y="136" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="422" y="136" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="581" y="125" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="597" y="136" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="597" y="136" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="756" y="125" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="772" y="136" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="772" y="136" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 
 <!-- ===================== LANE 2: Networks & Internet ===================== -->
 <rect x="36" y="200" width="968" height="84" fill="#ecfdf5" stroke="#d1fae5" stroke-width="1"/>
-<text x="48" y="226" font-size="13" font-weight="700" fill="#065f46">Networks &amp;</text>
+<text x="48" y="226" font-size="13" font-weight="700" fill="#065f46">Jaringan &amp;</text>
 <text x="48" y="242" font-size="13" font-weight="700" fill="#065f46">Internet</text>
-<text x="48" y="260" font-size="10" fill="#64748b">comms · cybersec</text>
+<text x="48" y="260" font-size="10" fill="#64748b">komunikasi · keamanan siber</text>
 
 <rect x="285" y="210" width="100" height="44" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
-<text x="335" y="235" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">Networks</text>
+<text x="335" y="235" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">Jaringan</text>
 <text x="335" y="248" font-size="10" fill="#047857" text-anchor="middle">K-2</text>
 
 <rect x="460" y="210" width="100" height="44" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
-<text x="510" y="235" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">Networks</text>
+<text x="510" y="235" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">Jaringan</text>
 <text x="510" y="248" font-size="10" fill="#047857" text-anchor="middle">3-5</text>
 
 <rect x="635" y="210" width="100" height="44" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
-<text x="685" y="235" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">Networks</text>
+<text x="685" y="235" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">Jaringan</text>
 <text x="685" y="248" font-size="10" fill="#047857" text-anchor="middle">6-8</text>
 
 <rect x="810" y="210" width="100" height="44" rx="6" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
-<text x="860" y="235" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">Networks</text>
+<text x="860" y="235" font-size="11" font-weight="600" fill="#065f46" text-anchor="middle">Jaringan</text>
 <text x="860" y="248" font-size="10" fill="#047857" text-anchor="middle">9-12</text>
 
 <line x1="385" y1="232" x2="458" y2="232" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="560" y1="232" x2="633" y2="232" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="735" y1="232" x2="808" y2="232" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <rect x="406" y="217" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="422" y="228" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="422" y="228" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="581" y="217" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="597" y="228" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="597" y="228" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="756" y="217" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="772" y="228" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="772" y="228" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 
 <!-- ===================== LANE 3: Data & Analysis ===================== -->
 <rect x="36" y="292" width="968" height="84" fill="#fff7ed" stroke="#ffedd5" stroke-width="1"/>
 <text x="48" y="318" font-size="13" font-weight="700" fill="#9a3412">Data &amp;</text>
-<text x="48" y="334" font-size="13" font-weight="700" fill="#9a3412">Analysis</text>
-<text x="48" y="352" font-size="10" fill="#64748b">collect · store · viz</text>
+<text x="48" y="334" font-size="13" font-weight="700" fill="#9a3412">Analisis</text>
+<text x="48" y="352" font-size="10" fill="#64748b">kumpulkan · simpan · visualisasi</text>
 
 <rect x="285" y="302" width="100" height="44" rx="6" fill="#ffedd5" stroke="#f97316" stroke-width="1.5"/>
 <text x="335" y="327" font-size="11" font-weight="600" fill="#9a3412" text-anchor="middle">Data</text>
@@ -107,107 +107,107 @@
 <line x1="560" y1="324" x2="633" y2="324" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="735" y1="324" x2="808" y2="324" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <rect x="406" y="309" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="422" y="320" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="422" y="320" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="581" y="309" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="597" y="320" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="597" y="320" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="756" y="309" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="772" y="320" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="772" y="320" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 
 <!-- ===================== LANE 4: Algorithms & Programming ===================== -->
 <rect x="36" y="384" width="968" height="84" fill="#f5f3ff" stroke="#ede9fe" stroke-width="1"/>
-<text x="48" y="410" font-size="13" font-weight="700" fill="#5b21b6">Algorithms &amp;</text>
-<text x="48" y="426" font-size="13" font-weight="700" fill="#5b21b6">Programming</text>
-<text x="48" y="444" font-size="10" fill="#64748b">vars · control · mod</text>
+<text x="48" y="410" font-size="13" font-weight="700" fill="#5b21b6">Algoritma &amp;</text>
+<text x="48" y="426" font-size="13" font-weight="700" fill="#5b21b6">Pemrograman</text>
+<text x="48" y="444" font-size="10" fill="#64748b">variabel · kontrol · modularitas</text>
 
 <rect x="285" y="394" width="100" height="44" rx="6" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
-<text x="335" y="419" font-size="11" font-weight="600" fill="#5b21b6" text-anchor="middle">Algorithms</text>
+<text x="335" y="419" font-size="11" font-weight="600" fill="#5b21b6" text-anchor="middle">Algoritma</text>
 <text x="335" y="432" font-size="10" fill="#6d28d9" text-anchor="middle">K-2</text>
 
 <rect x="460" y="394" width="100" height="44" rx="6" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
-<text x="510" y="419" font-size="11" font-weight="600" fill="#5b21b6" text-anchor="middle">Algorithms</text>
+<text x="510" y="419" font-size="11" font-weight="600" fill="#5b21b6" text-anchor="middle">Algoritma</text>
 <text x="510" y="432" font-size="10" fill="#6d28d9" text-anchor="middle">3-5</text>
 
 <rect x="635" y="394" width="100" height="44" rx="6" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
-<text x="685" y="419" font-size="11" font-weight="600" fill="#5b21b6" text-anchor="middle">Algorithms</text>
+<text x="685" y="419" font-size="11" font-weight="600" fill="#5b21b6" text-anchor="middle">Algoritma</text>
 <text x="685" y="432" font-size="10" fill="#6d28d9" text-anchor="middle">6-8</text>
 
 <rect x="810" y="394" width="100" height="44" rx="6" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1.5"/>
-<text x="860" y="419" font-size="11" font-weight="600" fill="#5b21b6" text-anchor="middle">Algorithms</text>
+<text x="860" y="419" font-size="11" font-weight="600" fill="#5b21b6" text-anchor="middle">Algoritma</text>
 <text x="860" y="432" font-size="10" fill="#6d28d9" text-anchor="middle">9-12</text>
 
 <line x1="385" y1="416" x2="458" y2="416" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="560" y1="416" x2="633" y2="416" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="735" y1="416" x2="808" y2="416" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <rect x="406" y="401" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="422" y="412" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="422" y="412" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="581" y="401" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="597" y="412" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="597" y="412" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="756" y="401" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="772" y="412" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="772" y="412" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 
 <!-- ===================== LANE 5: Impacts of Computing ===================== -->
 <rect x="36" y="476" width="968" height="84" fill="#fdf2f8" stroke="#fce7f3" stroke-width="1"/>
-<text x="48" y="502" font-size="13" font-weight="700" fill="#9d174d">Impacts of</text>
-<text x="48" y="518" font-size="13" font-weight="700" fill="#9d174d">Computing</text>
-<text x="48" y="536" font-size="10" fill="#64748b">culture · social · ethics</text>
+<text x="48" y="502" font-size="13" font-weight="700" fill="#9d174d">Dampak</text>
+<text x="48" y="518" font-size="13" font-weight="700" fill="#9d174d">Komputasi</text>
+<text x="48" y="536" font-size="10" fill="#64748b">budaya · sosial · etika</text>
 
 <rect x="285" y="486" width="100" height="44" rx="6" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
-<text x="335" y="511" font-size="11" font-weight="600" fill="#9d174d" text-anchor="middle">Impacts</text>
+<text x="335" y="511" font-size="11" font-weight="600" fill="#9d174d" text-anchor="middle">Dampak</text>
 <text x="335" y="524" font-size="10" fill="#be185d" text-anchor="middle">K-2</text>
 
 <rect x="460" y="486" width="100" height="44" rx="6" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
-<text x="510" y="511" font-size="11" font-weight="600" fill="#9d174d" text-anchor="middle">Impacts</text>
+<text x="510" y="511" font-size="11" font-weight="600" fill="#9d174d" text-anchor="middle">Dampak</text>
 <text x="510" y="524" font-size="10" fill="#be185d" text-anchor="middle">3-5</text>
 
 <rect x="635" y="486" width="100" height="44" rx="6" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
-<text x="685" y="511" font-size="11" font-weight="600" fill="#9d174d" text-anchor="middle">Impacts</text>
+<text x="685" y="511" font-size="11" font-weight="600" fill="#9d174d" text-anchor="middle">Dampak</text>
 <text x="685" y="524" font-size="10" fill="#be185d" text-anchor="middle">6-8</text>
 
 <rect x="810" y="486" width="100" height="44" rx="6" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
-<text x="860" y="511" font-size="11" font-weight="600" fill="#9d174d" text-anchor="middle">Impacts</text>
+<text x="860" y="511" font-size="11" font-weight="600" fill="#9d174d" text-anchor="middle">Dampak</text>
 <text x="860" y="524" font-size="10" fill="#be185d" text-anchor="middle">9-12</text>
 
 <line x1="385" y1="508" x2="458" y2="508" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="560" y1="508" x2="633" y2="508" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="735" y1="508" x2="808" y2="508" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <rect x="406" y="493" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="422" y="504" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="422" y="504" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="581" y="493" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="597" y="504" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="597" y="504" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 <rect x="756" y="493" width="32" height="15" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="772" y="504" font-size="9.5" fill="#334155" text-anchor="middle">0.85</text>
+<text x="772" y="504" font-size="9.5" fill="#334155" text-anchor="middle">0,85</text>
 
 <!-- ===================== LANE 6: CT Practices (no grade bands) ===================== -->
 <rect x="36" y="568" width="968" height="86" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
-<text x="48" y="600" font-size="13" font-weight="700" fill="#334155">Computational</text>
-<text x="48" y="616" font-size="13" font-weight="700" fill="#334155">Thinking</text>
-<text x="48" y="632" font-size="13" font-weight="700" fill="#334155">Practices</text>
-<text x="48" y="648" font-size="10" fill="#64748b">7-practice chain</text>
+<text x="48" y="600" font-size="13" font-weight="700" fill="#334155">Praktik</text>
+<text x="48" y="616" font-size="13" font-weight="700" fill="#334155">Berpikir</text>
+<text x="48" y="632" font-size="13" font-weight="700" fill="#334155">Komputasional</text>
+<text x="48" y="648" font-size="10" fill="#64748b">rantai 7 praktik</text>
 
 <rect x="200" y="592" width="86" height="40" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
-<text x="243" y="612" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Inclusive</text>
-<text x="243" y="624" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Culture</text>
+<text x="243" y="612" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Budaya</text>
+<text x="243" y="624" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Inklusif</text>
 
 <rect x="316" y="592" width="86" height="40" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
-<text x="359" y="616" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Collaboration</text>
+<text x="359" y="616" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Kolaborasi</text>
 
 <rect x="432" y="592" width="86" height="40" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
-<text x="475" y="612" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Problem</text>
-<text x="475" y="624" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Recognition</text>
+<text x="475" y="612" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Pengenalan</text>
+<text x="475" y="624" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Masalah</text>
 
 <rect x="548" y="592" width="86" height="40" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
-<text x="591" y="616" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Abstractions</text>
+<text x="591" y="616" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Abstraksi</text>
 
 <rect x="664" y="592" width="86" height="40" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
-<text x="707" y="612" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Artifact</text>
-<text x="707" y="624" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Creation</text>
+<text x="707" y="612" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Pembuatan</text>
+<text x="707" y="624" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Artefak</text>
 
 <rect x="780" y="592" width="86" height="40" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
-<text x="823" y="612" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Testing &amp;</text>
-<text x="823" y="624" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Refinement</text>
+<text x="823" y="612" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Pengujian &amp;</text>
+<text x="823" y="624" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Penyempurnaan</text>
 
 <rect x="896" y="592" width="86" height="40" rx="6" fill="#e2e8f0" stroke="#64748b" stroke-width="1.5"/>
-<text x="939" y="616" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Communication</text>
+<text x="939" y="616" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">Komunikasi</text>
 
 <line x1="286" y1="612" x2="314" y2="612" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
 <line x1="402" y1="612" x2="430" y2="612" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -220,39 +220,39 @@
 <!-- k12_culture (Impacts 9-12) -> practice_inclusive_culture : 0.95 -->
 <path d="M810,508 C700,560 360,560 243,590" fill="none" stroke="#be185d" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
 <rect x="500" y="554" width="34" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="517" y="565.5" font-size="10" font-weight="600" fill="#9d174d" text-anchor="middle">0.95</text>
+<text x="517" y="565.5" font-size="10" font-weight="600" fill="#9d174d" text-anchor="middle">0,95</text>
 
 <!-- k12_algorithms (Algos 9-12) -> practice_abstractions : 0.90 -->
 <path d="M845,438 C760,520 640,540 591,590" fill="none" stroke="#6d28d9" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
 <rect x="690" y="520" width="34" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="707" y="531.5" font-size="10" font-weight="600" fill="#5b21b6" text-anchor="middle">0.90</text>
+<text x="707" y="531.5" font-size="10" font-weight="600" fill="#5b21b6" text-anchor="middle">0,90</text>
 
 <!-- k12_variables (Algos 9-12) -> practice_artifact_creation : 0.85 -->
 <path d="M875,438 C900,520 760,548 707,590" fill="none" stroke="#6d28d9" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
 <rect x="838" y="500" width="34" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="855" y="511.5" font-size="10" font-weight="600" fill="#5b21b6" text-anchor="middle">0.85</text>
+<text x="855" y="511.5" font-size="10" font-weight="600" fill="#5b21b6" text-anchor="middle">0,85</text>
 
 <!-- practice_communication -> k2_algorithms : 0.80 (closes the loop back to Algorithms K-2) -->
 <path d="M939,592 C939,200 720,170 385,416" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
 <rect x="952" y="300" width="34" height="16" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-<text x="969" y="311.5" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">0.80</text>
+<text x="969" y="311.5" font-size="10" font-weight="600" fill="#334155" text-anchor="middle">0,80</text>
 
 <!-- ===================== LEGEND ===================== -->
 <rect x="600" y="40" width="404" height="48" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
 <line x1="614" y1="56" x2="650" y2="56" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
-<text x="658" y="60" font-size="11" fill="#334155">prerequisite (band k → k+1)</text>
+<text x="658" y="60" font-size="11" fill="#334155">prasyarat (jenjang k → k+1)</text>
 <line x1="614" y1="76" x2="650" y2="76" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
-<text x="658" y="80" font-size="11" fill="#334155">cross-area transfer (weight pill)</text>
+<text x="658" y="80" font-size="11" fill="#334155">transfer lintas-area (pil bobot)</text>
 <rect x="838" y="50" width="12" height="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
-<text x="855" y="60" font-size="10" fill="#475569">Comp.Sys</text>
+<text x="855" y="60" font-size="10" fill="#475569">Sistem Komp.</text>
 <rect x="838" y="68" width="12" height="12" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
-<text x="855" y="78" font-size="10" fill="#475569">Networks</text>
+<text x="855" y="78" font-size="10" fill="#475569">Jaringan</text>
 <rect x="912" y="50" width="12" height="12" fill="#ffedd5" stroke="#f97316" stroke-width="1"/>
 <text x="929" y="60" font-size="10" fill="#475569">Data</text>
 <rect x="912" y="68" width="12" height="12" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1"/>
-<text x="929" y="78" font-size="10" fill="#475569">Algorithms</text>
+<text x="929" y="78" font-size="10" fill="#475569">Algoritma</text>
 
 <!-- ===================== FOOTER PROVENANCE ===================== -->
-<text x="40" y="678" font-size="11" font-style="italic" fill="#94a3b8">Aggregated big-picture view: 5 areas × 4 grade bands + 7-practice chain. Source: real_dag_dependencies.py (70 concept nodes, 55 weighted dependency edges; transfer weights 0.75–0.95). Showing all 4 cross-area transfer edges.</text>
+<text x="40" y="678" font-size="11" font-style="italic" fill="#94a3b8">Tampilan gambaran besar teragregasi: 5 area × 4 jenjang kelas + rantai 7 praktik. Sumber: real_dag_dependencies.py (70 simpul konsep, 55 sisi dependensi berbobot; bobot transfer 0,75–0,95). Menampilkan keempat sisi transfer lintas-area.</text>
 
 </svg>
