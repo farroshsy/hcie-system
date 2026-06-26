@@ -1,0 +1,79 @@
+{
+  "type": "record",
+  "name": "CTInteractionEvent",
+  "namespace": "io.hcie.ct",
+  "doc": "Schema for Computational Thinking interaction events with multi-dimensional rewards",
+  "fields": [
+    {
+      "name": "user_id",
+      "type": "string",
+      "doc": "Unique identifier of the learner"
+    },
+    {
+      "name": "task_id",
+      "type": "string",
+      "doc": "ID of the specific CT task completed"
+    },
+    {
+      "name": "concept_id",
+      "type": "string",
+      "doc": "CT concept code (e.g., ct_abstraction, ct_algorithm_design)"
+    },
+    {
+      "name": "event_type",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": ["ct_interaction"]
+      },
+      "doc": "Type of interaction event"
+    },
+    {
+      "name": "policy_mode",
+      "type": {
+        "type": "enum",
+        "name": "PolicyMode",
+        "symbols": ["ct"]
+      },
+      "doc": "Learning policy mode used"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Event timestamp in milliseconds"
+    },
+    {
+      "name": "correct",
+      "type": "boolean",
+      "doc": "Whether the learner's answer was correct"
+    },
+    {
+      "name": "response_time",
+      "type": "float",
+      "doc": "Time taken to respond in seconds"
+    },
+    {
+      "name": "difficulty",
+      "type": "float",
+      "doc": "Task difficulty level (0.0-1.0)"
+    },
+    {
+      "name": "mastery_before",
+      "type": "float",
+      "doc": "Mastery level before this interaction (0.0-1.0)"
+    },
+    {
+      "name": "mastery_after",
+      "type": "float",
+      "doc": "Mastery level after this interaction (0.0-1.0)"
+    },
+    {
+      "name": "reward",
+      "type": "float",
+      "doc": "Multi-dimensional reward calculated for CT learning"
+    }
+  ]
+}

@@ -1,0 +1,906 @@
+time="2026-05-28T21:07:59+07:00" level=warning msg="The \"ADMIN_PASSWORD\" variable is not set. Defaulting to a blank string."
+name: 01_compose
+services:
+  adaptation-consumer:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - python
+      - -m
+      - app.workers.adaptation_consumer
+    container_name: hcie-final-adaptation-consumer
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DETERMINISTIC_SEED: "42"
+      DOCKER_ENV: "true"
+      ENABLE_DETERMINISTIC_MODE: "true"
+      ENVIRONMENT: docker
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app
+      REDIS_HOST: redis
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    restart: unless-stopped
+  alertmanager:
+    profiles:
+      - observability
+    container_name: hcie-final-alertmanager
+    image: prom/alertmanager@sha256:51a825c2a40acc3e338fdd00d622e01ec090f72be2b3ea46be0839cd47a4d286
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "536870912"
+    mem_reservation: "134217728"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 9093
+        published: "9093"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL\06_monitoring\00_prometheus\00_alerts\alertmanager.final.yml
+        target: /etc/alertmanager/alertmanager.yml
+        read_only: true
+        bind: {}
+  api:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - uvicorn
+      - app.main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+    container_name: hcie-final-api
+    depends_on:
+      kafka:
+        condition: service_started
+        required: true
+      postgres:
+        condition: service_started
+        required: true
+      redis:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DETERMINISTIC_SEED: "42"
+      DETERMINISTIC_TIME: "true"
+      DETERMINISTIC_UUIDS: "true"
+      DOCKER_ENV: "true"
+      ENABLE_ANALYTICS_WORKER: "true"
+      ENABLE_BACKGROUND_WORKERS: "true"
+      ENABLE_DETERMINISTIC_MODE: "true"
+      ENABLE_OUTBOX_PROCESSOR: "true"
+      ENVIRONMENT: docker
+      HCIE_AUTH_TRUST_JWT: "1"
+      HCIE_ENABLE_OTLP_EXPORTER: "false"
+      HCIE_RUN_MIGRATIONS: "1"
+      HCIE_USE_ITS_ADAPTER: "1"
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app/01_source:/app
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      TRAJECTORY_DETERMINISM: "true"
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://localhost:8000/healthz
+      timeout: 10s
+      interval: 15s
+      retries: 6
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "4294967296"
+    mem_reservation: "536870912"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 8000
+        published: "8011"
+        protocol: tcp
+    restart: unless-stopped
+  auth-consumer:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - python
+      - -m
+      - app.workers.auth_consumer_worker
+    container_name: hcie-final-auth-consumer
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DOCKER_ENV: "true"
+      ENVIRONMENT: docker
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app
+      REDIS_HOST: redis
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    restart: unless-stopped
+  cadvisor:
+    profiles:
+      - observability
+    container_name: hcie-final-cadvisor
+    image: gcr.io/cadvisor/cadvisor@sha256:3de2bd5203120b866d74a9b283b2ffb8ec382fbf9dc321814700c6ea6f44ec57
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8082"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /
+        target: /rootfs
+        read_only: true
+        bind: {}
+      - type: bind
+        source: /var/run
+        target: /var/run
+        read_only: true
+        bind: {}
+      - type: bind
+        source: /sys
+        target: /sys
+        read_only: true
+        bind: {}
+      - type: bind
+        source: /var/lib/docker
+        target: /var/lib/docker
+        read_only: true
+        bind: {}
+      - type: bind
+        source: /dev/disk
+        target: /dev/disk
+        read_only: true
+        bind: {}
+  dozzle:
+    profiles:
+      - observability
+    container_name: hcie-final-dozzle
+    environment:
+      DOZZLE_FILTER: label=com.docker.compose.project=01_compose
+      DOZZLE_LEVEL: info
+      DOZZLE_NO_ANALYTICS: "true"
+    image: amir20/dozzle:v4.10.0
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "9999"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+        bind: {}
+  exploration-instrumentation-consumer:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - python
+      - /app/01_source/01_application/01_services/exploration_instrumentation_consumer.py
+    container_name: hcie-final-exploration-instrumentation
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DOCKER_ENV: "true"
+      ENVIRONMENT: docker
+      EXPLORATION_INSTRUMENTATION_GROUP: exploration_instrumentation_group
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app/01_source:/app
+      REDIS_HOST: redis
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    restart: unless-stopped
+  frontend:
+    profiles:
+      - frontend
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_FRONTENDV3
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost
+        NEXT_PUBLIC_APP_ENV: docker
+        NEXT_PUBLIC_BACKEND_URL: http://localhost
+        NEXT_PUBLIC_WS_URL: ws://localhost
+    container_name: hcie-final-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost
+      NEXT_PUBLIC_APP_ENV: docker
+      NEXT_PUBLIC_BACKEND_URL: http://localhost
+      NEXT_PUBLIC_WS_URL: ws://localhost
+      NEXT_TELEMETRY_DISABLED: "1"
+      NODE_ENV: production
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "536870912"
+    mem_reservation: "134217728"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "3001"
+        protocol: tcp
+    restart: unless-stopped
+  gateway:
+    profiles:
+      - frontend
+    container_name: hcie-final-gateway
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+      frontend:
+        condition: service_started
+        required: true
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --quiet
+        - --tries=1
+        - --spider
+        - http://localhost/healthz
+      timeout: 5s
+      interval: 30s
+      retries: 3
+    image: nginx:alpine
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "536870912"
+    mem_reservation: "134217728"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "80"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL\05_deployment\00_docker\01_compose\gateway\nginx-gateway.final.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+        bind: {}
+  grafana:
+    profiles:
+      - observability
+    container_name: hcie-final-grafana
+    depends_on:
+      prometheus:
+        condition: service_started
+        required: true
+    environment:
+      GF_ALERTING_ENABLED: "false"
+      GF_INSTALL_PLUGINS: ""
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    image: grafana/grafana@sha256:0f86bada30d65ef9d0183b90c1e2682ac92d53d95da8bed322b984ea78a4a73a
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "536870912"
+    mem_reservation: "134217728"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "3000"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: hcie_final_grafana_data
+        target: /var/lib/grafana
+        volume: {}
+      - type: bind
+        source: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL\06_monitoring\01_grafana\01_provisioning
+        target: /etc/grafana/provisioning
+        read_only: true
+        bind: {}
+      - type: bind
+        source: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL\06_monitoring\01_grafana\00_dashboards
+        target: /var/lib/grafana/dashboards
+        read_only: true
+        bind: {}
+  hcie-final-kt-baselines:
+    profiles:
+      - baselines
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem
+      dockerfile: research_validation/baselines/service/Dockerfile
+    container_name: hcie-final-kt-baselines
+    environment:
+      HCIE_BASELINE_ARTIFACTS_DIR: /app/research_validation/baselines/artifacts
+      PYTHONUNBUFFERED: "1"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz', timeout=2)
+      timeout: 5s
+      interval: 20s
+      retries: 3
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "2147483648"
+    mem_reservation: "268435456"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 8000
+        published: "8021"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\research_validation\baselines\artifacts
+        target: /app/research_validation/baselines/artifacts
+        read_only: true
+        bind: {}
+  kafka:
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - 1G
+      - --reserve-memory
+      - "0"
+      - --node-id
+      - "0"
+      - --check=false
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://kafka:9092
+      - --set
+      - redpanda.auto_create_topics_enabled=true
+    container_name: hcie-final-kafka
+    image: redpandadata/redpanda:v23.1.6
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "2147483648"
+    mem_reservation: "268435456"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 9092
+        published: "19092"
+        protocol: tcp
+      - mode: ingress
+        target: 9644
+        published: "19644"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: hcie_final_kafka_data
+        target: /var/lib/redpanda/data
+        volume: {}
+  kafka-ui:
+    profiles:
+      - observability
+    container_name: hcie-final-kafka-ui
+    depends_on:
+      kafka:
+        condition: service_started
+        required: true
+    environment:
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_KAFKACONFIG_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_CLUSTERS_0_NAME: hcie-final
+    image: provectuslabs/kafka-ui@sha256:8f2ff02d64b0a7a2b71b6b3b3148b85f66d00ec20ad40c30bdcd415d46d31818
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8080"
+        protocol: tcp
+    restart: unless-stopped
+  learning-consumer:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - python
+      - -m
+      - app.workers.learning_consumer
+    container_name: hcie-final-learning-consumer
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DETERMINISTIC_SEED: "42"
+      DOCKER_ENV: "true"
+      ENABLE_DETERMINISTIC_MODE: "true"
+      ENVIRONMENT: docker
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app
+      REDIS_HOST: redis
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    restart: unless-stopped
+  node-exporter:
+    profiles:
+      - observability
+    container_name: hcie-final-node-exporter
+    image: prom/node-exporter@sha256:e9cff4fc67b1818f8c97adb115b9f12c9a54b533de86765d4a0effc01b357205
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 9100
+        published: "9100"
+        protocol: tcp
+    restart: unless-stopped
+  postgres:
+    command:
+      - postgres
+      - -c
+      - wal_level=logical
+      - -c
+      - max_connections=200
+    container_name: hcie-final-postgres
+    environment:
+      POSTGRES_DB: hcie
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U hcie_user -d hcie
+      timeout: 5s
+      interval: 10s
+      retries: 5
+    image: postgres:15-alpine
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "2147483648"
+    mem_reservation: "268435456"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "55432"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: hcie_final_postgres_data
+        target: /var/lib/postgresql/data
+        volume: {}
+  postgres-exporter:
+    profiles:
+      - observability
+      - self-healing
+    container_name: hcie-final-postgres-exporter
+    depends_on:
+      postgres:
+        condition: service_started
+        required: true
+    environment:
+      DATA_SOURCE_NAME: postgresql://hcie_user:hcie_password@postgres:5432/hcie?sslmode=disable
+    image: prometheuscommunity/postgres-exporter@sha256:e96064f876226d94bb6ce48a4c4b3dd76edba91168ec1ab024e5c4b959310b0f
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 9187
+        published: "9187"
+        protocol: tcp
+    restart: unless-stopped
+  projection-consumer:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - python
+      - -m
+      - app.workers.projection_consumer
+    container_name: hcie-final-projection-consumer
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DETERMINISTIC_SEED: "42"
+      DOCKER_ENV: "true"
+      ENABLE_DETERMINISTIC_MODE: "true"
+      ENVIRONMENT: docker
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app
+      REDIS_HOST: redis
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    restart: unless-stopped
+  projection-stream-gateway:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - python
+      - -m
+      - app.workers.projection_stream_gateway
+    container_name: hcie-final-projection-stream-gateway
+    depends_on:
+      projection-consumer:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DOCKER_ENV: "true"
+      ENVIRONMENT: docker
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app
+      REDIS_HOST: redis
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    restart: unless-stopped
+  prometheus:
+    profiles:
+      - observability
+      - self-healing
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=30d
+      - --web.enable-lifecycle
+    container_name: hcie-final-prometheus
+    image: prom/prometheus@sha256:e4254400b85610324913f0dc4acf92603d9984e7519414c5a12811aa6146acc3
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "536870912"
+    mem_reservation: "134217728"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 9090
+        published: "9090"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL\06_monitoring\00_prometheus\prometheus.final.yml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
+        bind: {}
+      - type: volume
+        source: hcie_final_prometheus_data
+        target: /prometheus
+        volume: {}
+  redis:
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+    container_name: hcie-final-redis
+    image: redis:7-alpine
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 6379
+        published: "56379"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: hcie_final_redis_data
+        target: /data
+        volume: {}
+  redis-exporter:
+    profiles:
+      - observability
+      - self-healing
+    container_name: hcie-final-redis-exporter
+    depends_on:
+      redis:
+        condition: service_started
+        required: true
+    environment:
+      REDIS_ADDR: redis://redis:6379
+    image: oliver006/redis_exporter@sha256:e8c209894d4c0cc55b1259ddd47e0b769ad1ff864b356736ee885462a3b0e48c
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    ports:
+      - mode: ingress
+        target: 9121
+        published: "9121"
+        protocol: tcp
+    restart: unless-stopped
+  trajectory-recorder-consumer:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - python
+      - -m
+      - app.workers.trajectory_recorder_consumer
+    container_name: hcie-final-trajectory-recorder
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DETERMINISTIC_SEED: "42"
+      DOCKER_ENV: "true"
+      ENABLE_DETERMINISTIC_MODE: "true"
+      ENVIRONMENT: docker
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app
+      REDIS_HOST: redis
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    restart: unless-stopped
+  transfer-measurement-consumer:
+    build:
+      context: D:\Code\cld-main\cld-main\ProjectHCIE\RealSystem\HCIE_SYSTEM_BACKEND_FINAL
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    command:
+      - python
+      - /app/01_source/01_application/01_services/transfer_measurement_consumer.py
+    container_name: hcie-final-transfer-measurement
+    depends_on:
+      api:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_URL: postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      DOCKER_ENV: "true"
+      ENVIRONMENT: docker
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      POSTGRES_DB: hcie
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_USER: hcie_user
+      PYTHONPATH: /app/11_build/00_runtime_projection:/app/01_source:/app
+      REDIS_HOST: redis
+      TRANSFER_MEASUREMENT_GROUP: transfer_measurement_group
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 10m
+    mem_limit: "268435456"
+    mem_reservation: "67108864"
+    networks:
+      hcie-final-net: null
+    restart: unless-stopped
+networks:
+  hcie-final-net:
+    name: hcie-final-net
+volumes:
+  hcie_final_grafana_data:
+    name: 01_compose_hcie_final_grafana_data
+  hcie_final_kafka_data:
+    name: 01_compose_hcie_final_kafka_data
+  hcie_final_postgres_data:
+    name: 01_compose_hcie_final_postgres_data
+  hcie_final_prometheus_data:
+    name: 01_compose_hcie_final_prometheus_data
+  hcie_final_redis_data:
+    name: 01_compose_hcie_final_redis_data
+x-api-limits:
+  mem_limit: 4g
+  mem_reservation: 512m
+x-heavy-limits:
+  mem_limit: 2g
+  mem_reservation: 256m
+x-light-limits:
+  mem_limit: 256m
+  mem_reservation: 64m
+x-logging:
+  driver: json-file
+  options:
+    max-file: "3"
+    max-size: 10m
+x-medium-limits:
+  mem_limit: 512m
+  mem_reservation: 128m

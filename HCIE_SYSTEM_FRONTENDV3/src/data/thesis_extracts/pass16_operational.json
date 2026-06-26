@@ -1,0 +1,125 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 16,
+  "fills": "4.1.2.d + 4.1.2.e operational NFRs (LIVE observability)",
+  "SCOPE_NOTE": "ALL values below are LIVE-system measurements captured 2026-06-17, NOT from the sealed run. The seal is an offline replay and carries no live latency/CPU/mem. These describe the running stack at observation time.",
+
+  "latency": {
+    "source": "LIVE Prometheus http://localhost:9090 (FastAPI prometheus instrumentation, metric http_request_duration_seconds; cAdvisor for resources)",
+    "recommend_endpoint": {
+      "endpoint": "POST /v3/learner/recommend",
+      "lifetime_request_count": 1,
+      "single_observed_latency_seconds": 0.004442691802978516,
+      "single_observed_latency_ms": 4.44,
+      "histogram_bucket": "<= 0.005 s (cumulative count 1 from the 0.005 bucket onward)",
+      "p50_ms": 4.44,
+      "p95_ms": 4.44,
+      "p50_p95_caveat": "Only ONE /recommend call has been recorded since the API last started, so p50 = p95 = the single observation (4.44 ms). histogram_quantile over a [1h] window returns NaN (no traffic in the last hour). This is honest live data on a near-idle system, not a load-test percentile.",
+      "sql_query": "http_request_duration_seconds_sum{endpoint='/v3/learner/recommend'} (=0.004442... ; count=1)"
+    },
+    "attempt_endpoint": {
+      "endpoint": "POST /v3/learner/attempt (and any *attempt* path)",
+      "p50_ms": "UNAVAILABLE",
+      "p95_ms": "UNAVAILABLE",
+      "reason": "Zero requests to any attempt endpoint recorded in Prometheus since API start -> no http_request_duration_seconds series for it. No load was generated (analysis-only). To fill, drive the live recommend->attempt loop and re-query."
+    },
+    "overall_hcie_api": {
+      "p95_ms_5m": 7.58,
+      "p50_ms_5m": 2.79,
+      "query_p95": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job='hcie-api'}[5m])) by (le))",
+      "query_p50": "histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket{job='hcie-api'}[5m])) by (le))",
+      "note": "Aggregated across all hcie-api endpoints over a 5m window; dominated by lightweight dashboard/health GETs."
+    },
+    "stored_prior_nfr_measurement_for_context": {
+      "source": "research_validation/reports/nfr_measurement/basic_nfr_measurement_results.json (2026-05-25, STORED not live)",
+      "endpoint": "/v3/learner/recommend",
+      "iterations": 20,
+      "mean_ms": 21.95,
+      "median_ms": 15.23,
+      "p95_ms": 122.105,
+      "p99_ms": 122.105,
+      "min_ms": 6.50,
+      "max_ms": 122.105,
+      "errors": 0,
+      "note": "A 2026-05-25 stored 20-iteration micro-benchmark (warm + first-call tail). Useful as a documented prior reading; today's single-call live value (4.44 ms) is consistent with the warm path (min 6.5 ms range)."
+    }
+  },
+
+  "request_rate": {
+    "source": "LIVE Prometheus",
+    "instantaneous_rate_req_per_s_5m": 0.2000,
+    "query": "sum(rate(http_requests_total{job='hcie-api'}[5m]))",
+    "total_requests_since_api_start": 493,
+    "api_uptime_seconds_at_obs": 2394.88,
+    "note": "Near-idle. 493 requests over ~40 min uptime; rate is dominated by dashboard polling, not learner traffic."
+  },
+
+  "resources": {
+    "source": "LIVE Prometheus / cAdvisor",
+    "api_container": "hcie-final-api",
+    "cpu_cores_5m_rate": 0.012787,
+    "cpu_query": "sum(rate(container_cpu_usage_seconds_total{name=~'.*api.*'}[5m]))",
+    "cpu_note": "~1.3% of one core at near-idle.",
+    "memory_usage_bytes": 156852224,
+    "memory_usage_mib": 149.6,
+    "memory_working_set_bytes": 150126592,
+    "memory_working_set_mib": 143.2,
+    "memory_limit_bytes": 4294967296,
+    "memory_limit_gib": 4.0,
+    "memory_pct_of_limit": 3.65,
+    "mem_query": "container_memory_usage_bytes{name=~'.*api.*'} / container_spec_memory_limit_bytes"
+  },
+
+  "code_quality_sonarqube": {
+    "source": "LIVE SonarQube http://localhost:9000 /api/measures/component (auth admin:admin), project key 'hcie'",
+    "last_analysis_date": "2026-06-15T08:43:23+0000",
+    "ncloc": 69943,
+    "lines": 172561,
+    "ratings": {
+      "sqale_rating_maintainability": "1.0 (A)",
+      "reliability_rating": "1.0 (A)",
+      "security_rating": "1.0 (A)",
+      "security_review_rating": "5.0 (E)"
+    },
+    "issues": {
+      "bugs": 0,
+      "vulnerabilities": 0,
+      "security_hotspots": 87,
+      "code_smells": 675
+    },
+    "technical_debt": {
+      "sqale_index_minutes": 5463,
+      "sqale_index_human": "~91 hours (1d2h on 8h-day basis is the Sonar effort; raw 5463 min)",
+      "sqale_debt_ratio_pct": 0.3
+    },
+    "duplication": {
+      "duplicated_lines_density_pct": 2.7,
+      "duplicated_blocks": 110
+    },
+    "complexity": {
+      "cyclomatic_complexity": 10176,
+      "cognitive_complexity": 11399
+    },
+    "coverage_from_sonar": {
+      "value_pct": 0.0,
+      "caveat": "Sonar reports coverage=0.0 because coverage.xml was NOT ingested on the 2026-06-15 scan (the scan ran without the coverage report path resolving). This is a Sonar-ingestion gap, NOT real zero coverage."
+    },
+    "actual_measured_coverage": {
+      "source": "coverage.xml at repo root (mtime 2026-06-15 21:04), generated by scripts/run_coverage.sh",
+      "line_rate_pct": 36.4,
+      "lines_valid": 28700,
+      "lines_covered": 10447,
+      "note": "This is the real measured line coverage; use 36.4% (NOT Sonar's 0.0) for the operational NFR."
+    },
+    "interpretation": "Maintainability/Reliability/Security ratings = A; zero bugs, zero vulnerabilities. The one weak rating is Security-Review = E, driven entirely by 87 unreviewed security HOTSPOTS (candidates needing human triage, not confirmed vulns). Duplication low (2.7%), debt ratio 0.3%."
+  },
+
+  "endpoint_reachability": {
+    "prometheus": "reachable (http://localhost:9090) -- up{} returned api, redis, kafka, auto-healer, dlq-worker all = 1",
+    "sonarqube": "reachable (http://localhost:9000, status UP, v9.9.8) -- measures require basic auth admin:admin",
+    "all_targets_up_at_obs": true
+  }
+}

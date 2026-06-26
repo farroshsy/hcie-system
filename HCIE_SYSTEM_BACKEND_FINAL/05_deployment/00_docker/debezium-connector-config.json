@@ -1,0 +1,17 @@
+{
+  "name": "hcie-interactions-source",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "hcie_user",
+    "database.password": "hcie_password",
+    "database.dbname": "hcie",
+    "topic.prefix": "hcie",
+    "table.include.list": "public.interactions",
+    "plugin.name": "pgoutput",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081"
+  }
+}

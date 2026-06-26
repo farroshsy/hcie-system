@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Learning Event Schema v2",
+  "description": "Enhanced schema for user learning interaction events with difficulty and engagement tracking",
+  "type": "object",
+  "version": 2,
+  "required": [
+    "event_id",
+    "user_id", 
+    "event_type",
+    "reward",
+    "task_id",
+    "concept",
+    "timestamp",
+    "difficulty_level",
+    "engagement_time"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "enum": [2],
+      "default": 2,
+      "description": "Schema version"
+    },
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the event"
+    },
+    "user_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Unique identifier for the user"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": ["task_submitted", "task_completed", "concept_mastered", "hint_requested", "task_abandoned"],
+      "description": "Type of learning event"
+    },
+    "reward": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Learning reward (0.0 to 1.0)"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Identifier for the task or problem"
+    },
+    "concept": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50,
+      "pattern": "^ct_[a-z_]+$",
+      "description": "Learning concept identifier (e.g., ct_algebra, ct_decomposition)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the event"
+    },
+    "difficulty_level": {
+      "type": "string",
+      "enum": ["easy", "medium", "hard"],
+      "description": "Perceived difficulty level of the task"
+    },
+    "engagement_time": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 3600,
+      "description": "Time spent on the task in seconds"
+    },
+    "attempts": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 1,
+      "description": "Number of attempts for this task"
+    },
+    "hints_used": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5,
+      "default": 0,
+      "description": "Number of hints used during the task"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Optional session identifier for grouping related events"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "device_type": {
+          "type": "string",
+          "enum": ["desktop", "mobile", "tablet"]
+        },
+        "browser": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true,
+      "description": "Optional metadata about the event context"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,306 @@
+{
+  "generated_at": "2026-06-23T15:40:40.163561+00:00",
+  "phase2_run_id": "run-94a3b8ba-015b-4d84-b288-004fe60bc282",
+  "phase1_run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2",
+  "train_users": 17,
+  "eval_users": 10,
+  "eval_user_list": [
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_144204",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_147151",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_147359",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_151341",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_154646",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_158155",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_165633",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_16599",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_168378",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_170360"
+  ],
+  "eval_users_p1": [
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_64721",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_108525",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_26042",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_212733",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_200229",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_74935",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_9912",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_37196",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_241856",
+    "run-217532ca-39e6-4859-a41f-88ed53e904a2::ext_junyi_user_103939"
+  ],
+  "protocol_note": "Matched evaluation: BKT/DKT/SAKT/GKT and HCIE Phase 2 all evaluated on the same held-out user list, same cold-start windows, same AUC computation. HCIE Phase 2 uses mastery_before as prediction signal. HCIE Phase 1 is from an equivalent positional slice of the Phase 1 run (different user population; causal-delta reference only).",
+  "model_results": {
+    "bkt": {
+      "window_5": {
+        "window": 5,
+        "n": 50,
+        "auc": 0.835,
+        "brier": 0.17576205762378921,
+        "accuracy": 0.76,
+        "log_loss": 0.5254476323744928
+      },
+      "window_10": {
+        "window": 10,
+        "n": 100,
+        "auc": 0.8275,
+        "brier": 0.14883555888057778,
+        "accuracy": 0.8,
+        "log_loss": 0.4596132283305241
+      },
+      "window_20": {
+        "window": 20,
+        "n": 200,
+        "auc": 0.8811116419812072,
+        "brier": 0.1228633397485118,
+        "accuracy": 0.835,
+        "log_loss": 0.39416264843457066
+      },
+      "overall": {
+        "window": -1,
+        "n": 10500,
+        "auc": 0.5963486848864465,
+        "brier": 0.14208911086662812,
+        "accuracy": 0.8138095238095238,
+        "log_loss": 0.45362976819742695
+      }
+    },
+    "dkt": {
+      "window_5": {
+        "window": 5,
+        "n": 50,
+        "auc": 0.955,
+        "brier": 0.06740554006299129,
+        "accuracy": 0.92,
+        "log_loss": 0.21015518502273126
+      },
+      "window_10": {
+        "window": 10,
+        "n": 100,
+        "auc": 0.899375,
+        "brier": 0.06420761032576942,
+        "accuracy": 0.93,
+        "log_loss": 0.35921035160163584
+      },
+      "window_20": {
+        "window": 20,
+        "n": 200,
+        "auc": 0.9272177098264055,
+        "brier": 0.05976362376502113,
+        "accuracy": 0.93,
+        "log_loss": 0.29096156179526633
+      },
+      "overall": {
+        "window": -1,
+        "n": 10500,
+        "auc": 0.5891819306304391,
+        "brier": 0.1929221410270714,
+        "accuracy": 0.6959047619047619,
+        "log_loss": 0.6795411503835801
+      }
+    },
+    "sakt": {
+      "window_5": {
+        "window": 5,
+        "n": 50,
+        "auc": 0.905,
+        "brier": 0.06252260687566734,
+        "accuracy": 0.92,
+        "log_loss": 0.2252796308817501
+      },
+      "window_10": {
+        "window": 10,
+        "n": 100,
+        "auc": 0.865625,
+        "brier": 0.06631083043648126,
+        "accuracy": 0.92,
+        "log_loss": 0.27824661848163484
+      },
+      "window_20": {
+        "window": 20,
+        "n": 200,
+        "auc": 0.9065137760789934,
+        "brier": 0.06301140879616977,
+        "accuracy": 0.925,
+        "log_loss": 0.24097793949385415
+      },
+      "overall": {
+        "window": -1,
+        "n": 10500,
+        "auc": 0.5729518906762671,
+        "brier": 0.15178406658681515,
+        "accuracy": 0.8212380952380952,
+        "log_loss": 0.5171069857690156
+      }
+    },
+    "gkt": {
+      "window_5": {
+        "window": 5,
+        "n": 50,
+        "auc": 0.655,
+        "brier": 0.16858000234762585,
+        "accuracy": 0.8,
+        "log_loss": 0.5179942124407793
+      },
+      "window_10": {
+        "window": 10,
+        "n": 100,
+        "auc": 0.62,
+        "brier": 0.1636524317504778,
+        "accuracy": 0.8,
+        "log_loss": 0.5056968257216599
+      },
+      "window_20": {
+        "window": 20,
+        "n": 200,
+        "auc": 0.6880076445293837,
+        "brier": 0.15162705507606658,
+        "accuracy": 0.805,
+        "log_loss": 0.4735565009464506
+      },
+      "overall": {
+        "window": -1,
+        "n": 10500,
+        "auc": 0.5710753087233331,
+        "brier": 0.14416306074895152,
+        "accuracy": 0.836952380952381,
+        "log_loss": 0.462815485616743
+      }
+    },
+    "hcie_p2_matched": {
+      "window_5": {
+        "window": 5,
+        "n": 50,
+        "auc": 0.7872023809523809,
+        "brier": 0.26253323149550994,
+        "accuracy": 0.58,
+        "log_loss": 0.7216214007157893
+      },
+      "window_10": {
+        "window": 10,
+        "n": 100,
+        "auc": 0.8150406504065041,
+        "brier": 0.21895717341554086,
+        "accuracy": 0.68,
+        "log_loss": 0.625818193108371
+      },
+      "window_20": {
+        "window": 20,
+        "n": 200,
+        "auc": 0.8717111232081292,
+        "brier": 0.1901538918237158,
+        "accuracy": 0.75,
+        "log_loss": 0.5615141938168899
+      },
+      "overall": {
+        "window": -1,
+        "n": 10019,
+        "auc": 0.6085042415790202,
+        "brier": 0.17252296929836652,
+        "accuracy": 0.768639584788901,
+        "log_loss": 0.5261218826122862
+      }
+    },
+    "hcie_p1_ref": {
+      "window_5": {
+        "window": 5,
+        "n": 50,
+        "auc": 0.5284090909090909,
+        "brier": 0.3094107275226935,
+        "accuracy": 0.54,
+        "log_loss": 0.8233304148069839
+      },
+      "window_10": {
+        "window": 10,
+        "n": 100,
+        "auc": 0.5191029900332226,
+        "brier": 0.28185960073011995,
+        "accuracy": 0.57,
+        "log_loss": 0.7635411361204915
+      },
+      "window_20": {
+        "window": 20,
+        "n": 164,
+        "auc": 0.5632202304737516,
+        "brier": 0.24877513120878086,
+        "accuracy": 0.6646341463414634,
+        "log_loss": 0.6936902854024009
+      },
+      "overall": {
+        "window": -1,
+        "n": 164,
+        "auc": 0.5632202304737516,
+        "brier": 0.24877513120878086,
+        "accuracy": 0.6646341463414634,
+        "log_loss": 0.6936902854024009
+      }
+    }
+  },
+  "hcie_p2_all_users_auc": {
+    "-1": 0.6644679312288787,
+    "5": 0.7057953873447664,
+    "10": 0.7314241486068112,
+    "20": 0.7268203577727387
+  },
+  "hcie_p1_all_users_auc": {
+    "-1": 0.6560463473716034,
+    "5": 0.627882800959724,
+    "10": 0.6316095641689171,
+    "20": 0.6560463473716034
+  },
+  "primary_rows": [
+    {
+      "model": "BKT",
+      "note": "trained on 17 Phase 2 users (Corbett & Anderson 1995)",
+      "w5": 0.835,
+      "w10": 0.8275,
+      "w20": 0.8811116419812072,
+      "overall": 0.5963486848864465,
+      "n_overall": 10500
+    },
+    {
+      "model": "DKT",
+      "note": "trained on 17 Phase 2 users (Piech et al. 2015)",
+      "w5": 0.955,
+      "w10": 0.899375,
+      "w20": 0.9272177098264055,
+      "overall": 0.5891819306304391,
+      "n_overall": 10500
+    },
+    {
+      "model": "SAKT",
+      "note": "trained on 17 Phase 2 users (Pandey & Karypis 2019)",
+      "w5": 0.905,
+      "w10": 0.865625,
+      "w20": 0.9065137760789934,
+      "overall": 0.5729518906762671,
+      "n_overall": 10500
+    },
+    {
+      "model": "GKT (graph-aware)",
+      "note": "trained on 17 Phase 2 users + Junyi DAG (Zhang et al. 2020)",
+      "w5": 0.655,
+      "w10": 0.62,
+      "w20": 0.6880076445293837,
+      "overall": 0.5710753087233331,
+      "n_overall": 10500
+    },
+    {
+      "model": "HCIE Phase 2",
+      "note": "zero-shot; mastery_before as P(correct); same 10 eval users",
+      "w5": 0.7872023809523809,
+      "w10": 0.8150406504065041,
+      "w20": 0.8717111232081292,
+      "overall": 0.6085042415790202,
+      "n_overall": 10019
+    }
+  ],
+  "phase1_ref_row": {
+    "model": "HCIE Phase 1",
+    "note": "",
+    "w5": 0.5284090909090909,
+    "w10": 0.5191029900332226,
+    "w20": 0.5632202304737516,
+    "overall": 0.5632202304737516,
+    "n_overall": 164
+  }
+}

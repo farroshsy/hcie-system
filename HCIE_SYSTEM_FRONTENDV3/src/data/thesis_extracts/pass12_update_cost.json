@@ -1,0 +1,33 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 12,
+  "fills": "G2f O(1) update cost: time-per-update vs history length",
+
+  "complexity_by_construction": {
+    "verdict": "O(1) per update, O(1) posterior mean, O(K) memory (K = distinct concepts) -- INDEPENDENT of history length",
+    "source_file": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/03_ensemble/jt_v2_signals.py",
+    "evidence": [
+      {"line": 78, "text": "Update is O(1):  alpha += correct, beta += (1 - correct)"},
+      {"line": 79, "text": "Posterior mean is O(1):  alpha / (alpha + beta)"},
+      {"line": "85", "text": "online, embedding-free, with O(K) memory where K = number of distinct concepts"},
+      {"line": "107-123", "text": "def update(concept, correct): slot.alpha += 1.0 (or slot.beta += 1.0); slot.n += 1 -- a constant number of arithmetic ops, no scan over prior interactions"}
+    ],
+    "argument": "The Beta sufficient statistics (alpha, beta) are accumulators. Each correct/incorrect observation adds a constant (+1) to one accumulator; the mastery estimate is alpha/(alpha+beta). Neither the update nor the read-out iterates over the learner's interaction history, so wall time per update does not grow with the number of prior interactions. This is the same cold-start prior signal DKT learns via embedding training and BKT via offline EM fitting, computed here online and embedding-free.",
+    "note_on_canonical": "On this seal the SHIPPED canonical mastery is a single Kalman filter (m=m_K), which is likewise an O(1) recursive update (constant state {mean, covariance} updated by a fixed gain step, no history scan). The Beta O(1) statement above is the population-prior / Bayesian arm; the Kalman canonical arm is also O(1) by the same recursive-filter argument."
+  },
+
+  "empirical_timing": {
+    "per_update_wall_time_vs_history_length_plot": "UNAVAILABLE",
+    "reason": "experiment_trajectories.processing_time is NULL for all 96,727 rows of run-d2154070 (offline external-log replay does not record per-interaction wall time). SQL: SELECT count(*) FILTER (WHERE processing_time IS NOT NULL) FROM experiment_trajectories WHERE experiment_run_id='run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1' = 0. Producing an empirical time-vs-history curve would require a new instrumented brain run, which is out of scope for this analysis-only task.",
+    "probe_script_present_but_no_stored_output": "research_validation/grounding/scripts/probe_update_strength.py exists but (a) it is a predictive-validity probe of the DISCARDED ZPD-modulated increment vs plain Beta(+1/+1), not a timing probe, and (b) it targets run-13b43797 (V2), not this seal, and (c) no stored stdout/output artifact was found.",
+    "only_measured_timing_available": {
+      "source": "LIVE Prometheus (not from seal) -- whole-request latency, not isolated update cost",
+      "metric": "http_request_duration_seconds for POST /v3/learner/recommend (which performs a brain update)",
+      "single_observed_request_seconds": 0.004442691802978516,
+      "caveat": "This is end-to-end HTTP request time for one recommend call (DB + serialization + brain), not the isolated O(1) Beta/Kalman step; it bounds the update from above and is ~4.4 ms regardless. See pass16 for full live latency."
+    }
+  }
+}

@@ -1,0 +1,426 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "title": "Live Dependency Graph API",
+      "tooltip": "",
+      "type": "dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "value"
+          }
+        },
+        "mappings": [],
+        "thresholds": {
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            },
+            {
+              "color": "yellow",
+              "value": 0.3
+            },
+            {
+              "color": "red",
+              "value": 0.1
+            }
+          ]
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "showThresholdMarkers": true,
+        "showThresholdLabels": true,
+        "thresholds": {
+          "mode": "absolute"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_concept_mastery{concept_name=\"ct_pattern_recognition\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_concept_mastery{concept_name=\"ct_algorithm_design\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_concept_mastery{concept_name=\"ct_optimization\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_concept_mastery{concept_name=\"ct_problem_identification\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_concept_mastery{concept_name=\"ct_data_analysis\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "E"
+        }
+      ],
+      "title": "Concept Mastery Levels",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "mappings": [],
+        "thresholds": {
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            },
+            {
+              "color": "yellow",
+              "value": 0.1
+            },
+            {
+              "color": "red",
+              "value": 0.05
+            }
+          ]
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "showThresholdMarkers": true,
+        "showThresholdLabels": true,
+        "thresholds": {
+          "mode": "absolute"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_transferred_mastery{concept_name=\"ct_pattern_recognition\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_transferred_mastery{concept_name=\"ct_algorithm_design\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_transferred_mastery{concept_name=\"ct_optimization\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_transferred_mastery{concept_name=\"ct_problem_identification\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "hcie_transferred_mastery{concept_name=\"ct_data_analysis\"}",
+          "legendFormat": "{{concept_name}}",
+          "refId": "J"
+        }
+      ],
+      "title": "Transferred Mastery",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "mappings": [],
+        "thresholds": {
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            },
+            {
+              "color": "yellow",
+              "value": 0.05
+            },
+            {
+              "color": "red",
+              "value": 0.01
+            }
+          ]
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "showThresholdMarkers": true,
+        "showThresholdLabels": true,
+        "thresholds": {
+          "mode": "absolute"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "source": "prometheus"
+          },
+          "expr": "rate(hcie_transfer_events_total[5m])",
+          "legendFormat": "{{__name__}}",
+          "refId": "K"
+        }
+      ],
+      "title": "Transfer Event Rate",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "mappings": [],
+        "thresholds": {
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            },
+            {
+              "color": "yellow",
+              "value": 0.1
+            },
+            {
+              "color": "red",
+              "value": 0.02
+            }
+          ]
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "color": {
+          "mode": "palette-classic"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "rate(hcie_transfer_events_total[5m]) / rate(hcie_submissions_total[5m])",
+          "legendFormat": "{{__name__}}",
+          "refId": "L"
+        }
+      ],
+      "title": "Transfer Efficiency Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "mappings": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "color": {
+          "mode": "palette-classic"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "increase(hcie_transfer_events_total[1h])",
+          "legendFormat": "{{__name__}}",
+          "refId": "M"
+        }
+      ],
+      "title": "Cumulative Transfer Events (1h)",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [
+    "dependency-graph",
+    "knowledge-graph",
+    "transfer-learning",
+    "visualization"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "Dependency Graph Dashboard",
+          "value": "dependency-graph"
+        },
+        "options": [
+          {
+            "text": "Transfer Learning Dashboard",
+            "value": "transfer-learning"
+          },
+          {
+            "text": "System Performance Dashboard",
+            "value": "system-performance"
+          },
+          {
+            "text": "Dependency Graph Dashboard", 
+            "value": "dependency-graph"
+          },
+          {
+            "text": "SLO Dashboard",
+            "value": "slo"
+          }
+        ]
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "title": "Dependency Graph Dashboard",
+  "uid": "dependency-graph-dashboard",
+  "version": 1
+}

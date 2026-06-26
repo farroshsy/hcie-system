@@ -1,0 +1,21 @@
+# Legacy datasource definition. The canonical FINAL datasource is
+# prometheus.final.yml (uid: hcie-final-prom, isDefault: true). Grafana
+# provisioning loads EVERY *.yml in this dir, so this file must NOT also claim
+# the same name or the default flag — two defaults / duplicate names fail
+# provisioning ("Only one datasource per organization can be marked as
+# default") and crash-loop Grafana. Kept (not deleted) for reference, but
+# renamed + demoted so it no longer conflicts with the canonical one.
+apiVersion: 1
+
+datasources:
+  - name: Prometheus (legacy)
+    uid: hcie-legacy-prom
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: false
+    editable: true
+    jsonData:
+      timeInterval: "5s"
+      queryTimeout: "60s"
+      httpMethod: "POST"

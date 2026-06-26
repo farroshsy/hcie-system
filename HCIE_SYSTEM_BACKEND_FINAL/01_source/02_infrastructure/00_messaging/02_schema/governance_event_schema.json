@@ -1,0 +1,174 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Governance Event Schema",
+  "description": "Governance event schema for HCIE research system - records all governance decisions for auditability",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Schema version identifier (e.g., 1.0.0)"
+    },
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for this governance event"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": ["jt_computation", "weight_adaptation", "governance_metrics", "attribution"],
+      "description": "Type of governance event"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User identifier"
+    },
+    "concept": {
+      "type": "string",
+      "description": "Concept identifier"
+    },
+    "jt_computation": {
+      "type": "object",
+      "description": "JT computation details (for event_type=jt_computation)",
+      "properties": {
+        "jt_value": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "decomposition": {
+          "type": "object",
+          "properties": {
+            "delta_m": {"type": "number"},
+            "transfer_realized": {"type": "number"},
+            "transfer_prospective": {"type": "number"},
+            "challenge": {"type": "number"},
+            "uncertainty": {"type": "number"},
+            "zpd": {"type": "number"}
+          },
+          "required": ["delta_m", "transfer_realized", "transfer_prospective", "challenge", "uncertainty", "zpd"]
+        },
+        "weights": {
+          "type": "object",
+          "properties": {
+            "w1": {"type": "number"},
+            "w2": {"type": "number"},
+            "w3": {"type": "number"},
+            "w4": {"type": "number"},
+            "w5": {"type": "number"},
+            "w6": {"type": "number"}
+          },
+          "required": ["w1", "w2", "w3", "w4", "w5", "w6"]
+        }
+      }
+    },
+    "weight_adaptation": {
+      "type": "object",
+      "description": "Weight adaptation details (for event_type=weight_adaptation)",
+      "properties": {
+        "old_weights": {
+          "type": "object",
+          "properties": {
+            "w1": {"type": "number"},
+            "w2": {"type": "number"},
+            "w3": {"type": "number"},
+            "w4": {"type": "number"},
+            "w5": {"type": "number"},
+            "w6": {"type": "number"}
+          },
+          "required": ["w1", "w2", "w3", "w4", "w5", "w6"]
+        },
+        "new_weights": {
+          "type": "object",
+          "properties": {
+            "w1": {"type": "number"},
+            "w2": {"type": "number"},
+            "w3": {"type": "number"},
+            "w4": {"type": "number"},
+            "w5": {"type": "number"},
+            "w6": {"type": "number"}
+          },
+          "required": ["w1", "w2", "w3", "w4", "w5", "w6"]
+        },
+        "adaptation_reason": {
+          "type": "string",
+          "description": "Reason for weight adaptation"
+        }
+      }
+    },
+    "governance_metrics": {
+      "type": "object",
+      "description": "Governance metrics (for event_type=governance_metrics)",
+      "properties": {
+        "volatility": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "exploration_pressure": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "stability_index": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "jt_history_length": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": ["volatility", "exploration_pressure", "stability_index", "jt_history_length"]
+    },
+    "attribution": {
+      "type": "object",
+      "description": "Attribution details (for event_type=attribution)",
+      "properties": {
+        "jt_delta_m_contribution": {
+          "type": "number"
+        },
+        "jt_transfer_contribution": {
+          "type": "number"
+        },
+        "jt_challenge_contribution": {
+          "type": "number"
+        },
+        "jt_uncertainty_contribution": {
+          "type": "number"
+        },
+        "jt_zpd_contribution": {
+          "type": "number"
+        }
+      },
+      "required": ["jt_delta_m_contribution", "jt_transfer_contribution", "jt_challenge_contribution", "jt_uncertainty_contribution", "jt_zpd_contribution"]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the governance event"
+    },
+    "lineage": {
+      "type": "object",
+      "description": "Event lineage for causal auditability",
+      "properties": {
+        "parent_event_id": {
+          "type": "string"
+        },
+        "causal_chain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": ["schema_version", "event_id", "event_type", "timestamp"],
+  "invariants": [
+    "Governance must remain read-only and observational",
+    "Governance events must not trigger state mutations",
+    "Weight adaptations must preserve dimensional isolation",
+    "All attribution must be complete and traceable",
+    "JT must remain bounded in 0.57-0.63 range during normal operation"
+  ]
+}

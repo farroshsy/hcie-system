@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hcie.io/schemas/audit-event.v1.json",
+  "title": "HCIE Audit Event",
+  "description": "Payload shape accepted by AuditSinkProtocol.record(). The four required fields are the minimum every adapter must capture; structured fields appear under additionalProperties.",
+  "type": "object",
+  "required": ["actor", "action", "resource", "outcome"],
+  "properties": {
+    "actor": {
+      "type": "string",
+      "description": "Subject performing the action. Typically 'user:<id>', 'service:<name>', or 'role:<role>'."
+    },
+    "action": {
+      "type": "string",
+      "description": "Verb performed. Examples: read, write, grant, revoke, login, replay."
+    },
+    "resource": {
+      "type": "string",
+      "description": "URN or glob identifying the target. Examples: 'experiment/E-1234', 'session/abc/runtime'."
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["allow", "deny", "allow_all", "error"],
+      "description": "Final disposition of the access check."
+    },
+    "policy": {
+      "type": "string",
+      "description": "Name of the authorizer that produced the outcome. Optional."
+    },
+    "trace_id": {
+      "type": "string",
+      "description": "Correlation id for distributed tracing. Optional."
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,44 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 17,
+  "fills": "4.1.1.2 [DATA-live] live database counts",
+  "data_class": "LIVE (current production DB state on 2026-06-17, NOT the frozen seal). These counts move as the system runs; they are a snapshot, not a sealed artifact. Distinct from the seal anchor numbers used elsewhere.",
+  "real_learners_distinct": {
+    "value": 773,
+    "definition": "count(DISTINCT user_id) WHERE traffic_type IN ('human','live')",
+    "sql": "SELECT count(DISTINCT user_id) FROM experiment_trajectories WHERE traffic_type IN ('human','live')",
+    "breakdown": {"human": 54, "live": 721},
+    "note": "'live' (721) is the synthetic-cohort live-replay traffic class; 'human' (54) is genuine human-driven traffic. Both are real-learner (non-research-batch) classes per the trajectory-authority model."
+  },
+  "real_learner_interactions": {
+    "value": 108602,
+    "definition": "count(*) WHERE traffic_type IN ('human','live')",
+    "sql": "SELECT count(*) FROM experiment_trajectories WHERE traffic_type IN ('human','live')",
+    "breakdown": {"human": 661, "live": 107941}
+  },
+  "total_experiment_trajectories_rows": {
+    "value": 847122,
+    "sql": "SELECT count(*) FROM experiment_trajectories",
+    "traffic_type_breakdown": {
+      "research": 493888,
+      "replay_kalman_canonical": 122316,
+      "replay_v2_causal": 122316,
+      "live": 107941,
+      "human": 661
+    }
+  },
+  "distinct_experiment_run_id": {
+    "value_raw": 24722,
+    "value_clean_run_prefixed": 77,
+    "sql_raw": "SELECT count(DISTINCT experiment_run_id) FROM experiment_trajectories",
+    "sql_clean": "SELECT count(DISTINCT experiment_run_id) FROM experiment_trajectories WHERE experiment_run_id LIKE 'run-%'",
+    "caveat": "RAW = 24722 distinct experiment_run_id strings, but MOST are NOT real run identifiers: the 'live' traffic class stores a per-learner composite key in this column of the form 'live::run-<uuid>::ex_<dataset>_<learner>', inflating the distinct count. Only 77 distinct values are clean canonical 'run-<uuid>' experiment runs. Report 77 as the number of actual experiment runs and disclose the 24722 raw inflation."
+  },
+  "cohort_runs_count": {
+    "value": 79,
+    "sql": "SELECT count(*) FROM cohort_runs"
+  }
+}

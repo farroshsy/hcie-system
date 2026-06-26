@@ -1,0 +1,77 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 3,
+  "fills": "Tabel 4.6 / T8d (warmed-fair BKT vs HCIE, ASSISTments-2009)",
+  "dataset": "assistments_2009_sb",
+  "protocol": "offline, leak-free (md5(user)%2: half0=train priors, half1=eval), predict-before-observe, per-USER windows, rank-AUC",
+  "warmed_definition": "BKT P(L0) per concept = train-half base correctness rate (individualized prior); cold BKT uses fixed P(L0)=0.20; P(T)=0.10,P(G)=0.20,P(S)=0.10 identical for both to isolate the warming",
+  "hcie_predictor_note": "ASSIST-2009 has NO sealed HCIE run (only external_log_attempts); HCIE here = the deployed-readout reconstruction (population prior at first attempt + online Elo/IRT ability tracker, beta frozen from train prior). Same predictor family as probe_coldstart_beat_bkt.",
+  "n_eval_users": 171,
+  "n_train_users": 182,
+  "n_concept_priors": 67,
+  "results_auc": {
+    "HCIE_deployed_readout": {
+      "<=5": {
+        "auc": 0.6802,
+        "n": 855
+      },
+      "<=10": {
+        "auc": 0.7043,
+        "n": 1710
+      },
+      "<=20": {
+        "auc": 0.6906,
+        "n": 3415
+      },
+      "overall": {
+        "auc": 0.6569,
+        "n": 8857
+      }
+    },
+    "warmed_BKT": {
+      "<=5": {
+        "auc": 0.6861,
+        "n": 855
+      },
+      "<=10": {
+        "auc": 0.6746,
+        "n": 1710
+      },
+      "<=20": {
+        "auc": 0.6785,
+        "n": 3415
+      },
+      "overall": {
+        "auc": 0.6302,
+        "n": 8857
+      }
+    },
+    "cold_BKT_floor": {
+      "<=5": {
+        "auc": 0.6193,
+        "n": 855
+      },
+      "<=10": {
+        "auc": 0.618,
+        "n": 1710
+      },
+      "<=20": {
+        "auc": 0.6355,
+        "n": 3415
+      },
+      "overall": {
+        "auc": 0.5954,
+        "n": 8857
+      }
+    }
+  },
+  "verdict_hcie_vs_warmed": {
+    "<=5": "competitive (HCIE-warmed=-0.0059)",
+    "<=10": "HCIE_BEATS_warmed (HCIE-warmed=+0.0297)",
+    "<=20": "competitive (HCIE-warmed=+0.0121)",
+    "overall": "HCIE_BEATS_warmed (HCIE-warmed=+0.0267)"
+  },
+  "framing": "AUC = competitive, not superior. Warmed-BKT is the stronger (fair) baseline; cold-BKT is the floor."
+}

@@ -1,0 +1,92 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "confirm": "Confirm"
+  },
+  "navigation": {
+    "home": "Home",
+    "learning": "Learning",
+    "progress": "Progress",
+    "profile": "Profile",
+    "settings": "Settings",
+    "admin": "Admin",
+    "dashboard": "Dashboard",
+    "experiments": "Experiments",
+    "analytics": "Analytics",
+    "users": "Users",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "overview": "Overview",
+    "stats": {
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "totalExperiments": "Total Experiments",
+      "runningExperiments": "Running Experiments",
+      "systemHealth": "System Health"
+    },
+    "recentActivity": "Recent Activity"
+  },
+  "learning": {
+    "conceptProgress": "Concept Progress",
+    "learningPath": "Learning Path",
+    "mastery": "Mastery",
+    "completed": "Completed",
+    "inProgress": "In Progress",
+    "locked": "Locked",
+    "available": "Available",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "tasks": "Tasks",
+    "startLearning": "Start Learning",
+    "continueLearning": "Continue Learning"
+  },
+  "math": {
+    "enterExpression": "Enter mathematical expression...",
+    "preview": "Preview",
+    "invalidExpression": "Invalid expression"
+  },
+  "admin": {
+    "experiments": {
+      "title": "Experiments",
+      "create": "Create Experiment",
+      "status": {
+        "scheduled": "Scheduled",
+        "running": "Running",
+        "completed": "Completed",
+        "failed": "Failed",
+        "paused": "Paused"
+      }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "metrics": "Metrics",
+      "performance": "Performance"
+    },
+    "users": {
+      "title": "Users",
+      "manage": "Manage Users",
+      "addUser": "Add User",
+      "role": {
+        "user": "User",
+        "admin": "Admin"
+      }
+    }
+  }
+}

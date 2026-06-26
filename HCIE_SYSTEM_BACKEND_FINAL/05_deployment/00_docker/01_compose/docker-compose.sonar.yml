@@ -1,0 +1,61 @@
+# SonarQube server for assessing HCIE code quality (SonarQube Community Build 26.6).
+# Kept as a SEPARATE compose so it's only up when scanning (it's heavy). Joins the app's
+# hcie-final-net network so it sits with the other containers.
+#
+# From this folder (HCIE_SYSTEM_BACKEND_FINAL/05_deployment/00_docker/01_compose):
+#   docker compose -f docker-compose.sonar.yml up -d    # start (http://localhost:9000)
+#   # first login admin/admin -> set a new password -> My Account > Security > mint a User Token
+#   docker compose -f docker-compose.sonar.yml down     # stop when done
+# Run the scan from the repo root (where sonar-project.properties lives):
+#   SONAR_TOKEN=<token> ./scripts/run_sonar_scan.sh     # see SONAR_EVIDENCE_SCAN.md
+#
+# NOTE: modern SonarQube dropped the embedded H2 DB, so an external Postgres is required
+# (the sonar-db service below). Linux hosts may need: sysctl -w vm.max_map_count=262144
+# (Elasticsearch requirement). hcie-final-net is external: start the app stack first, or
+# create it once with: docker network create hcie-final-net
+services:
+  sonarqube:
+    image: sonarqube:26.6.0.123539-community
+    container_name: hcie-sonarqube
+    depends_on:
+      - sonar-db
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    networks:
+      - hcie-final-net
+
+  sonar-db:
+    image: postgres:15
+    container_name: hcie-sonar-db
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - sonar_db_data:/var/lib/postgresql/data
+    networks:
+      - hcie-final-net
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  sonar_db_data:
+
+networks:
+  hcie-final-net:
+    external: true
+    name: hcie-final-net

@@ -1,0 +1,157 @@
+groups:
+  # 🔥 CORE METRICS (PRODUCTION-SAFE)
+  - name: kafka-lag-core
+    interval: 30s
+    rules:
+
+      # ✅ PRIMARY lag (SAFE) - used by healer
+      - record: hcie_kafka_consumer_lag
+        expr: |
+          clamp_min(
+            max by (topic, partition) (
+              vectorized_cluster_partition_end_offset{topic=~"hcie.*"}
+            )
+            -
+            max by (topic, partition) (
+              vectorized_kafka_group_offset{group="hcie-consumer", topic=~"hcie.*"}
+            ),
+            0
+          )
+
+      # ✅ TOTAL lag
+      - record: hcie_kafka_consumer_lag_total
+        expr: sum(hcie_kafka_consumer_lag)
+
+      # ✅ LAG by topic
+      - record: hcie_kafka_consumer_lag_by_topic
+        expr: sum by (topic) (hcie_kafka_consumer_lag)
+
+      # ✅ TRUE consumption (SAFE) - assignment-aware
+      - record: hcie_kafka_messages_consumed_5m
+        expr: |
+          sum(
+            increase(
+              vectorized_kafka_group_offset{group="hcie-consumer", topic=~"hcie.*"}[5m]
+            )
+          )
+
+      # ✅ LONG WINDOW consumption (fallback for slow systems)
+      - record: hcie_kafka_messages_consumed_15m
+        expr: |
+          sum(
+            increase(
+              vectorized_kafka_group_offset{group="hcie-consumer", topic=~"hcie.*"}[15m]
+            )
+          )
+
+      # ✅ TRUE production (SAFE)
+      - record: hcie_kafka_messages_produced_5m
+        expr: |
+          sum(
+            increase(
+              vectorized_cluster_partition_end_offset{topic=~"hcie.*"}[5m]
+            )
+          )
+
+      # ✅ PARTITION stall detector (SAFE)
+      - record: hcie_kafka_partition_stalled
+        expr: |
+          (
+            increase(
+              vectorized_kafka_group_offset{group="hcie-consumer", topic=~"hcie.*"}[5m]
+            ) == 0
+          )
+
+      # ✅ PARTITION lag (no joins)
+      - record: hcie_kafka_partition_lag
+        expr: |
+          clamp_min(
+            vectorized_cluster_partition_end_offset{topic=~"hcie.*"}
+            -
+            vectorized_kafka_group_offset{group="hcie-consumer", topic=~"hcie.*"},
+            0
+          )
+
+  # 📈 LAG GROWTH (FIXED - no deriv on noise)
+  - name: kafka-lag-growth
+    interval: 30s
+    rules:
+
+      # ⚠️ SAFE growth (no deriv on noise)
+      - record: hcie_kafka_lag_growth
+        expr: |
+          (
+            hcie_kafka_consumer_lag_total
+            -
+            hcie_kafka_consumer_lag_total offset 5m
+          ) / 300
+
+  # 🧠 CONSUMER HEALTH (SAFE)
+  - name: kafka-consumer-health
+    interval: 30s
+    rules:
+
+      # ✅ HEALTH ratio
+      - record: hcie_kafka_partition_health_ratio
+        expr: |
+          sum(
+            increase(vectorized_kafka_group_offset{group="hcie-consumer"}[5m]) > 0
+          )
+          /
+          count(
+            vectorized_kafka_group_offset{group="hcie-consumer"}
+          )
+
+      # ✅ DEAD consumer (REAL)
+      - record: hcie_kafka_consumer_dead
+        expr: |
+          (
+            hcie_kafka_messages_consumed_5m == 0
+          )
+          and
+          (
+            hcie_kafka_messages_produced_5m > 0
+          )
+
+      # ✅ SLOW consumer
+      - record: hcie_kafka_consumer_slow
+        expr: |
+          hcie_kafka_messages_consumed_5m
+          <
+          (hcie_kafka_messages_produced_5m * 0.5)
+
+  # 🚨 ALERTS (SRE-GRADE)
+  - name: kafka-alerts
+    interval: 30s
+    rules:
+
+      - alert: DeadConsumer
+        expr: |
+          hcie_kafka_consumer_dead == 1
+        for: 2m
+        labels:
+          service: kafka
+          severity: critical
+        annotations:
+          description: Consumer dead while producer active
+          summary: Kafka consumer stuck - immediate action required
+
+      - alert: LagGrowingFast
+        expr: hcie_kafka_lag_growth > 10
+        for: 2m
+        labels:
+          service: kafka
+          severity: warning
+        annotations:
+          description: Lag increasing rapidly (>10 msgs/sec)
+          summary: Kafka consumer falling behind
+
+      - alert: CriticalLag
+        expr: hcie_kafka_consumer_lag_total > 1000
+        for: 5m
+        labels:
+          service: kafka
+          severity: critical
+        annotations:
+          description: Backlog exceeded 1000 messages
+          summary: Kafka lag critical - investigate immediately

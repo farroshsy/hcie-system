@@ -1,0 +1,276 @@
+{
+  "title": "HCIE Research Proof - Learning System Effectiveness",
+  "uid": "hcie-research-proof",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "10s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "📈 Learning Gain Over Time",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_mastery_delta_sum[5m]) / clamp_min(rate(hcie_mastery_delta_count[5m]), 0.0001)",
+          "refId": "A",
+          "legendFormat": "Average Learning Gain"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Mastery Δ per second",
+            "displayMode": "line"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "📊 Learning Trajectories by Learner Type",
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "hcie_lyapunov_mastery{user_type=\"fast_learner\"}",
+          "refId": "A",
+          "legendFormat": "Fast Learner"
+        },
+        {
+          "expr": "hcie_lyapunov_mastery{user_type=\"slow_learner\"}",
+          "refId": "B",
+          "legendFormat": "Slow Learner"
+        },
+        {
+          "expr": "hcie_lyapunov_mastery{user_type=\"improving_learner\"}",
+          "refId": "C",
+          "legendFormat": "Improving Learner"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Mastery Level",
+            "displayMode": "line"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "🔥 Adaptive Learning Rate by User Type",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "avg by (user_type) (hcie_adaptive_learning_rate_gauge)",
+          "refId": "A",
+          "legendFormat": "{{user_type}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Learning Rate η(t)",
+            "displayMode": "line"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "✅ η(t) Response to Feedback",
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 6,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "avg by (correct) (hcie_adaptive_learning_rate_gauge)",
+          "refId": "A",
+          "legendFormat": "Correct"
+        },
+        {
+          "expr": "avg by (correct) (hcie_adaptive_learning_rate_gauge)",
+          "refId": "B",
+          "legendFormat": "Incorrect"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Learning Rate η(t)",
+            "displayMode": "line"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "🧊 Cold Start Convergence Behavior",
+      "gridPos": {
+        "x": 6,
+        "y": 24,
+        "w": 6,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_cold_start_events_total[5m])",
+          "refId": "A",
+          "legendFormat": "Cold Start Rate"
+        },
+        {
+          "expr": "avg (hcie_adaptive_learning_rate_gauge)",
+          "refId": "B",
+          "legendFormat": "Average η(t)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Rate / Value",
+            "displayMode": "line"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "📉 System Stability (Mastery Variance)",
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 6,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "stddev_over_time(hcie_lyapunov_mastery[10m])",
+          "refId": "A",
+          "legendFormat": "Mastery StdDev"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Standard Deviation",
+            "displayMode": "line"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "⚡ Energy Constraint Violations",
+      "gridPos": {
+        "x": 6,
+        "y": 32,
+        "w": 6,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_energy_violations_total[5m])",
+          "refId": "A",
+          "legendFormat": "Violation Rate"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Violations per second",
+            "displayMode": "line"
+          }
+        }
+      }
+    }
+  ],
+  "timepicker": {},
+  "refresh_intervals": [
+    {
+      "every": "10s"
+    }
+  ]
+}

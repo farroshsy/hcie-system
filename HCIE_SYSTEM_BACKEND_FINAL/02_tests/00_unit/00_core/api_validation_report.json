@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-04-25T09:41:05.592622",
+  "total_tests": 4,
+  "passed": 4,
+  "failed": 0,
+  "success_rate": 1.0,
+  "results": [
+    {
+      "test_name": "API Availability",
+      "success": true,
+      "details": "API server is responsive",
+      "metrics": {},
+      "timestamp": "2026-04-25T09:41:05.039251"
+    },
+    {
+      "test_name": "Single EdNet Event",
+      "success": true,
+      "details": "Task: EdNet_002, Concept: ct_algorithm_design, Mastery: 0.708 \u2192 0.710 (\u0394: +0.001), Reward: 0.960, \u2713 Correct: True",
+      "metrics": {},
+      "timestamp": "2026-04-25T09:41:05.111482"
+    },
+    {
+      "test_name": "EdNet Sequence",
+      "success": true,
+      "details": "Events: 15, Total mastery change: +0.020, Quality: GOOD",
+      "metrics": {},
+      "timestamp": "2026-04-25T09:41:05.592622"
+    },
+    {
+      "test_name": "Database Persistence",
+      "success": true,
+      "details": "Mastery tracking valid: 1 updates, total change: +0.001",
+      "metrics": {},
+      "timestamp": "2026-04-25T09:41:05.592622"
+    }
+  ]
+}

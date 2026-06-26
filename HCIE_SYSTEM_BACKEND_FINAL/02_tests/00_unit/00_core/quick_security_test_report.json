@@ -1,0 +1,57 @@
+{
+  "summary": {
+    "total_tests": 6,
+    "passed_tests": 1,
+    "failed_tests": 5,
+    "security_score": 16.666666666666664,
+    "critical_issues": [
+      "Unauthorized Task Access",
+      "Unauthorized Admin Access"
+    ],
+    "timestamp": "2026-04-22T12:58:38.453583"
+  },
+  "results": [
+    {
+      "test_name": "Unauthorized Task Access",
+      "success": false,
+      "details": "Tasks endpoint allows anonymous access",
+      "response_time": 0.039377450942993164,
+      "timestamp": "2026-04-22T12:58:36.181814"
+    },
+    {
+      "test_name": "Unauthorized Admin Access",
+      "success": false,
+      "details": "Admin endpoint allows anonymous access",
+      "response_time": 0.7660951614379883,
+      "timestamp": "2026-04-22T12:58:36.947909"
+    },
+    {
+      "test_name": "Malicious Task Submission",
+      "success": false,
+      "details": "4 potential vulnerabilities found",
+      "response_time": 0.0800478458404541,
+      "timestamp": "2026-04-22T12:58:37.028478"
+    },
+    {
+      "test_name": "Rate Limiting",
+      "success": false,
+      "details": "No rate limiting detected after 50 requests",
+      "response_time": 1.391092300415039,
+      "timestamp": "2026-04-22T12:58:38.420083"
+    },
+    {
+      "test_name": "Large Payload Submission",
+      "success": false,
+      "details": "Server crashed with large payload",
+      "response_time": 0.0284881591796875,
+      "timestamp": "2026-04-22T12:58:38.448571"
+    },
+    {
+      "test_name": "Invalid JSON Submission",
+      "success": true,
+      "details": "Invalid JSON properly rejected",
+      "response_time": 0.0045092105865478516,
+      "timestamp": "2026-04-22T12:58:38.453080"
+    }
+  ]
+}

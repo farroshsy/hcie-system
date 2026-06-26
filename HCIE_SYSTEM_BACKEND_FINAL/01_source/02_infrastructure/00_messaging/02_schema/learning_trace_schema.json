@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Learning Trace Schema",
+  "description": "Learning trace schema for HCIE research system - records all learning interactions for reproducibility",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Schema version identifier (e.g., 1.0.0)"
+    },
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for this learning event"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User identifier"
+    },
+    "concept": {
+      "type": "string",
+      "description": "Concept being learned"
+    },
+    "interaction_type": {
+      "type": "string",
+      "enum": ["baseline", "enhanced", "shadow"],
+      "description": "Type of learning interaction"
+    },
+    "mastery_before": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Mastery level before the interaction"
+    },
+    "mastery_after": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Mastery level after the interaction"
+    },
+    "mastery_delta": {
+      "type": "number",
+      "description": "Mastery change (after - before)"
+    },
+    "correct": {
+      "type": "boolean",
+      "description": "Whether the answer was correct"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Confidence in the learning update"
+    },
+    "jt_value": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "JT governance scalar for this interaction"
+    },
+    "adaptive_rate": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Adaptive learning rate (eta)"
+    },
+    "transfer_amounts": {
+      "type": "object",
+      "description": "Transfer amounts to other concepts",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "transfer_efficiency": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Transfer efficiency metric"
+    },
+    "zpd_target": {
+      "type": "string",
+      "description": "Zone of Proximal Development target concept"
+    },
+    "zpd_alignment_error": {
+      "type": "number",
+      "description": "ZPD alignment error"
+    },
+    "zpd_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "ZPD score"
+    },
+    "ensemble_weights": {
+      "type": "object",
+      "description": "Ensemble learner weights",
+      "properties": {
+        "lyapunov": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "bayesian": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "kalman": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        }
+      }
+    },
+    "policy": {
+      "type": "string",
+      "description": "Policy used for this interaction"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the interaction"
+    },
+    "processing_time": {
+      "type": "number",
+      "description": "Processing time in seconds"
+    },
+    "lineage": {
+      "type": "object",
+      "description": "Event lineage for causal auditability",
+      "properties": {
+        "parent_event_id": {
+          "type": "string",
+          "description": "Parent event identifier"
+        },
+        "causal_chain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Causal chain of event IDs"
+        }
+      }
+    }
+  },
+  "required": ["schema_version", "event_id", "user_id", "concept", "mastery_before", "mastery_after", "mastery_delta", "jt_value", "timestamp"],
+  "invariants": [
+    "mastery_after must be >= 0.0 and <= 1.0",
+    "mastery_delta must equal mastery_after - mastery_before",
+    "jt_value must be bounded in 0.0-1.0 range",
+    "event_id must be unique per interaction",
+    "lineage must be preserved for causal auditability"
+  ]
+}

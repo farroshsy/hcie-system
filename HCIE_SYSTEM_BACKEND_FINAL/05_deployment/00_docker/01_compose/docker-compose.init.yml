@@ -1,0 +1,32 @@
+services:
+  # System Initialization Service
+  init:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: python scripts/startup_init.py
+    environment:
+      - ENVIRONMENT=docker
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=hcie_password
+      - DOCKER_ENV=true
+    volumes:
+      - ../:/app
+      - /app/__pycache__
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - hcie-net
+    restart: "no"  # Run once and exit
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s

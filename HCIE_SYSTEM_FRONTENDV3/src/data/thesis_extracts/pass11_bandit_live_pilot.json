@@ -1,0 +1,276 @@
+{
+    "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+    "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+    "date": "2026-06-18",
+    "pass": 11,
+    "fills": "\u00a74.1.3.f representation (modality) bandit \u2014 LIVE PILOT (arm log + per-modality posteriors)",
+    "status": "LIVE_PILOT",
+    "provenance": {
+        "kind": "operator-driven labelled pilot on the LIVE production path (NOT organic user traffic)",
+        "live_path": "its._pick_task -> ContextualBandit.select_representation (real Thompson) ; its.submit_attempt -> real persistence (save_interaction fires: pilot:: users are non-synthetic)",
+        "simulated_part": "only the learner RESPONSES (Bernoulli from a per-user randomised per-modality true-success profile); each pilot learner has a DIFFERENT best modality so the bandit must PERSONALISE",
+        "segregation": "all rows tagged user_id LIKE 'pilot::%' \u2014 filterable out of organic learner counts (e.g. pass 17)",
+        "concept": "k12_algorithms (5 modalities)",
+        "n_pilot_users": 50,
+        "attempts_per_user": 60,
+        "total_attempts": 3000
+    },
+    "modalities": [
+        "audio_listen",
+        "code",
+        "mcq",
+        "text",
+        "video_question"
+    ],
+    "personalisation_recovery": {
+        "users": 50,
+        "top_pulled_equals_designed_best": 35,
+        "recovery_rate_best": 0.7,
+        "top_pulled_in_designed_top2": 48,
+        "recovery_rate_top2": 0.96,
+        "interpretation": "fraction of pilot learners for whom the bandit's most-pulled modality is the designed-best (or designed top-2). <1.0 is expected: 5 arms x 60 noisy Bernoulli pulls leave residual exploration; the aggregate pull-by-rank shows the bandit still allocates most pulls to higher-reward modalities."
+    },
+    "mean_pulls_by_designed_reward_rank": {
+        "rank0_best": 30.3,
+        "rank1": 15.2,
+        "rank2_mid": 6.9,
+        "rank3": 4.9,
+        "rank4_worst": 2.6
+    },
+    "aggregate_posteriors_pooled": {
+        "text": {
+            "pulls": 731,
+            "successes": 598,
+            "alpha": 599,
+            "beta": 134,
+            "posterior_mean": 0.8172
+        },
+        "audio_listen": {
+            "pulls": 691,
+            "successes": 555,
+            "alpha": 556,
+            "beta": 137,
+            "posterior_mean": 0.8023
+        },
+        "video_question": {
+            "pulls": 668,
+            "successes": 532,
+            "alpha": 533,
+            "beta": 137,
+            "posterior_mean": 0.7955
+        },
+        "code": {
+            "pulls": 507,
+            "successes": 377,
+            "alpha": 378,
+            "beta": 131,
+            "posterior_mean": 0.7426
+        },
+        "mcq": {
+            "pulls": 403,
+            "successes": 287,
+            "alpha": 288,
+            "beta": 117,
+            "posterior_mean": 0.7111
+        }
+    },
+    "example_users": [
+        {
+            "user_id": "pilot::modality-000",
+            "designed_best": "text",
+            "designed_true_p": {
+                "video_question": 0.3,
+                "mcq": 0.45,
+                "code": 0.6,
+                "audio_listen": 0.78,
+                "text": 0.88
+            },
+            "top_pulled": "audio_listen",
+            "posteriors": {
+                "audio_listen": {
+                    "pulls": 26,
+                    "successes": 22,
+                    "alpha": 23,
+                    "beta": 5,
+                    "posterior_mean": 0.8214
+                },
+                "code": {
+                    "pulls": 14,
+                    "successes": 10,
+                    "alpha": 11,
+                    "beta": 5,
+                    "posterior_mean": 0.6875
+                },
+                "text": {
+                    "pulls": 13,
+                    "successes": 11,
+                    "alpha": 12,
+                    "beta": 3,
+                    "posterior_mean": 0.8
+                },
+                "video_question": {
+                    "pulls": 4,
+                    "successes": 2,
+                    "alpha": 3,
+                    "beta": 3,
+                    "posterior_mean": 0.5
+                },
+                "mcq": {
+                    "pulls": 3,
+                    "successes": 2,
+                    "alpha": 3,
+                    "beta": 2,
+                    "posterior_mean": 0.6
+                }
+            }
+        },
+        {
+            "user_id": "pilot::modality-001",
+            "designed_best": "audio_listen",
+            "designed_true_p": {
+                "mcq": 0.3,
+                "text": 0.45,
+                "video_question": 0.6,
+                "code": 0.78,
+                "audio_listen": 0.88
+            },
+            "top_pulled": "audio_listen",
+            "posteriors": {
+                "audio_listen": {
+                    "pulls": 47,
+                    "successes": 45,
+                    "alpha": 46,
+                    "beta": 3,
+                    "posterior_mean": 0.9388
+                },
+                "code": {
+                    "pulls": 7,
+                    "successes": 4,
+                    "alpha": 5,
+                    "beta": 4,
+                    "posterior_mean": 0.5556
+                },
+                "video_question": {
+                    "pulls": 3,
+                    "successes": 1,
+                    "alpha": 2,
+                    "beta": 3,
+                    "posterior_mean": 0.4
+                },
+                "text": {
+                    "pulls": 2,
+                    "successes": 1,
+                    "alpha": 2,
+                    "beta": 2,
+                    "posterior_mean": 0.5
+                },
+                "mcq": {
+                    "pulls": 1,
+                    "successes": 0,
+                    "alpha": 1,
+                    "beta": 2,
+                    "posterior_mean": 0.3333
+                }
+            }
+        },
+        {
+            "user_id": "pilot::modality-002",
+            "designed_best": "video_question",
+            "designed_true_p": {
+                "code": 0.3,
+                "mcq": 0.45,
+                "audio_listen": 0.6,
+                "text": 0.78,
+                "video_question": 0.88
+            },
+            "top_pulled": "video_question",
+            "posteriors": {
+                "video_question": {
+                    "pulls": 46,
+                    "successes": 45,
+                    "alpha": 46,
+                    "beta": 2,
+                    "posterior_mean": 0.9583
+                },
+                "text": {
+                    "pulls": 6,
+                    "successes": 5,
+                    "alpha": 6,
+                    "beta": 2,
+                    "posterior_mean": 0.75
+                },
+                "audio_listen": {
+                    "pulls": 4,
+                    "successes": 2,
+                    "alpha": 3,
+                    "beta": 3,
+                    "posterior_mean": 0.5
+                },
+                "code": {
+                    "pulls": 3,
+                    "successes": 1,
+                    "alpha": 2,
+                    "beta": 3,
+                    "posterior_mean": 0.4
+                },
+                "mcq": {
+                    "pulls": 1,
+                    "successes": 0,
+                    "alpha": 1,
+                    "beta": 2,
+                    "posterior_mean": 0.3333
+                }
+            }
+        },
+        {
+            "user_id": "pilot::modality-003",
+            "designed_best": "text",
+            "designed_true_p": {
+                "video_question": 0.3,
+                "code": 0.45,
+                "audio_listen": 0.6,
+                "mcq": 0.78,
+                "text": 0.88
+            },
+            "top_pulled": "mcq",
+            "posteriors": {
+                "mcq": {
+                    "pulls": 32,
+                    "successes": 27,
+                    "alpha": 28,
+                    "beta": 6,
+                    "posterior_mean": 0.8235
+                },
+                "text": {
+                    "pulls": 16,
+                    "successes": 12,
+                    "alpha": 13,
+                    "beta": 5,
+                    "posterior_mean": 0.7222
+                },
+                "audio_listen": {
+                    "pulls": 8,
+                    "successes": 5,
+                    "alpha": 6,
+                    "beta": 4,
+                    "posterior_mean": 0.6
+                },
+                "code": {
+                    "pulls": 2,
+                    "successes": 0,
+                    "alpha": 1,
+                    "beta": 3,
+                    "posterior_mean": 0.25
+                },
+                "video_question": {
+                    "pulls": 2,
+                    "successes": 1,
+                    "alpha": 2,
+                    "beta": 2,
+                    "posterior_mean": 0.5
+                }
+            }
+        }
+    ],
+    "framing": "Live-pilot mechanism evidence: the production bandit, on the real recommend->attempt path, personalises modality per learner. Responses are simulated (labelled pilot), so this is NOT a claim about organic human modality preferences."
+}

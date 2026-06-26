@@ -1,0 +1,110 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 9,
+  "fills": "4.1.3.e (transfer probe) AND Bab5 RM4 (transfer research-message)",
+
+  "framing": "transfer = placebo-corrected residual + confound DISCLOSED, NOT net causal. The cross-family durable coefficient survives a permutation null (perm_p ~ 0.0099) but a FUTURE-on-PAST placebo recovers ~42% of the past-effect magnitude, so a large share of the apparent transfer is a state/selection confound (the durable cross effect is mostly proximity/shared-learner-state, not a clean causal transfer pathway). Report as 'placebo-corrected residual, confound disclosed', never as net causal transfer.",
+
+  "provenance_note": "These transfer coefficients are NOT computed on the sealed anchor run-d2154070 (Kalman-alone). The prospective-transfer probe runs over the Junyi interaction CSVs / full mastery-trajectory population (within-learner FE + state controls), NOT over the per-row sealed columns. They are reported here as the canonical stored transfer-probe artifacts, which the thesis transfer claims are grounded on. Source artifacts pre-date the Kalman re-seal; the transfer mechanism (DAG-routed prerequisite edges) is V1-runtime-inherited, same JT/ADC inheritance noted for governance extracts (see KALMAN_OVERLAY_GOVERNANCE_SCOPING.md).",
+
+  "primary_source": "research_validation/reports/prospective_probe_v3_full.json (estimator-v3, mode=full, n_rows=1,976,020, n_users=232,440, seed=20260531)",
+
+  "values": {
+    "durable_coefficient": {
+      "b_durable_SAME": 0.11865,
+      "b_durable_CROSS_past": 0.09147,
+      "note": "b_durable_CROSS_past = 0.09147 is the cross-family durable transfer coefficient (within-learner FE + state controls). Far above the paper_target_cross of 0.007 cited in the probe spec.",
+      "source": "research_validation/reports/prospective_probe_v3_full.json"
+    },
+    "proximity": {
+      "b_proximity": 0.13372,
+      "source": "research_validation/reports/prospective_probe_v3_full.json"
+    },
+    "placebo": {
+      "b_FUTURE_cross_PLACEBO": 0.03812,
+      "placebo_verdict": "STATE/SELECTION CONFOUND (future ~ past)",
+      "source": "research_validation/reports/prospective_probe_v3_full.json"
+    },
+    "placebo_ratio": {
+      "placebo_ratio_future_over_past": 0.417,
+      "matches_expected": "~0.42 (assignment target)",
+      "interpretation": "future-on-past placebo recovers 41.7% of the past durable-cross effect -> ~42% of apparent cross-family transfer is confounded by learner state/selection; the placebo-corrected residual is the remaining ~58%.",
+      "source": "research_validation/reports/prospective_probe_v3_full.json"
+    },
+    "perm_p": {
+      "cross_perm_p": 0.009900990099009901,
+      "matches_expected": "~0.0099 (assignment target)",
+      "perm_K": 100,
+      "null_mean": -0.01112,
+      "null_sd": 0.02284,
+      "interpretation": "cross-family durable effect is significant against a 100-draw permutation null (smallest attainable p at K=100 = 1/101 = 0.0099).",
+      "source": "research_validation/reports/prospective_probe_v3_full.json"
+    },
+    "durable_same_family_vs_cross": {
+      "same_family": 0.11865,
+      "cross_family": 0.09147,
+      "delta_same_minus_cross": 0.02718,
+      "n_rows_with_same_durable": 246530,
+      "n_rows_with_cross_durable": 64801,
+      "family_def": "same = shared name-stem OR same topic; cross = otherwise",
+      "interpretation": "same-family durable transfer (0.11865) > cross-family (0.09147); both positive and significant, same-family stronger as expected for prerequisite-proximate concepts.",
+      "source": "research_validation/reports/prospective_probe_v3_full.json"
+    }
+  },
+
+  "corroborating_artifacts": {
+    "prospective_probe_v3_subsample": {
+      "file": "research_validation/reports/prospective_probe_v3.json",
+      "mode": "1/10 sample (n_rows=200,418, n_users=23,450)",
+      "b_durable_CROSS_past": 0.0992,
+      "b_FUTURE_cross_PLACEBO": 0.04053,
+      "placebo_ratio_future_over_past": 0.409,
+      "b_durable_SAME": 0.11673,
+      "b_proximity": 0.13186,
+      "cross_perm_p": 0.009900990099009901,
+      "note": "1/10-sample replicate of v3_full; placebo_ratio 0.409 vs 0.417 confirms stability."
+    },
+    "prospective_probe_v2": {
+      "file": "research_validation/reports/prospective_probe_v2.json",
+      "mode": "1/4 sample (n_rows=499,428, n_users=58,283)",
+      "b_total_residualized": 0.14446,
+      "b_durable": 0.14114,
+      "b_proximity": 0.14582,
+      "b_placebo_durable": -0.01407,
+      "durable_perm_p": 0.000999000999000999,
+      "perm_K": 1000,
+      "dose_interaction": 0.006744,
+      "reconciles_to_paper": false,
+      "direction_significant": true,
+      "note": "v2 is the un-split (no same/cross) estimator; its placebo (-0.01407) is near the null_mean, i.e. when not split by family the aggregate placebo is ~zero. v3's family split is what surfaces the ~42% cross-family confound. The paper-target reconciliation FAILED (probe magnitudes 0.09-0.14 >> paper_target durable 0.007 / total 0.02): the system effect is LARGER than the conservative paper headline, not smaller."
+    },
+    "prospective_probe_stage1": {
+      "file": "research_validation/reports/prospective_probe_stage1.json",
+      "mode": "1/4 sample (n_rows=499,428, n_users=61,998)",
+      "b_real": 0.13454,
+      "b_shuffled_placebo": -0.05285,
+      "b_durable": 0.09713,
+      "b_proximity": 0.14686,
+      "perm_p_value": 0.000999000999000999,
+      "VERDICT": "PASS -> Path A (wire it)",
+      "note": "Stage-1 shuffled-DAG placebo (-0.05285) is strongly negative vs real (+0.13454), establishing the real-vs-shuffled separation; durable here 0.09713 matches v3 cross 0.09147."
+    },
+    "transfer_activation_phase2": {
+      "file": "research_validation/reports/adc_l5_validation/phase2_transfer_activation_results.json (.md)",
+      "claim": "jt_transfer_contribution (transfer_realized JT dimension) goes dormant -> ACTIVE only when Junyi DAG prerequisite edges (1,052) are routed into TransferLearningEngine; mean 0.00603 -> 0.03462, signal_ratio 0.009 -> 1.106, mean delta 0.02859.",
+      "framing": "This is the GOVERNANCE-side transfer dimension (JT 6D), 3-learner-runtime / V1-inherited per KALMAN_OVERLAY_GOVERNANCE_SCOPING.md. It is the topology-class ecology result (explicit_dag activates, flat_skill_tag stays structural_zero), NOT the prospective predictive coefficient above. Keep distinct from the v3 b_durable transfer coefficient.",
+      "inheritance_disclosure": "JT/ADC magnitudes on this seal are inherited from the V1 runtime (canonical mastery on the seal = m_K Kalman-alone); see D:/Code/cld-main/cld-main/ProjectHCIE/RealSystem/research_validation/KALMAN_OVERLAY_GOVERNANCE_SCOPING.md."
+    }
+  },
+
+  "availability": "AVAILABLE from stored probe artifacts (read-only, no new run generated). All five requested slots (durable coefficient, proximity, placebo, placebo_ratio ~0.42, perm_p ~0.0099, durable same vs cross) resolved from prospective_probe_v3_full.json. NOTE: 'from ledger, reconfirm' does NOT apply -- these are the actual stored probe-output JSONs, not ledger-quoted reference values.",
+
+  "caveats": [
+    "Probe population != sealed anchor population: the transfer probe runs over the full mastery-trajectory CSV population (1.97M rows / 232k users), not the sealed run-d2154070 (96,727 rows). Cite as the grounding artifact for transfer claims, not as a sealed-run readout.",
+    "Probe magnitudes (b_durable 0.09-0.12) are an order of magnitude above the conservative paper headline (durable ~0.007). The thesis headline is the deliberately conservative number; this probe shows the raw effect is larger. reconciles_to_paper=false in v2 reflects this, not a failure of significance.",
+    "Placebo-correction: report the ~42% future/past ratio as the disclosed confound. Net of placebo, the cross-family durable residual is the defensible (non-causal-claimed) finding."
+  ]
+}

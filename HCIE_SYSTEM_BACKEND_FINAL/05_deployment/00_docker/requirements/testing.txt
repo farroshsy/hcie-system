@@ -1,0 +1,29 @@
+# HCIE System Testing Requirements
+# Testing-specific dependencies
+
+# Include base requirements
+-r base.txt
+
+# Testing Framework
+pytest
+pytest-asyncio
+pytest-cov
+pytest-mock
+
+# Test Database
+pytest-postgresql
+pytest-redis
+
+# Test HTTP
+httpx
+aiohttp
+
+# Test Utilities
+factory-boy
+faker
+
+# Performance Testing
+locust
+
+# Coverage
+coverage

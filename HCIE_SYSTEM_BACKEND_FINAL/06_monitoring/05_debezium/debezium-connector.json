@@ -1,0 +1,31 @@
+{
+  "name": "hcie-postgres-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "hcie_user",
+    "database.password": "hcie_password",
+    "database.dbname": "hcie",
+    "database.server.name": "postgres",
+    "table.include.list": "public.interactions,public.users,public.concepts",
+    "plugin.name": "pgoutput",
+    "slot.name": "hcie_slot",
+    "publication.name": "hcie_publication",
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "false",
+    "transforms.unwrap.add.fields": "op,ts_ms",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+    "tombstones.on.delete": "false",
+    "heartbeat.interval.ms": "30000",
+    "snapshot.mode": "initial",
+    "snapshot.locking.mode": "minimal",
+    "snapshot.fetch.size": "1024",
+    "max.batch.size": "2048",
+    "max.queue.size": "8192",
+    "poll.interval.ms": "1000"
+  }
+}

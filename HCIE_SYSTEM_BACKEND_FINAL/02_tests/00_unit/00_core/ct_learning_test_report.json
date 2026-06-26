@@ -1,0 +1,39 @@
+{
+  "summary": {
+    "total_tests": 4,
+    "passed_tests": 4,
+    "failed_tests": 0,
+    "success_rate": 100.0,
+    "timestamp": "2026-04-22T13:05:31.151834"
+  },
+  "results": [
+    {
+      "test_name": "CT Task Generation",
+      "success": true,
+      "details": "CT task generated: ct_abstraction",
+      "response_time": 0.03331780433654785,
+      "timestamp": "2026-04-22T13:05:29.752751"
+    },
+    {
+      "test_name": "CT Task Submission",
+      "success": true,
+      "details": "Real CT submission processed",
+      "response_time": 0.04072427749633789,
+      "timestamp": "2026-04-22T13:05:29.793475"
+    },
+    {
+      "test_name": "CT Mastery Updates",
+      "success": true,
+      "details": "Real CT mastery changes detected",
+      "response_time": 0.18587398529052734,
+      "timestamp": "2026-04-22T13:05:29.979349"
+    },
+    {
+      "test_name": "CT History Persistence",
+      "success": true,
+      "details": "CT history working: 3 items",
+      "response_time": 1.1701915264129639,
+      "timestamp": "2026-04-22T13:05:31.150865"
+    }
+  ]
+}

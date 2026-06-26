@@ -1,0 +1,68 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 13,
+  "fills": "~302 trace reconstruction (4.1.1.2 + 4.1.2.b): one learner's full decision-chain + 5-layer column exhibit",
+
+  "chain_length_distribution": {
+    "sql": "WITH per AS (SELECT user_id, count(*) AS n FROM experiment_trajectories WHERE experiment_run_id='run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1' GROUP BY user_id) SELECT count(*), sum(n), min(n), max(n), avg(n), percentile_disc(p) ... FROM per",
+    "n_users": 93,
+    "total_interactions": 96727,
+    "min_chain": 9,
+    "max_chain": 6502,
+    "mean_chain": 1040.1,
+    "p10": 75,
+    "p25": 193,
+    "median": 563,
+    "p75": 1519,
+    "p90": 2399,
+    "note": "There are 93 distinct learners (user_id) in the seal run, each replayed from the Junyi-graph external log. Chains are long and right-skewed (mean 1040 >> median 563). The thesis '~302' figure corresponds to a mid-lower learner, near the p10-p25 band."
+  },
+
+  "representative_learner_near_302": {
+    "user_id": "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_147151",
+    "chain_length": 313,
+    "selection": "closest single learner to the ~302 target. |313-302|=11 < next-closest |288-302|=14 (run-94a3b8ba::ex_junyi_graph_91712, n=288).",
+    "sql": "SELECT user_id, count(*) FROM experiment_trajectories WHERE experiment_run_id='run-d2154070-...' GROUP BY user_id ORDER BY abs(count(*)-302) LIMIT 5",
+    "userid_prefix_note": "Every user_id carries a 'run-94a3b8ba-...::' prefix. This is the V1-runtime lineage prefix inherited on this Kalman-overlay re-seal (the live IDs from the original V1 run-94a3b8ba runtime). It is the same inheritance documented in KALMAN_OVERLAY_GOVERNANCE_SCOPING.md."
+  },
+
+  "five_layer_chain_definition": {
+    "L1_jt_contribution": "learner_jt_contribution_{kalman,bayesian,lyapunov} -- per-model Joint-Target contribution",
+    "L2_ensemble_weight": "ensemble_weight_{kalman,bayesian,lyapunov} -- fusion weights",
+    "L3_canonical": "canonical_mastery_after -- the SHIPPED canonical mastery (this seal: = kalman_mastery_after exactly, ensemble_weight_kalman=1.0)",
+    "L4_mastery_after": "mastery_after -- the 3-learner ensemble runtime synthesis inherited from V1 (NOT the canonical on this seal)",
+    "L5_policy_score": "policy_score is NULL on this offline-replay seal (live-loop-only column); the available decision-time scalar is policy_multiplier (populated 96727/96727). arm_selected also populated.",
+    "policy_score_unavailable_reason": "SELECT count(*) FILTER (WHERE policy_score IS NOT NULL) FROM experiment_trajectories WHERE experiment_run_id='run-d2154070-...' = 0. policy='external_log:junyi_2015_graph' confirms offline external-log replay; policy_score is only written on the live recommend/attempt loop."
+  },
+
+  "exhibit_first_15_interactions": {
+    "columns": ["i", "concept", "correct", "jt_kalman", "jt_bayesian", "jt_lyapunov", "ew_kalman", "ew_bayesian", "ew_lyapunov", "canonical_mastery (=m_K)", "kalman_mastery", "mastery_after (3-learner ensemble, V1-inherited)", "policy_multiplier", "det_hash_present"],
+    "rows": [
+      [1,  "ext_junyi_graph_addition_1",            1, 0.3846, 0.2404, 0.2013, 1.0, 0.0, 0.0, 0.6667, 0.6667, 0.3000, 1.0, 1],
+      [2,  "ext_junyi_graph_addition_1",            1, 0.4965, 0.3124, 0.2440, 1.0, 0.0, 0.0, 0.7947, 0.7947, 0.5053, 1.0, 1],
+      [3,  "ext_junyi_graph_addition_1",            1, 0.5282, 0.3448, 0.2621, 1.0, 0.0, 0.0, 0.8617, 0.8617, 0.5971, 1.0, 1],
+      [4,  "ext_junyi_graph_addition_1",            1, 0.5357, 0.3626, 0.2723, 1.0, 0.0, 0.0, 0.9030, 0.9030, 0.6551, 1.0, 1],
+      [5,  "ext_junyi_graph_addition_1",            1, 0.5616, 0.3922, 0.2942, 1.0, 0.0, 0.0, 0.9307, 0.9307, 0.6964, 1.0, 1],
+      [6,  "ext_junyi_graph_addition_1",            1, 0.5807, 0.4168, 0.3136, 1.0, 0.0, 0.0, 0.9499, 0.9499, 0.7280, 1.0, 1],
+      [7,  "ext_junyi_graph_addition_1",            1, 0.5826, 0.4344, 0.3291, 1.0, 0.0, 0.0, 0.9500, 0.9500, 0.7529, 1.0, 1],
+      [8,  "ext_junyi_graph_addition_1",            1, 0.5857, 0.4505, 0.3438, 1.0, 0.0, 0.0, 0.9500, 0.9500, 0.7674, 1.0, 1],
+      [9,  "ext_junyi_graph_subtraction_1",         1, 0.3796, 0.2373, 0.1990, 1.0, 0.0, 0.0, 0.6667, 0.6667, 0.3000, 1.0, 1],
+      [10, "ext_junyi_graph_representing_numbers",  1, 0.3751, 0.2344, 0.1967, 1.0, 0.0, 0.0, 0.6667, 0.6667, 0.3000, 1.0, 1],
+      [11, "ext_junyi_graph_number_line",           1, 0.3979, 0.2487, 0.2082, 1.0, 0.0, 0.0, 0.6667, 0.6667, 0.3000, 1.0, 1],
+      [12, "ext_junyi_graph_subtraction_1",         1, 0.4806, 0.3024, 0.2362, 1.0, 0.0, 0.0, 0.7947, 0.7947, 0.5060, 1.0, 1],
+      [13, "ext_junyi_graph_representing_numbers",  0, 0.2321, 0.2019, 0.1846, 1.0, 0.0, 0.0, 0.4106, 0.4106, 0.5061, 1.0, 1],
+      [14, "ext_junyi_graph_number_line",           1, 0.4916, 0.3093, 0.2418, 1.0, 0.0, 0.0, 0.7947, 0.7947, 0.5059, 1.0, 1],
+      [15, "ext_junyi_graph_representing_numbers",  1, 0.3659, 0.2656, 0.2262, 1.0, 0.0, 0.0, 0.6028, 0.6028, 0.3721, 1.0, 1]
+    ]
+  },
+
+  "exhibit_reading": {
+    "canonical_is_kalman": "ew_kalman=1.0 and ew_bayesian=ew_lyapunov=0.0 on every row, and canonical_mastery_after == kalman_mastery_after exactly. This is the seal's anchor config: canonical mastery = single Kalman (m=m_K); the ensemble is retained only for sigma^2 (variance), not for the point mastery.",
+    "canonical_vs_mastery_after_diverge": "canonical (m_K) saturates faster than the inherited 3-learner mastery_after (e.g. row 1: 0.6667 vs 0.3000; row 8: 0.9500 vs 0.7674). The mastery_after column is the V1-runtime 3-learner ensemble synthesis -- it is the column the headline AUC and the JT/ADC governance were inherited from, NOT the shipped canonical m_K.",
+    "governance_inheritance_caveat": "FRAMING: the JT contributions (L1) and ensemble weights (L2) shown here -- and all governance/ADC magnitudes downstream -- were inherited from the V1 3-learner runtime, even though the seal restates canonical mastery as m_K. Per KALMAN_OVERLAY_GOVERNANCE_SCOPING.md (research_validation/KALMAN_OVERLAY_GOVERNANCE_SCOPING.md), the JT-magnitude artifacts (Tabel 4.9/4.10, Gambar 4.28/4.29) reflect 3-learner-driven governance; the load-bearing claims (transfer, ADC verdicts, AUC competitiveness) are robust to the m_K-vs-3-learner choice.",
+    "auditability": "deterministic_inputs_hash present on all 15 rows (and all 313 of this learner / all 96,727 of the run) -- the chain is reconstructable and replay-verifiable. See pass14."
+  }
+}

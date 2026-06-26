@@ -1,0 +1,1163 @@
+# docker-compose.final.yml — canonical FINAL stack
+#
+# Replaces the fragmented cutover/baselines/monitoring composes with one
+# file the chapter, the orchestrator (_final_stack.py), and the runtime
+# diagrams all agree on.
+#
+# Container names follow the ``hcie-final-*`` convention referenced by:
+#   - research_validation/scripts/_final_stack.py
+#   - research_validation/paper/CHAPTER_4_5_EVIDENCE_DRAFT.md (§4.2)
+#   - research_validation/docs/architecture/final_event_pipeline.mmd
+#
+# Published host ports (kept stable so the orchestrator does not need a
+# different DSN per compose flavour):
+#   - 80    → Gateway (nginx, frontend + /api/* + /v3/* + /ws)
+#   - 3001  → Frontend Next.js direct                  (profile: frontend)
+#   - 8011  → API           (uvicorn /v3, /healthz, /metrics)
+#   - 8021  → KT baselines  (hcie-final-kt-baselines)  (profile: baselines)
+#   - 8081  → Schema Registry (Confluent)              (profile: cdc)
+#   - 55432 → Postgres
+#   - 56379 → Redis
+#   - 19092 → Redpanda Kafka API
+#   - 19644 → Redpanda admin / Prometheus exporter
+#   - 9090  → Prometheus                                (profile: observability)
+#   - 3000  → Grafana                                   (profile: observability)
+#   - 9093  → Alertmanager                              (profile: observability)
+#   - 9100  → node-exporter                             (profile: observability)
+#   - 8080  → Kafka UI                                  (profile: observability)
+#   - 9999  → Dozzle (container log viewer)             (profile: observability)
+#   - 9187  → postgres-exporter                         (profile: observability)
+#   - 9121  → redis-exporter                            (profile: observability)
+#   - 4317/4318 → OTEL Collector                        (profile: tracing)
+#   - 3100  → Loki                                      (profile: tracing)
+#   - 3200  → Tempo                                     (profile: tracing)
+#   - 4040  → Pyroscope                                 (profile: tracing)
+#   - 8003  → DLQ replay worker metrics                 (profile: self-healing)
+#   - 6565  → k6                                        (profile: load-testing)
+#
+# Quickstart::
+#
+#   cd HCIE_SYSTEM_BACKEND_FINAL/05_deployment/00_docker/01_compose
+#
+#   # Minimal stack (api + 4 consumers + redis + postgres + kafka):
+#   docker compose -f docker-compose.final.yml up -d
+#
+#   # With KT baselines container (Phase 2/3 sweep):
+#   docker compose -f docker-compose.final.yml --profile baselines up -d
+#
+#   # With gateway + frontend:
+#   docker compose -f docker-compose.final.yml --profile frontend up -d
+#
+#   # With Grafana + Prometheus + Kafka UI + Dozzle + exporters:
+#   docker compose -f docker-compose.final.yml --profile observability up -d
+#
+#   # Add OpenTelemetry + Loki + Tempo + Pyroscope:
+#   docker compose -f docker-compose.final.yml \
+#       --profile observability --profile tracing up -d
+#
+#   # Everything (~30 containers):
+#   docker compose -f docker-compose.final.yml \
+#       --profile baselines --profile frontend \
+#       --profile observability --profile tracing --profile self-healing \
+#       --profile cdc up -d
+
+# --------------------------------------------------------------------------
+# Reusable hardening blocks (YAML anchors). Reference with `<<: *anchor-name`
+# so a single change here updates every service.
+# --------------------------------------------------------------------------
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-light-limits: &light-limits
+  mem_limit: 256m
+  mem_reservation: 64m
+
+x-medium-limits: &medium-limits
+  mem_limit: 512m
+  mem_reservation: 128m
+
+x-heavy-limits: &heavy-limits
+  mem_limit: 2g
+  mem_reservation: 256m
+
+x-api-limits: &api-limits
+  mem_limit: 4g
+  mem_reservation: 512m
+
+services:
+
+  # ---------------------------------------------------------------------
+  # Application + workers
+  # ---------------------------------------------------------------------
+
+  api:
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+      args:
+        # G7: code-version provenance baked into the image (run_sealing._code_provenance reads
+        # these at seal time). Set from git before building, e.g.:
+        #   HCIE_GIT_SHA=$(git rev-parse HEAD) docker compose ... build api
+        HCIE_GIT_SHA: ${HCIE_GIT_SHA:-unknown}
+        HCIE_GIT_DIRTY: ${HCIE_GIT_DIRTY:-unknown}
+        HCIE_BUILD_TIME: ${HCIE_BUILD_TIME:-unknown}
+    container_name: hcie-final-api
+    logging: *default-logging
+    <<: *api-limits
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8011:8000"
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+      - ENABLE_OUTBOX_PROCESSOR=true
+      - ENABLE_BACKGROUND_WORKERS=true
+      - ENABLE_ANALYTICS_WORKER=true
+      - HCIE_RUN_MIGRATIONS=1
+      - HCIE_USE_ITS_ADAPTER=1
+      # SECURITY: off by default — payload-only JWT trust is an RBAC-bypass surface. Opt in for dev only.
+      - HCIE_AUTH_TRUST_JWT=${HCIE_AUTH_TRUST_JWT:-0}
+      # Deterministic mode for replay-safe experiments
+      - ENABLE_DETERMINISTIC_MODE=true
+      - DETERMINISTIC_SEED=42
+      - PYTHONHASHSEED=0  # Task 5: bit-exact replay needs hashseed on every compute service (api already had it)
+      - DETERMINISTIC_UUIDS=true
+      - DETERMINISTIC_TIME=true
+      - TRAJECTORY_DETERMINISM=true
+      # Pin Python hash randomization (must be set in the env BEFORE the interpreter
+      # starts — the runtime intentionally does NOT set it in-process). Closes the
+      # "documented-as-external but actually unset" determinism gap on the compute path.
+      # Full bit-exact replay still requires this on every python service + a double-run
+      # hash compare (part of the planned end-to-end re-seal).
+      - PYTHONHASHSEED=0
+      # Disable OTLP export unless --profile tracing is on; otherwise the
+      # API spams localhost:4317 connect errors when otel-collector is absent
+      - HCIE_ENABLE_OTLP_EXPORTER=${HCIE_ENABLE_OTLP_EXPORTER:-false}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      # Optional log/profiling sinks (off by default; enable with the tracing profile).
+      # ENABLE_OTLP_LOGS=true ships logs to Loki; PYROSCOPE_SERVER_ADDRESS enables profiling.
+      - ENABLE_OTLP_LOGS=${ENABLE_OTLP_LOGS:-false}
+      - PYROSCOPE_SERVER_ADDRESS=${PYROSCOPE_SERVER_ADDRESS:-}
+    depends_on:
+      - redis
+      - postgres
+      - kafka
+    volumes:
+      # Method-grounding cascade — registry stays read-only (we never want the
+      # API to mutate the script tree), but reports must be writable so the
+      # bulk re-runner (POST /method-grounding/rerun-batch) and the per-step
+      # runner can persist freshly-generated JSON evidence back to the host.
+      # rw so /method-grounding/anchor/promote can write ANCHOR.json (the
+      # single source of truth for the cascade's phase2_run_id + seal_id).
+      # Scripts and registry are still treated as read-only by convention;
+      # only ANCHOR.json should be mutated through this mount at runtime.
+      - ../../../../research_validation/grounding:/app/research_validation/grounding:rw
+      - ../../../../research_validation/reports/grounding:/app/research_validation/reports/grounding:rw
+      # Host-side source trees the cascade scripts inspect via _real_system_root().
+      # Tier 1/2.5/3/4 verify staged code; tier 5 writes paper anchors.
+      - ../../../../HCIE_SYSTEM_BACKEND_FINAL:/app/HCIE_SYSTEM_BACKEND_FINAL:ro
+      - ../../../../HCIE_SYSTEM_FRONTENDV3:/app/HCIE_SYSTEM_FRONTENDV3:ro
+      - ../../../../paper:/app/paper:rw
+      - ../../../../research_validation/external_datasets:/app/research_validation/external_datasets:ro
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 15s
+      timeout: 10s
+      retries: 6
+      start_period: 30s
+
+  learning-consumer:
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-learning-consumer
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python -m app.workers.learning_consumer
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app
+      - ENABLE_DETERMINISTIC_MODE=true
+      - DETERMINISTIC_SEED=42
+      - PYTHONHASHSEED=0  # Task 5: bit-exact replay needs hashseed on every compute service (api already had it)
+    depends_on:
+      - api
+    networks:
+      - hcie-final-net
+
+  projection-consumer:
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-projection-consumer
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python -m app.workers.projection_consumer
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app
+      - ENABLE_DETERMINISTIC_MODE=true
+      - DETERMINISTIC_SEED=42
+      - PYTHONHASHSEED=0  # Task 5: bit-exact replay needs hashseed on every compute service (api already had it)
+    depends_on:
+      - api
+    networks:
+      - hcie-final-net
+
+  trajectory-recorder-consumer:
+    # Phase-1 experiment infrastructure: writes ``experiment_trajectories``
+    # the AUC harness reads. The cutover compose was missing this — its
+    # absence broke the cold-start AUC pairing for the canonical FINAL stack.
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-trajectory-recorder
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python -m app.workers.trajectory_recorder_consumer
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app
+      - ENABLE_DETERMINISTIC_MODE=true
+      - DETERMINISTIC_SEED=42
+      - PYTHONHASHSEED=0  # Task 5: bit-exact replay needs hashseed on every compute service (api already had it)
+    depends_on:
+      - api
+    networks:
+      - hcie-final-net
+
+  adaptation-consumer:
+    # Derives pedagogical adaptations from CognitionUpdated events.
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-adaptation-consumer
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python -m app.workers.adaptation_consumer
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app
+      - ENABLE_DETERMINISTIC_MODE=true
+      - DETERMINISTIC_SEED=42
+      - PYTHONHASHSEED=0  # Task 5: bit-exact replay needs hashseed on every compute service (api already had it)
+    depends_on:
+      - api
+    networks:
+      - hcie-final-net
+
+  projection-stream-gateway:
+    # B4.1.1 canonical WebSocket delivery topology: consumes
+    # ProjectionUpdated events and broadcasts to WebSocket clients.
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-projection-stream-gateway
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python -m app.workers.projection_stream_gateway
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app
+    depends_on:
+      - projection-consumer
+    networks:
+      - hcie-final-net
+
+  # auth-consumer (app.workers.auth_consumer_worker) RETIRED 2026-06-17 — see
+  # 00_documentation/09_adr/ARCHITECTURE_DECISIONS.md (ADR-5).
+  # It subscribed to the granular hcie.auth.* topics (which carry ZERO traffic — the
+  # producer publishes every auth event to the single 'hcie.auth' topic) under the SAME
+  # Kafka consumer group ('auth-event-consumer') as the API's in-process auth worker.
+  # Two members of one group with disjoint subscriptions never settle → perpetual
+  # rebalancing (observed at Generation 284). The in-process worker
+  # (app.workers.auth_worker, started in main.py) is the live, real auth consumer; this
+  # container was a stub (no-op handlers). Removed to stop the rebalance loop.
+
+  exploration-instrumentation-consumer:
+    # Records exploration/exploitation behaviour to exploration_events for
+    # research evidence and JT correlation analysis.
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-exploration-instrumentation
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python /app/01_source/01_application/01_services/exploration_instrumentation_consumer.py
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+      - EXPLORATION_INSTRUMENTATION_GROUP=exploration_instrumentation_group
+    depends_on:
+      - api
+    networks:
+      - hcie-final-net
+
+  transfer-measurement-consumer:
+    # Records cross-concept transfer propagation to transfer_events for
+    # transfer-efficiency evidence and DAG-edge utilization analysis.
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-transfer-measurement
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python /app/01_source/01_application/01_services/transfer_measurement_consumer.py
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+      - TRANSFER_MEASUREMENT_GROUP=transfer_measurement_group
+    depends_on:
+      - api
+    networks:
+      - hcie-final-net
+
+  dlq-replay-worker:
+    # Self-healing replay path for failed Kafka events. Consumes DLQ records,
+    # applies only safe schema repairs, republishes to the canonical input
+    # topic, and emits replay audit events. Profile-gated so Phase-3 runs can
+    # stay minimal unless self-healing is under test.
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-dlq-replay-worker
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python -m app.workers.dlq_replay_worker
+    ports:
+      - "8003:8003"
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_URL=redis://redis:6379/0
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - DLQ_TOPIC=${DLQ_TOPIC:-hcie-events-dlq}
+      - DLQ_MAIN_TOPIC=${DLQ_MAIN_TOPIC:-user-interactions}
+      - DLQ_REPLAY_TOPIC=${DLQ_REPLAY_TOPIC:-hcie-events-replay}
+      - DLQ_COMMAND_TOPIC=${DLQ_COMMAND_TOPIC:-hcie-replay-commands}
+      - DLQ_GROUP_ID=hcie-final-dlq-replay-worker
+      - DLQ_COMMAND_GROUP_ID=hcie-final-dlq-replay-worker-commands
+      - DLQ_METRICS_PORT=8003
+      - DLQ_POISON_AFTER_ATTEMPTS=${DLQ_POISON_AFTER_ATTEMPTS:-5}
+      - DLQ_ENABLE_RESEARCH_REPLAY=${DLQ_ENABLE_RESEARCH_REPLAY:-true}
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+    depends_on:
+      - redis
+      - kafka
+    networks:
+      - hcie-final-net
+    profiles:
+      - self-healing
+
+  outbox-worker:
+    # Optional scale-out for the transactional outbox drain. The API already
+    # runs the outbox processor in-process when ENABLE_OUTBOX_PROCESSOR=true,
+    # so this service is profile-gated and only needed when we want to
+    # isolate outbox throughput from API request latency (or run multiple
+    # outbox drainers behind a partition coordinator).
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-outbox-worker
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python -m app.workers.outbox_worker
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - REDIS_URL=redis://redis:6379/0
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - OUTBOX_POLL_INTERVAL=${OUTBOX_POLL_INTERVAL:-5}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+    depends_on:
+      - postgres
+      - kafka
+      - redis
+    networks:
+      - hcie-final-net
+    profiles:
+      - scale-out
+
+  auto-healer:
+    # Conservative operational remediation. Watches Prometheus and can restart
+    # unhealthy FINAL containers through the Docker socket with cooldowns.
+    # ⚠ SECURITY: runs as root AND mounts the Docker socket — a real privilege-
+    # escalation surface. OPT-IN only (self-healing profile) and explicitly overrides
+    # the image's non-root USER because it needs Docker API access. For production,
+    # front it with a scoped docker-socket-proxy rather than the raw socket.
+    user: "root"
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-auto-healer
+    logging: *default-logging
+    <<: *light-limits
+    restart: unless-stopped
+    command: python -m app.workers.auto_healer
+    ports:
+      - "8004:8004"
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - PROMETHEUS_URL=http://prometheus:9090
+      - AUTO_HEALER_METRICS_PORT=8004
+      - AUTO_HEALER_ENABLED=${AUTO_HEALER_ENABLED:-true}
+      - AUTO_HEALER_DRY_RUN=${AUTO_HEALER_DRY_RUN:-false}
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - prometheus
+    networks:
+      - hcie-final-net
+    profiles:
+      - self-healing
+
+  # ---------------------------------------------------------------------
+  # Frontend + Gateway (profile: frontend)
+  # ---------------------------------------------------------------------
+
+  frontend:
+    # FrontendV3 (Next.js 16, standalone). Talks to the API via the
+    # gateway so cookies / CSP / WebSocket origins stay consistent.
+    build:
+      context: ../../../../HCIE_SYSTEM_FRONTENDV3
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost}
+        NEXT_PUBLIC_WS_URL: ${NEXT_PUBLIC_WS_URL:-ws://localhost}
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost}
+        NEXT_PUBLIC_APP_ENV: docker
+    container_name: hcie-final-frontend
+    logging: *default-logging
+    <<: *medium-limits
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost}
+      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL:-ws://localhost}
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-http://localhost}
+      - NEXT_PUBLIC_APP_ENV=docker
+    networks:
+      - hcie-final-net
+    profiles:
+      - frontend
+
+  frontend-dev:
+    # Hot-reload variant for iterative integration work. Mounts the
+    # source tree so edits land instantly. Mutually exclusive with the
+    # ``frontend`` service above (same upstream name in nginx).
+    build:
+      context: ../../../../HCIE_SYSTEM_FRONTENDV3
+      dockerfile: Dockerfile.dev
+    container_name: hcie-final-frontend
+    logging: *default-logging
+    <<: *medium-limits
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost}
+      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL:-ws://localhost}
+      - NEXT_PUBLIC_APP_ENV=docker
+    volumes:
+      - ../../../../HCIE_SYSTEM_FRONTENDV3:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - hcie-final-net
+    profiles:
+      - frontend-dev
+
+  gateway:
+    # Single ingress for the browser. Routes:
+    #   /          → frontend (Next.js)
+    #   /api/*     → api (uvicorn) with /api stripped
+    #   /v3/*      → api (uvicorn) passthrough
+    #   /ws        → projection-stream-gateway WebSocket
+    #   /healthz   → api healthcheck passthrough
+    #   /metrics   → api Prometheus passthrough
+    image: nginx:alpine
+    container_name: hcie-final-gateway
+    logging: *default-logging
+    <<: *medium-limits
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./gateway/nginx-gateway.final.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - hcie-final-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    profiles:
+      - frontend
+
+  # ---------------------------------------------------------------------
+  # KT baselines service (Phase 2 — folded in from the orphaned fragment)
+  # ---------------------------------------------------------------------
+
+  hcie-final-kt-baselines:
+    build:
+      context: ../../../..
+      dockerfile: research_validation/baselines/service/Dockerfile
+    container_name: hcie-final-kt-baselines
+    logging: *default-logging
+    <<: *heavy-limits
+    ports:
+      - "8021:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HCIE_BASELINE_ARTIFACTS_DIR=/app/research_validation/baselines/artifacts
+    volumes:
+      - ../../../../research_validation/baselines/artifacts:/app/research_validation/baselines/artifacts:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz', timeout=2)"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - baselines
+
+  # ---------------------------------------------------------------------
+  # Infrastructure
+  # ---------------------------------------------------------------------
+
+  redis:
+    image: redis:7-alpine
+    container_name: hcie-final-redis
+    logging: *default-logging
+    <<: *light-limits
+    ports:
+      - "56379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - hcie_final_redis_data:/data
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+
+  migrations:
+    # One-shot Alembic migrator. Idempotent thanks to ``alembic upgrade
+    # head``. Useful when the API container is held back (e.g. during a
+    # canary) or when running a sweep against a fresh volume.
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-migrations
+    logging: *default-logging
+    <<: *light-limits
+    command: ["sh", "-c", "cd /app/07_database/00_migrations && python -m alembic upgrade head"]
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - DATABASE_URL=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - hcie-final-net
+    restart: "no"
+    profiles:
+      - migrations
+
+  seed-admin:
+    # One-shot admin user seeder. Idempotent: safe to run multiple times.
+    # Usage (after the core stack is up):
+    #   docker compose -f docker-compose.final.yml --profile seed run --rm seed-admin
+    # ADMIN_PASSWORD is required — set it in .env or pass inline:
+    #   ADMIN_PASSWORD=changeme docker compose ... run --rm seed-admin
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-seed-admin
+    logging: *default-logging
+    <<: *light-limits
+    command: ["python", "/app/03_scripts/01_ops/seed_admin.py"]
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@hcie.local}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_NAME=${ADMIN_NAME:-Admin}
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - hcie-final-net
+    restart: "no"
+    profiles:
+      - seed
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: hcie-final-postgres
+    logging: *default-logging
+    <<: *heavy-limits
+    command: ["postgres", "-c", "wal_level=logical", "-c", "max_connections=200"]
+    ports:
+      - "55432:5432"
+    environment:
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-hcie_password}
+      - POSTGRES_DB=hcie
+    volumes:
+      - hcie_final_postgres_data:/var/lib/postgresql/data
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hcie_user -d hcie"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    image: redpandadata/redpanda:v23.1.6
+    container_name: hcie-final-kafka
+    logging: *default-logging
+    <<: *heavy-limits
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - 1G
+      - --reserve-memory
+      - "0"
+      - --node-id
+      - "0"
+      - --check=false
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://kafka:9092
+      - --set
+      - redpanda.auto_create_topics_enabled=true
+    ports:
+      - "19092:9092"
+      - "19644:9644"
+    volumes:
+      - hcie_final_kafka_data:/var/lib/redpanda/data
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------
+  # Observability stack (profile: observability)
+  # ---------------------------------------------------------------------
+
+  prometheus:
+    image: prom/prometheus@sha256:e4254400b85610324913f0dc4acf92603d9984e7519414c5a12811aa6146acc3
+    container_name: hcie-final-prometheus
+    logging: *default-logging
+    <<: *medium-limits
+    ports:
+      - "9090:9090"
+    volumes:
+      # Canonical home: HCIE_SYSTEM_BACKEND_FINAL/06_monitoring/00_prometheus/
+      # (compose-relative path resolves from this file's directory up 3 levels
+      # then into 06_monitoring). The compose-local ./monitoring/ directory is
+      # deprecated and retained only as a transition layer; see
+      # ./monitoring/DEPRECATED.md and 06_monitoring/MIGRATION.md.
+      - ../../../06_monitoring/00_prometheus/prometheus.final.yml:/etc/prometheus/prometheus.yml:ro
+      - ../../../06_monitoring/00_prometheus/00_alerts/alerts.yml:/etc/prometheus/rules/alerts.yml:ro
+      - ../../../06_monitoring/00_prometheus/01_recording_rules/kafka_lag_rules.yml:/etc/prometheus/rules/kafka_lag_rules.yml:ro
+      - hcie_final_prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+      - self-healing
+
+  grafana:
+    image: grafana/grafana@sha256:0f86bada30d65ef9d0183b90c1e2682ac92d53d95da8bed322b984ea78a4a73a
+    container_name: hcie-final-grafana
+    logging: *default-logging
+    <<: *medium-limits
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_ALERTING_ENABLED=false
+      - GF_INSTALL_PLUGINS=
+    volumes:
+      - hcie_final_grafana_data:/var/lib/grafana
+      # Canonical home: HCIE_SYSTEM_BACKEND_FINAL/06_monitoring/01_grafana/
+      - ../../../06_monitoring/01_grafana/01_provisioning:/etc/grafana/provisioning:ro
+      - ../../../06_monitoring/01_grafana/00_dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui@sha256:8f2ff02d64b0a7a2b71b6b3b3148b85f66d00ec20ad40c30bdcd415d46d31818
+    container_name: hcie-final-kafka-ui
+    logging: *default-logging
+    <<: *light-limits
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=hcie-final
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_KAFKACONFIG_SECURITY_PROTOCOL=PLAINTEXT
+    ports:
+      - "8080:8080"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+
+  dozzle:
+    image: amir20/dozzle:v4.10.0
+    container_name: hcie-final-dozzle
+    logging: *default-logging
+    <<: *light-limits
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - DOZZLE_LEVEL=info
+      - DOZZLE_FILTER=label=com.docker.compose.project=01_compose
+      - DOZZLE_NO_ANALYTICS=true
+    ports:
+      - "9999:8080"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter@sha256:e96064f876226d94bb6ce48a4c4b3dd76edba91168ec1ab024e5c4b959310b0f
+    container_name: hcie-final-postgres-exporter
+    logging: *default-logging
+    <<: *light-limits
+    environment:
+      - DATA_SOURCE_NAME=postgresql://hcie_user:${POSTGRES_PASSWORD:-hcie_password}@postgres:5432/hcie?sslmode=disable
+    ports:
+      - "9187:9187"
+    depends_on:
+      - postgres
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+      - self-healing
+
+  redis-exporter:
+    image: oliver006/redis_exporter@sha256:e8c209894d4c0cc55b1259ddd47e0b769ad1ff864b356736ee885462a3b0e48c
+    container_name: hcie-final-redis-exporter
+    logging: *default-logging
+    <<: *light-limits
+    environment:
+      - REDIS_ADDR=redis://redis:6379
+    ports:
+      - "9121:9121"
+    depends_on:
+      - redis
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+      - self-healing
+
+  node-exporter:
+    # Host-level metrics so Grafana dashboards can correlate API latency
+    # with CPU/memory pressure during the sweep.
+    image: prom/node-exporter@sha256:e9cff4fc67b1818f8c97adb115b9f12c9a54b533de86765d4a0effc01b357205
+    container_name: hcie-final-node-exporter
+    logging: *default-logging
+    <<: *light-limits
+    ports:
+      - "9100:9100"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+
+  cadvisor:
+    # Per-container CPU/memory/network metrics. Pairs with Grafana to
+    # show which container is wedging during the Phase-3 sweep.
+    image: gcr.io/cadvisor/cadvisor@sha256:3de2bd5203120b866d74a9b283b2ffb8ec382fbf9dc321814700c6ea6f44ec57
+    container_name: hcie-final-cadvisor
+    logging: *default-logging
+    <<: *light-limits
+    ports:
+      - "8082:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk:/dev/disk:ro
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+
+  alertmanager:
+    image: prom/alertmanager@sha256:51a825c2a40acc3e338fdd00d622e01ec090f72be2b3ea46be0839cd47a4d286
+    container_name: hcie-final-alertmanager
+    logging: *default-logging
+    <<: *medium-limits
+    ports:
+      - "9093:9093"
+    volumes:
+      - ../../../06_monitoring/00_prometheus/00_alerts/alertmanager.final.yml:/etc/alertmanager/alertmanager.yml:ro
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - observability
+
+  # ---------------------------------------------------------------------
+  # Tracing (profile: tracing) — opt-in OTEL collector + Loki + Tempo
+  # ---------------------------------------------------------------------
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.88.0
+    container_name: hcie-final-otel-collector
+    logging: *default-logging
+    <<: *medium-limits
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ../../../06_monitoring/04_otel/otel-collector-config.final.yaml:/etc/otel-collector-config.yaml:ro
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "8888:8888"
+      - "8889:8889"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - tracing
+
+  loki:
+    image: grafana/loki@sha256:73e905b51a7f917f7a1075e4be68759df30226e03dcb3cd2213b989cc0dc8eb4
+    container_name: hcie-final-loki
+    logging: *default-logging
+    <<: *medium-limits
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+    ports:
+      - "3100:3100"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - tracing
+
+  tempo:
+    image: grafana/tempo@sha256:a3f4e3fab1abe4b1ffe8aee3d9dcf79641e593e70a3bdf47e8b0ff7f1045b892
+    container_name: hcie-final-tempo
+    logging: *default-logging
+    <<: *medium-limits
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ../../../06_monitoring/03_tempo/tempo-config.final.yaml:/etc/tempo.yaml:ro
+    ports:
+      - "3200:3200"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - tracing
+
+  pyroscope:
+    image: grafana/pyroscope@sha256:644515bfa06cb3779b8666514b1bab2295bd11f1e1a53834bd9584a43f77c4f5
+    container_name: hcie-final-pyroscope
+    logging: *default-logging
+    <<: *medium-limits
+    command: ["server"]
+    ports:
+      - "4040:4040"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - tracing
+
+  beyla:
+    # Grafana Beyla eBPF auto-instrumentation. This is valuable for the
+    # paper/deployment story because it observes the API without adding
+    # code-level instrumentation to every endpoint. It is privileged and
+    # Linux-kernel dependent, so keep it opt-in under the tracing profile.
+    image: grafana/beyla@sha256:ee671c6e53e8d1bdbf4b781e0309970d0aa136fd5f2a05456d7abdd1c08e4fc3
+    container_name: hcie-final-beyla
+    logging: *default-logging
+    <<: *light-limits
+    pid: "host"
+    privileged: true
+    environment:
+      - BEYLA_OPEN_PORT=8000
+      - BEYLA_SERVICE_NAME=hcie-final-api-ebpf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+    depends_on:
+      - api
+      - otel-collector
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - tracing
+
+  # ---------------------------------------------------------------------
+  # Load testing (profile: load-testing)
+  # ---------------------------------------------------------------------
+
+  k6:
+    image: grafana/k6:latest
+    container_name: hcie-final-k6
+    logging: *default-logging
+    <<: *light-limits
+    entrypoint: ["/bin/sh", "-c", "sleep infinity"]
+    # Load scripts mounted in so `k6 run /scripts/smoke-test.js` works out of the box:
+    #   docker compose -f docker-compose.final.yml --profile load-testing run --rm k6 run /scripts/smoke-test.js
+    volumes:
+      - ../../../02_tests/05_performance:/scripts:ro
+    environment:
+      - K6_OUT=experimental-prometheus-rw
+      - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write
+    networks:
+      - hcie-final-net
+    profiles:
+      - load-testing
+
+  # ---------------------------------------------------------------------
+  # CDC / Schema Registry (profile: cdc) — Avro / Debezium support.
+  # The chapter does not currently rely on CDC; this stays opt-in so the
+  # default stack stays light.
+  # ---------------------------------------------------------------------
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.4.0
+    container_name: hcie-final-schema-registry
+    logging: *default-logging
+    <<: *medium-limits
+    depends_on:
+      - kafka
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "kafka:9092"
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+      SCHEMA_REGISTRY_KAFKASTORE_TOPIC: _schemas
+    ports:
+      - "8081:8081"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    profiles:
+      - cdc
+
+  kafka-connect:
+    # Debezium / Kafka Connect is not required by the current Phase-3 sweep,
+    # because FINAL writes through the API + outbox path. It is still an
+    # important production capability for CDC and audit lineage, so it stays
+    # available behind the cdc profile rather than in the minimal stack.
+    image: confluentinc/cp-kafka-connect:7.4.0
+    container_name: hcie-final-kafka-connect
+    logging: *default-logging
+    <<: *heavy-limits
+    depends_on:
+      - kafka
+      - schema-registry
+      - postgres
+    environment:
+      - CONNECT_BOOTSTRAP_SERVERS=kafka:9092
+      - CONNECT_REST_ADVERTISED_HOST_NAME=kafka-connect
+      - CONNECT_REST_ADVERTISED_PORT=8083
+      - CONNECT_GROUP_ID=hcie-final-connect
+      - CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR=1
+      - CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR=1
+      - CONNECT_STATUS_STORAGE_REPLICATION_FACTOR=1
+      - CONNECT_CONFIG_STORAGE_TOPIC=connect_configs
+      - CONNECT_OFFSET_STORAGE_TOPIC=connect_offsets
+      - CONNECT_STATUS_STORAGE_TOPIC=connect_statuses
+      - CONNECT_KEY_CONVERTER=org.apache.kafka.connect.storage.StringConverter
+      - CONNECT_VALUE_CONVERTER=io.confluent.connect.avro.AvroConverter
+      - CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL=http://schema-registry:8081
+      - CONNECT_PLUGIN_PATH=/usr/share/java,/usr/share/confluent-hub-components
+      - KAFKA_HEAP_OPTS=-Xms512M -Xmx1G
+    command:
+      - /bin/bash
+      - -c
+      - |
+        confluent-hub install --no-prompt debezium/debezium-connector-postgresql:2.2.1
+        /etc/confluent/docker/run
+    ports:
+      - "8083:8083"
+    networks:
+      - hcie-final-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "curl -fsS http://localhost:8083/connectors >/dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    profiles:
+      - cdc
+
+  kafka-connect-init:
+    # One-shot: waits for Connect, then registers the Debezium Postgres connector
+    # (06_monitoring/05_debezium/debezium-connector.json). Idempotent: 409 = already exists.
+    image: curlimages/curl:8.10.1
+    container_name: hcie-final-kafka-connect-init
+    depends_on:
+      kafka-connect:
+        condition: service_healthy
+    volumes:
+      - ../../../06_monitoring/05_debezium/debezium-connector.json:/connector.json:ro
+    entrypoint:
+      - sh
+      - -c
+      - |
+        until curl -fsS http://kafka-connect:8083/connectors >/dev/null 2>&1; do echo "waiting for connect..."; sleep 3; done
+        code=$$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/json" --data @/connector.json http://kafka-connect:8083/connectors)
+        echo "debezium connector register -> HTTP $$code"
+        { [ "$$code" = "201" ] || [ "$$code" = "409" ]; } && echo "OK (201=created, 409=exists)" || exit 1
+    networks:
+      - hcie-final-net
+    restart: "no"
+    profiles:
+      - cdc
+
+networks:
+  hcie-final-net:
+    name: hcie-final-net
+
+volumes:
+  hcie_final_redis_data:
+  hcie_final_postgres_data:
+  hcie_final_kafka_data:
+  hcie_final_prometheus_data:
+  hcie_final_grafana_data:

@@ -1,0 +1,102 @@
+# OpenTelemetry Collector Configuration for HCIE
+# Acts as the "post office" for all telemetry data
+
+receivers:
+  # Receive traces from applications
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+  
+  # Receive Prometheus metrics
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: 'otel-collector'
+          static_configs:
+            - targets: ['0.0.0.0:8888']
+        - job_name: 'hcie-api'
+          static_configs:
+            - targets: ['api:8000']
+          metrics_path: '/metrics'
+          scrape_interval: 15s
+        - job_name: 'hcie-postgres'
+          static_configs:
+            - targets: ['postgres:5432']
+          scrape_interval: 30s
+        - job_name: 'kafka-connect'
+          static_configs:
+            - targets: ['kafka-connect:8083']
+          metrics_path: '/metrics'
+          scrape_interval: 30s
+
+processors:
+  # Add resource attributes to identify the source
+  resource:
+    attributes:
+      - action: upsert
+      - key: service.name
+        value: "hcie-system"
+      - key: environment
+        value: "production"
+      - key: version
+        value: "1.0.0"
+  
+  # Batch traces for better performance
+  batch:
+  
+  # Memory limiter to prevent OOM
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+
+exporters:
+  # Export traces to Jaeger (optional, for distributed tracing)
+  # otlp/jaeger:
+  #   endpoint: jaeger:14250
+  #   tls:
+  #     insecure: true
+  
+  # Export metrics to Prometheus
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: "hcie"
+    const_labels:
+      environment: "production"
+      service: "hcie-system"
+  
+  # Export logs to console (for debugging)
+  logging:
+    loglevel: info
+
+extensions:
+  # Health check endpoint
+  health_check:
+    endpoint: 0.0.0.0:13133
+  
+  # Performance monitoring
+  pprof:
+    endpoint: 0.0.0.0:1777
+
+service:
+  extensions: [health_check, pprof]
+  pipelines:
+    # Traces pipeline
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch, resource]
+      exporters: [logging]  # Add otlp/jaeger here if you have Jaeger
+    
+    # Metrics pipeline  
+    metrics:
+      receivers: [otlp, prometheus]
+      processors: [memory_limiter, batch, resource]
+      exporters: [prometheus, logging]
+    
+    # Logs pipeline (if needed)
+    # logs:
+    #   receivers: [otlp]
+    #   processors: [memory_limiter, batch, resource]
+    #   exporters: [logging]

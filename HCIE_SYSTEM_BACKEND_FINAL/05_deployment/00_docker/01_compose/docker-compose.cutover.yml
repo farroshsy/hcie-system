@@ -1,0 +1,156 @@
+services:
+  api:
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-api
+    # Canonical entrypoint per IDEAL_STRUCTURE.md line 375.
+    # app.main is the runtime-projected alias of 01_source/01_application/main.py.
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8011:8000"
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=hcie_password
+      - DATABASE_URL=postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app/01_source:/app
+      - ENABLE_OUTBOX_PROCESSOR=true
+      - ENABLE_BACKGROUND_WORKERS=true
+      - ENABLE_ANALYTICS_WORKER=true
+      - HCIE_RUN_MIGRATIONS=1
+      - HCIE_USE_ITS_ADAPTER=1
+      - HCIE_AUTH_TRUST_JWT=1
+      # Cutover compose does not start an OpenTelemetry collector; keep
+      # /metrics enabled while avoiding localhost:4317 exporter noise.
+      - HCIE_ENABLE_OTLP_EXPORTER=false
+    depends_on:
+      - redis
+      - postgres
+      - kafka
+    networks:
+      - hcie-final-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 15s
+      timeout: 10s
+      retries: 6
+      start_period: 30s
+
+  learning-consumer:
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-learning-consumer
+    restart: unless-stopped
+    command: python -m app.workers.learning_consumer
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=hcie_password
+      - DATABASE_URL=postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app
+    depends_on:
+      - api
+    networks:
+      - hcie-final-net
+
+  projection-consumer:
+    build:
+      context: ../../..
+      dockerfile: 05_deployment/00_docker/00_images/00_api/Dockerfile.cutover
+    container_name: hcie-final-projection-consumer
+    restart: unless-stopped
+    command: python -m app.workers.projection_consumer
+    environment:
+      - ENVIRONMENT=docker
+      - DOCKER_ENV=true
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=hcie
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=hcie_password
+      - DATABASE_URL=postgresql://hcie_user:hcie_password@postgres:5432/hcie
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONPATH=/app/11_build/00_runtime_projection:/app
+    depends_on:
+      - api
+    networks:
+      - hcie-final-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: hcie-final-redis
+    ports:
+      - "56379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - hcie_final_redis_data:/data
+    networks:
+      - hcie-final-net
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: hcie-final-postgres
+    command: ["postgres", "-c", "wal_level=logical"]
+    ports:
+      - "55432:5432"
+    environment:
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=hcie_password
+      - POSTGRES_DB=hcie
+    volumes:
+      - hcie_final_postgres_data:/var/lib/postgresql/data
+    networks:
+      - hcie-final-net
+
+  kafka:
+    image: redpandadata/redpanda:v23.1.6
+    container_name: hcie-final-kafka
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp
+      - "1"
+      - --memory
+      - 1G
+      - --reserve-memory
+      - "0"
+      - --node-id
+      - "0"
+      - --check=false
+      - --kafka-addr
+      - PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr
+      - PLAINTEXT://kafka:9092
+      - --set
+      - redpanda.auto_create_topics_enabled=true
+    ports:
+      - "19092:9092"
+      - "19644:9644"
+    volumes:
+      - hcie_final_kafka_data:/var/lib/redpanda/data
+    networks:
+      - hcie-final-net
+
+networks:
+  hcie-final-net:
+    name: hcie-final-net
+
+volumes:
+  hcie_final_redis_data:
+  hcie_final_postgres_data:
+  hcie_final_kafka_data:

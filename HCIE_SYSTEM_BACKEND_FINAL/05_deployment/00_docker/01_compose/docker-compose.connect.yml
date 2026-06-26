@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # Kafka Connect with Debezium
+  kafka-connect:
+    image: debezium/connect:2.4
+    hostname: kafka-connect
+    container_name: kafka-connect
+    depends_on:
+      - kafka
+      - schema-registry
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - GROUP_ID=hcie-connect
+      - CONFIG_STORAGE_TOPIC=connect_configs
+      - OFFSET_STORAGE_TOPIC=connect_offsets
+      - STATUS_STORAGE_TOPIC=connect_statuses
+      - KEY_CONVERTER=org.apache.kafka.connect.storage.StringConverter
+      - VALUE_CONVERTER=io.confluent.connect.avro.AvroConverter
+      - VALUE_CONVERTER_SCHEMA_REGISTRY_URL=http://schema-registry:8081
+      - PLUGIN_NAME=debezium-postgres
+      - DATABASE_USER=hcie_user
+      - DATABASE_PASSWORD=hcie_password
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=hcie
+      - DATABASE_SERVER_NAME=postgres
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./monitoring/kafka-connect:/kafka/connect
+    networks:
+      - hcie-net
+    restart: unless-stopped
+
+  # PostgreSQL with CDC enabled
+  postgres-cdc:
+    image: debezium/postgres:15
+    hostname: postgres-cdc
+    container_name: postgres-cdc
+    environment:
+      - POSTGRES_USER=hcie_user
+      - POSTGRES_PASSWORD=hcie_password
+      - POSTGRES_DB=hcie
+      - POSTGRES_INITDB_ARGS=--shared-preload-libraries=decoderbufs
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./monitoring/postgres-cdc.conf:/etc/postgresql/postgresql.conf
+    ports:
+      - "5432:5432"
+    networks:
+      - hcie-net
+    restart: unless-stopped
+
+networks:
+  hcie-net:
+    external: true

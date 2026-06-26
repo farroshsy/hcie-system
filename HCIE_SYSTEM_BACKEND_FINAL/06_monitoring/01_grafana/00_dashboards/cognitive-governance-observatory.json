@@ -1,0 +1,385 @@
+{
+  "title": "🧠 Cognitive Governance Observatory",
+  "uid": "cognitive-governance-observatory",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "30s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "🎯 Panel 1: Is Cognition Improving? (JT Over Time)",
+      "description": "Constitutional heartbeat - JT measures the quality of learning interactions. Positive = improved cognition, Negative = degraded cognition, Near zero = neutral.",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10
+          },
+          "thresholds": {
+            "mode": "line",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": -0.1
+              },
+              {
+                "color": "green",
+                "value": 0.1
+              }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_mastery_delta_sum_total[5m]) / clamp_min(rate(hcie_mastery_delta_count_total[5m]), 0.0001)",
+          "legendFormat": "Average ΔM (Learning Gain)",
+          "refId": "A"
+        },
+        {
+          "expr": "avg(hcie_learning_curve_mastery) by (concept)",
+          "legendFormat": "Average Mastery",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "📊 Panel 2: Why is JT Changing? (Constitutional Decomposition)",
+      "description": "JT = w₁·ΔM + w₂·T - w₃·C - w₄·U + w₅·Z. Shows which cognitive dimensions are driving objective changes.",
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 5
+          },
+          "unit": "short"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_mastery_delta_sum_total[5m]) / clamp_min(rate(hcie_mastery_delta_count_total[5m]), 0.0001)",
+          "legendFormat": "ΔM: Learning Gain",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(hcie_transfer_learning_events_total[5m])",
+          "legendFormat": "T: Transfer Benefit",
+          "refId": "B"
+        },
+        {
+          "expr": "rate(hcie_cognitive_cost_events_total[5m])",
+          "legendFormat": "C: Cognitive Cost",
+          "refId": "C"
+        },
+        {
+          "expr": "avg(hcie_ensemble_variance) by (concept)",
+          "legendFormat": "U: Uncertainty Penalty",
+          "refId": "D"
+        },
+        {
+          "expr": "rate(hcie_zpd_alignment_events_total[5m])",
+          "legendFormat": "Z: ZPD Alignment",
+          "refId": "E"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "⚖️ Panel 3: Is Governance Stable? (Control-Theoretic Stability)",
+      "description": "Adaptive η, ensemble entropy, JT volatility, and exploration pressure indicate governance stability.",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 5
+          },
+          "unit": "short"
+        }
+      },
+      "targets": [
+        {
+          "expr": "avg(hcie_learning_efficiency_raw_eta) by (concept)",
+          "legendFormat": "η: Adaptive Learning Rate",
+          "refId": "A"
+        },
+        {
+          "expr": "hcie_control_path_entropy",
+          "legendFormat": "Ensemble Entropy",
+          "refId": "B"
+        },
+        {
+          "expr": "stddev(rate(hcie_mastery_delta_sum_total[5m]) / clamp_min(rate(hcie_mastery_delta_count_total[5m]), 0.0001))",
+          "legendFormat": "JT Volatility",
+          "refId": "C"
+        },
+        {
+          "expr": "rate(hcie_bandit_exploration_events_total[5m])",
+          "legendFormat": "Exploration Pressure",
+          "refId": "D"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "🧬 Panel 4: Are Learners Specializing? (JT-Attributed Ensemble)",
+      "description": "JT-attributed ensemble weights show which learners contribute most to constitutional cognition over time.",
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10
+          },
+          "unit": "percentunit"
+        }
+      },
+      "targets": [
+        {
+          "expr": "hcie_lyapunov_mastery",
+          "legendFormat": "Lyapunov: Stability specialist",
+          "refId": "A"
+        },
+        {
+          "expr": "hcie_bayesian_mastery",
+          "legendFormat": "Bayesian: Evidence specialist",
+          "refId": "B"
+        },
+        {
+          "expr": "hcie_kalman_mastery",
+          "legendFormat": "Kalman: Transition specialist",
+          "refId": "C"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "🛡️ Panel 5: Architectural Integrity (Governance Health)",
+      "description": "Governance violations, canonical state misses, duplicate events, and replay consistency indicate architectural trustworthiness.",
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 6,
+        "h": 4
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_governance_violation_count[5m])",
+          "legendFormat": "Governance Violations",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "reqps"
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Canonical State Miss Rate",
+      "gridPos": {
+        "x": 6,
+        "y": 32,
+        "w": 6,
+        "h": 4
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_canonical_state_misses_total[5m]) / clamp_min(rate(hcie_canonical_state_reads_total[5m]), 0.0001)",
+          "legendFormat": "Miss Rate",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.05
+              },
+              {
+                "color": "red",
+                "value": 0.1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Duplicate Event Rate",
+      "gridPos": {
+        "x": 12,
+        "y": 32,
+        "w": 6,
+        "h": 4
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_duplicate_event_count[5m])",
+          "legendFormat": "Duplicates",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "JT Dependency Ratio",
+      "gridPos": {
+        "x": 18,
+        "y": 32,
+        "w": 6,
+        "h": 4
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "hcie_jt_dependency_ratio",
+          "legendFormat": "JT Dependency",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.5
+              },
+              {
+                "color": "green",
+                "value": 0.8
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

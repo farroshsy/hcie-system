@@ -1,0 +1,30 @@
+CONTAINER ID   IMAGE                                              NAMES                                    STATUS                          PORTS
+66f38d113c57   01_compose-api                                     hcie-final-api                           Up 3 minutes (healthy)          0.0.0.0:8011->8000/tcp, [::]:8011->8000/tcp
+34885775d373   01_compose-projection-stream-gateway               hcie-final-projection-stream-gateway     Up 10 minutes                   8000/tcp
+c298f4230b70   nginx:alpine                                       hcie-final-gateway                       Up 10 minutes (unhealthy)       0.0.0.0:80->80/tcp, [::]:80->80/tcp
+cc3adbaac18b   01_compose-learning-consumer                       hcie-final-learning-consumer             Up 10 minutes                   8000/tcp
+7195390d3e88   01_compose-auth-consumer                           hcie-final-auth-consumer                 Up 10 minutes                   8000/tcp
+249068d2b1e1   01_compose-exploration-instrumentation-consumer    hcie-final-exploration-instrumentation   Up 12 seconds                   8000/tcp
+7ab2cd104173   01_compose-adaptation-consumer                     hcie-final-adaptation-consumer           Up 10 minutes                   8000/tcp
+db422b416679   01_compose-transfer-measurement-consumer           hcie-final-transfer-measurement          Up 10 seconds                   8000/tcp
+d974f9d16717   01_compose-trajectory-recorder-consumer            hcie-final-trajectory-recorder           Up 10 minutes                   8000/tcp
+e952bd9fa0a1   01_compose-projection-consumer                     hcie-final-projection-consumer           Restarting (0) 22 seconds ago   
+c40ba98ab7be   provectuslabs/kafka-ui                             hcie-final-kafka-ui                      Up 10 minutes                   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+2efdaf93b774   oliver006/redis_exporter                           hcie-final-redis-exporter                Up 10 minutes                   0.0.0.0:9121->9121/tcp, [::]:9121->9121/tcp
+423bf05f2fe3   grafana/grafana                                    hcie-final-grafana                       Restarting (1) 47 seconds ago   
+09a6a84f7310   prometheuscommunity/postgres-exporter              hcie-final-postgres-exporter             Up 10 minutes                   0.0.0.0:9187->9187/tcp, [::]:9187->9187/tcp
+13986871137c   gcr.io/cadvisor/cadvisor                           hcie-final-cadvisor                      Up 10 minutes (healthy)         0.0.0.0:8082->8080/tcp, [::]:8082->8080/tcp
+087445305f88   prom/prometheus                                    hcie-final-prometheus                    Up 10 minutes                   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp
+487845324dd2   prom/alertmanager                                  hcie-final-alertmanager                  Up 10 minutes                   0.0.0.0:9093->9093/tcp, [::]:9093->9093/tcp
+70b0b291e9d8   postgres:15-alpine                                 hcie-final-postgres                      Up 10 minutes (healthy)         0.0.0.0:55432->5432/tcp, [::]:55432->5432/tcp
+b3061defa72a   redpandadata/redpanda:v23.1.6                      hcie-final-kafka                         Up 10 minutes                   0.0.0.0:19092->9092/tcp, [::]:19092->9092/tcp, 0.0.0.0:19644->9644/tcp, [::]:19644->9644/tcp
+8082d369f34a   amir20/dozzle:v4.10.0                              hcie-final-dozzle                        Up 10 minutes                   0.0.0.0:9999->8080/tcp, [::]:9999->8080/tcp
+97c560c6f904   prom/node-exporter                                 hcie-final-node-exporter                 Up 10 minutes                   0.0.0.0:9100->9100/tcp, [::]:9100->9100/tcp
+9170fa8bae54   01_compose-hcie-final-kt-baselines                 hcie-final-kt-baselines                  Up 10 minutes (healthy)         0.0.0.0:8021->8000/tcp, [::]:8021->8000/tcp
+4f09f1fa97fc   redis:7-alpine                                     hcie-final-redis                         Up 10 minutes                   0.0.0.0:56379->6379/tcp, [::]:56379->6379/tcp
+faf98b6d7504   01_compose-frontend                                hcie-final-frontend                      Up 15 minutes                   0.0.0.0:3001->3000/tcp, [::]:3001->3000/tcp
+89c91e3b9291   01_compose-dlq-replay-worker                       hcie-final-dlq-replay-worker             Up 43 hours                     0.0.0.0:8003->8003/tcp, [::]:8003->8003/tcp
+d7013f2c84a5   01_compose-auto-healer                             hcie-final-auto-healer                   Up 43 hours                     0.0.0.0:8004->8004/tcp, [::]:8004->8004/tcp
+940883fb1468   docker/desktop-cloud-provider-kind:v0.5.0          kind-cloud-provider                      Up 43 hours                     2375-2376/tcp
+60bf29ab41fc   docker/desktop-containerd-registry-mirror:v0.0.3   kind-registry-mirror                     Up 43 hours (healthy)           
+58d1817e2a7b   kindest/node:v1.35.1                               desktop-control-plane                    Up 43 hours                     127.0.0.1:56457->6443/tcp
