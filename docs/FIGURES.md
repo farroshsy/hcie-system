@@ -89,3 +89,36 @@ transfer result. **Provenance:** `prospective_probe_v3_full_K1000.json` (full sa
 > consistent but distinct 0.059 at K=100/p=0.0099; the full run supersedes it for the figure.)
 
 *All four figure files now use Indonesian labels (decimal commas, no "F#" prefix); the captions above are provided ID + EN for pasting.*
+
+---
+
+# Additional Chapter-4 empirical figures (F5–F8)
+
+Reviewer-requested evidence (learning curve, sensitivity, calibration), all computed on the **canonical sealed
+run `run-94a3b8ba` / anchor `d2154070`**, matched cold-start protocol, 10 held-out users. The per-row substrate
+(`docs/figures/data/matched_eval_perrow_run-94a3b8ba.csv`) reproduces **Tabel 4.8 exactly** (overall HCIE 0,6051;
+≤5 0,8738; ≤10 0,8225). Full rationale + the "could-not-produce" item in [EXTRA_EXPERIMENTS_F5-F8.md](EXTRA_EXPERIMENTS_F5-F8.md).
+
+## F8 — Calibration reliability  → Bab 4 (bagian kalibrasi)
+HCIE raw **ECE 0,109 / Brier 0,152** vs BKT **ECE 0,062**; post-hoc **Platt → ECE 0,004**, AUC unchanged (0,6051).
+Honest: HCIE's *raw* uncertainty is less calibrated than BKT; Platt closes the gap monotonically.
+![Kalibrasi](docs/figures/F8-calibration.png)
+
+## F5 — Per-interaction learning curve  → Bab 4 (dekat Tabel 4.8 / Gambar 4.9)
+AUC per interaction-depth bin, 5 models. **Honest reading (Simpson):** on the tiny early windows (n=50–200) the
+pre-trained DKT/SAKT score *higher* than HCIE; HCIE's win is on the **long tail (idx 101+ = 91 % of data)** → the
+aggregate 0,6051. The claim it supports is *competitive without offline training*, not early dominance.
+![Kurva pembelajaran](docs/figures/F5-learning-curve.png)
+
+## F7 — Parameter sensitivity (Q, R)  → Bab 4 robustness / Lampiran
+AUC stays in **0,60–0,62 across a 200× Q/R range** → robust, not tuned (supports "Q=0,01/R=0,1 ditetapkan tetap").
+**Disclosure:** sweep is on a faithful *re-implementation* (base 0,613, corr 0,96 with deployed m_K), not bit-exact
+to 0,6051 — the robustness *shape* is trustworthy, the absolute level is the re-impl's.
+![Sensitivitas](docs/figures/F7-sensitivity.png)
+
+## F6 — Component ablation → **deliberately NOT added** (honest)
+A leave-one-out AUC ablation could not be produced consistently: Thompson/transfer/uncertainty are not in the
+predictive `m_K` path (0 change by design), and a naive −Kalman→Beta re-impl scores ≥ Kalman (0,622 vs 0,613),
+which contradicts the "Kalman-alone canonical" choice (that rests on out-of-sample predictive validity r=0,332
+> 0,311, not matched AUC). Existing **Gambar 4.15 (ablasi JT)** + the estimator predictive-validity evidence
+cover this honestly. Data documenting the finding: `docs/figures/data/F6-ablation.csv`.
