@@ -110,10 +110,11 @@ pre-trained DKT/SAKT score *higher* than HCIE; HCIE's win is on the **long tail 
 aggregate 0,6051. The claim it supports is *competitive without offline training*, not early dominance.
 ![Kurva pembelajaran](docs/figures/F5-learning-curve.png)
 
-## F7 — Parameter sensitivity (Q, R)  → Bab 4 robustness / Lampiran
-AUC stays in **0,60–0,62 across a 200× Q/R range** → robust, not tuned (supports "Q=0,01/R=0,1 ditetapkan tetap").
-**Disclosure:** sweep is on a faithful *re-implementation* (base 0,613, corr 0,96 with deployed m_K), not bit-exact
-to 0,6051 — the robustness *shape* is trustworthy, the absolute level is the re-impl's.
+## F7 — Parameter sensitivity (Q, R) — **exact-on-sealed**  → Bab 4 robustness / Lampiran
+Driven through the real `kalman_learner.py` (init 0,3/0,1; Q,R injectable) over the matched sequences; base
+Q=0,01/R=0,1 reproduces the sealed **AUC 0,6049 ≈ 0,6051** (corr 0,9989; 99,9 % of rows bit-exact). AUC is
+**robust to Q** (0,600–0,613 across 200×) and to small R, but **degrades at large R** (R=1,0 → 0,571 — shown,
+not clipped). The chosen Q=0,01/R=0,1 sits on the stable plateau at the sealed value, not a tuned peak.
 ![Sensitivitas](docs/figures/F7-sensitivity.png)
 
 ## F6 — Component ablation → **deliberately NOT added** (honest)

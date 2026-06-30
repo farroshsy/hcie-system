@@ -42,18 +42,20 @@ produced by `research_validation/scripts/dump_matched_eval_perrow.py`). Decimal 
   (the deep models paid a training cost HCIE did not — see your Pareto figure), **not** "HCIE starts highest."
   This is consistent with the thesis's own "kompetitif… belum menunjukkan keunggulan universal".
 
-## ⚠️ F7 — Parameter sensitivity (Q, R)  (→ Bab 4 robustness, ATAU Lampiran — see disclosure)
+## ✅ F7 — Parameter sensitivity (Q, R) — **EXACT-ON-SEALED**  (→ Bab 4 robustness / Lampiran)
 - **Files:** `figures/F7-sensitivity.svg` + `png/`. **Data:** `figures/data/F7-sensitivity.csv`.
-- **Exact numbers:** Q-sweep (R=0,1): Q=0,001→0,624 … **Q=0,01→0,613** … Q=0,2→0,602. R-sweep (Q=0,01):
-  R=0,02→0,603 … **R=0,1→0,613** … R=1,0→0,619. **AUC stays in 0,60–0,62 across a 200× range** = robust;
-  this supports the thesis's stated "Q=0,01, R=0,1 ditetapkan tetap di awal, tidak disetel" (not tuned).
-- **DISCLOSURE (read before using):** this sweep is on a **faithful re-implementation** of the lagged-Kalman
-  predictor (base AUC **0,6127**, correlation **0,96** with the deployed `m_K`), **not bit-exact** to the sealed
-  0,6051 (Δ +0,0076 — beyond rounding). The deployed brain used a single sealed parameter set, so a sweep is
-  inherently a re-run. The **shape/robustness** is trustworthy (0,96 corr); the **absolute level** is the
-  re-impl's. If a journal reviewer needs an exact-on-sealed sweep, that requires re-replaying the brain at each
-  (Q,R) — flagged as future work. Beta-prior and JT-threshold are **not** in the predictive `m_K` path, so they
-  do not move this AUC (insensitive by design — reported honestly, not plotted as a fake-flat line).
+- **Method (no disclosure needed):** driven through the **real `kalman_learner.py`** (the brain's estimator —
+  init m=0,3 / P=0,1; the exact predict→update; bounds [0,05; 0,95]) with Q,R injectable, replaying the matched
+  sequences. Base Q=0,01/R=0,1 reproduces the sealed **AUC 0,6049 ≈ 0,6051** (corr **0,9989**, **99,9 % of rows
+  bit-exact** vs the deployed `p_hcie`). So this is the deployed predictor, not a re-implementation.
+- **Exact numbers:** Q-sweep (R=0,1): 0,001→0,6129 · 0,005→0,6074 · **0,01→0,6049** · 0,02→0,6035 · 0,05→0,6006 ·
+  0,1→0,6038 · 0,2→0,6028. R-sweep (Q=0,01): 0,02→0,6044 · 0,05→0,6073 · **0,1→0,6049** · 0,2→0,5996 · 0,5→0,5841 ·
+  1,0→0,5714.
+- **Honest reading:** AUC is **robust to Q** (0,600–0,613 across a 200× range) and to **small R**, but **degrades at
+  large R** (R=1,0 → 0,571 — shown, not clipped). The chosen **Q=0,01/R=0,1 sits on the stable plateau at the
+  sealed 0,6051**, not a tuned peak — supporting "ditetapkan tetap di awal, tidak disetel". Beta-prior and
+  JT-threshold are not in the predictive `m_K` path, so they don't move this AUC (insensitive by design — not
+  plotted as a fake-flat line).
 
 ## ❌ F6 — Leave-one-out component ablation  → **COULD NOT be produced consistently. Do not add.**
 The instruction allows this outcome ("honestly report if a component does not contribute… STOP and report").
