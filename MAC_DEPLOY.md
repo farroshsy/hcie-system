@@ -66,6 +66,26 @@ EOF
 - Tailscale Funnel (opsional; hanya jika Mac mau jadi host publik).
 - research_validation penuh (4,7 GB di PC) — artefak kuncinya sudah dikurasi di `docs/figures/data/`.
 
+## ⚠ Yang TIDAK lewat GitHub — pindahkan MANUAL (AirDrop / disk / scp)
+
+Repo ini sengaja tidak memuat item berikut (limit 100 MB GitHub, dan/atau privat). Setelah
+`git clone`, salin manual ke lokasi tujuannya:
+
+| # | Item | Dari (PC) | Ke (Mac) | Ukuran | Kenapa tidak di GitHub |
+|---|---|---|---|---|---|
+| 1 | **`hcie_full.dump`** (WAJIB) | `D:\HCIE_MIGRATION\hcie_full.dump` | mana saja, lalu langkah restore §Langkah-3 | **1,71 GB** | >100 MB + berisi data pelajar nyata (privat) |
+| 2 | **`.env`** (WAJIB) | `RealSystem\HCIE_SYSTEM_BACKEND_FINAL\05_deployment\00_docker\01_compose\.env` | path yang sama di clone (`HCIE_SYSTEM_BACKEND_FINAL/05_deployment/00_docker/01_compose/.env`) | 1 KB | rahasia (JWT_SECRET_KEY, ADMIN_PASSWORD) — tidak pernah di-commit |
+| 3 | Folder prep sidang (opsional) | `Downloads\22-20260703T180311Z-3-001\22\` | mana saja | 124 MB | privat (naskah, deck, prep Q&A) — bukan untuk repo publik |
+| 4 | `thesis_audit\` (opsional) | `Downloads\thesis_audit\` | mana saja | 46 MB | privat; CSV kuncinya sudah dikurasi ke repo |
+| 5 | `HCIE_Handoff_2026-07-01\` (opsional) | `Downloads\HCIE_Handoff_2026-07-01\` | mana saja | 2 MB | privat (diagram+algoritma handoff) |
+
+Tanpa #1 stack hidup tapi kosong; tanpa #2 `docker compose up` gagal di api/seed-admin
+(`ADMIN_PASSWORD` tidak punya default). #3–#5 hanya bila mau kerja naskah/deck dari Mac.
+
+Yang TIDAK perlu dipindah: image Docker (dibangun ulang dari source repo ini), `node_modules`
+(npm install), `research_validation` 4,7 GB (artefak kunci + 4 skrip evaluasi sudah dikurasi ke
+`docs/figures/data/` dan `scripts/eval/`).
+
 ## Expo client dari Mac
 ```bash
 cd HCIE_EXPO_CLIENT && npm install && npx expo start --tunnel
