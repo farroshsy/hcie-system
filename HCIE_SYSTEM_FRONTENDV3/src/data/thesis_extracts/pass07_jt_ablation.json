@@ -1,0 +1,113 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 7,
+  "fills": "Gambar 4.29 (JT per-component ablation: effect on JT distribution / policy ecology / selection)",
+
+  "PROVENANCE_AND_SCOPE_WARNING": "This is a SEPARATE COUNTERFACTUAL EXPERIMENT, NOT the seal. Source: research_validation/reports/jt_ablation_smoke/jt_ablation_smoke.json, generated_at 2026-05-24, via the live /v3 cohort path. It is SMOKE-SCALE: 8 conditions x 32 rows = a 1-learner/8-interaction grid (1 novice archetype, seed 42, concept k2_algorithms, 4 policies {hcie, zpd_aligned, uncertainty_reduction, random}). Each condition has its OWN run_id and cohort_id (listed per row); NONE is run-d2154070 (the seal). Do NOT present these magnitudes as seal values. Same 3-learner-runtime governance inheritance disclosure applies (canonical=m_K shipped, but JT signals inherited from V1 3-learner runtime; see KALMAN_OVERLAY_GOVERNANCE_SCOPING.md). The ablation IS load-bearing as a counterfactual MECHANISM demonstration (each component's marginal effect), not as a seal-magnitude.",
+
+  "grid": {
+    "policies": ["hcie", "zpd_aligned", "uncertainty_reduction", "random"],
+    "archetypes": ["novice"], "seeds": [42], "concepts": ["k2_algorithms"],
+    "learners_per_cell": 1, "interactions": 8, "rows_per_condition": 32
+  },
+
+  "baseline_condition": {
+    "label": "baseline", "disabled_components": [], "run_id": "run-17ab4477-8b32-406a-9251-e153599f9e03",
+    "jt_summary": {"n": 32, "mean": 0.6106399212782635, "std": 0.027640283436237673, "min": 0.5502431662011786, "max": 0.6534846886525569, "range": 0.1032415224513783},
+    "component_abs_mean": {
+      "delta_m": 0.10955879422975927, "transfer_realized": 0.04040075053253185,
+      "transfer_prospective": 0.0, "challenge": 0.13425690722395248,
+      "uncertainty": 0.13368247409370096, "zpd": 0.03356987469300509
+    },
+    "policy_ecology": {"observed_policy_count": 4, "expected_policy_count": 9, "mean_composite_distance": 0.13720609411362167, "collapsed_pairs": ["random__vs__uncertainty_reduction"], "validated_ecology": false},
+    "candidate_summary": {"top1_unique_count": 4, "top1_entropy": 1.4027375677821283, "parse_errors": 0}
+  },
+
+  "gambar_4_29_per_component_ablation": {
+    "_columns": "component | run_id | baseline_abs_mean | ablated_abs_mean | absolute_drop (component_effect) | jt_mean_delta (ablated_JT_mean - baseline_JT_mean) | jt_range_delta | mean_composite_distance_delta (selector ecology shift) | collapsed_pair_delta | task_overlap_vs_baseline",
+    "no_delta_m": {
+      "run_id": "run-7c7e347b-193f-4868-b766-d077a5f46a74",
+      "component_effect_absolute_drop": 0.10955879422975927,
+      "jt_mean_delta": -0.024175442543471037, "jt_range_delta": -0.03237930012756696,
+      "mean_composite_distance_delta": -0.001746770826351024, "collapsed_pair_delta": 0,
+      "ablated_jt_mean": 0.5864644787347925, "ablated_jt_std": 0.018512412845567105,
+      "exact_task_overlap_ratio": 1.0, "first_task_divergence_step": null
+    },
+    "no_transfer_realized": {
+      "run_id": "run-28657565-a90d-4a70-b624-00a7ca3b00b0",
+      "component_effect_absolute_drop": 0.04040075053253185,
+      "jt_mean_delta": -0.006776043284946964, "jt_range_delta": -0.01791500793257783,
+      "mean_composite_distance_delta": -0.001040148525163015, "collapsed_pair_delta": 0,
+      "ablated_jt_mean": 0.6038638779933165, "ablated_jt_std": 0.02327609384734341,
+      "exact_task_overlap_ratio": 1.0, "first_task_divergence_step": null
+    },
+    "no_transfer_prospective": {
+      "run_id": "run-6b14855d-c27b-48e0-9c2e-7c811d52a24b",
+      "component_effect_absolute_drop": 0.0,
+      "jt_mean_delta": -0.0005377105041793895, "jt_range_delta": 0.010664779084508358,
+      "mean_composite_distance_delta": 0.0006744349764922497, "collapsed_pair_delta": 0,
+      "ablated_jt_mean": 0.6101022107740841, "ablated_jt_std": 0.02925796307790451,
+      "exact_task_overlap_ratio": 1.0, "first_task_divergence_step": null,
+      "note": "Structural zero: disabling transfer_prospective changes nothing (it was already 0.0 in baseline). jt_mean_delta is noise."
+    },
+    "no_challenge": {
+      "run_id": "run-fb1b4618-1a55-4c72-b23d-fa95e12cd970",
+      "component_effect_absolute_drop": 0.13425690722395248,
+      "jt_mean_delta": -0.027584561229621385, "jt_range_delta": 0.010583345070395933,
+      "mean_composite_distance_delta": 0.0015057767044124037, "collapsed_pair_delta": 0,
+      "ablated_jt_mean": 0.5830553600486421, "ablated_jt_std": 0.033738465807707986,
+      "exact_task_overlap_ratio": 1.0, "first_task_divergence_step": null
+    },
+    "no_uncertainty": {
+      "run_id": "run-15d40d93-dfd3-4e8d-9600-4a9ce53ed2cc",
+      "component_effect_absolute_drop": 0.13368247409370096,
+      "jt_mean_delta": -0.031193590246651914, "jt_range_delta": -0.030361722235850763,
+      "mean_composite_distance_delta": -0.0006056858371338847, "collapsed_pair_delta": 0,
+      "ablated_jt_mean": 0.5794463310316116, "ablated_jt_std": 0.023981133996379005,
+      "exact_task_overlap_ratio": 1.0, "first_task_divergence_step": null
+    },
+    "no_zpd": {
+      "run_id": "run-73c16965-3161-413c-8ad2-d0caa524fad8",
+      "component_effect_absolute_drop": 0.03356987469300509,
+      "jt_mean_delta": -0.0044263189693385385, "jt_range_delta": 0.010934963504804163,
+      "mean_composite_distance_delta": 0.0008802430585798382, "collapsed_pair_delta": 0,
+      "ablated_jt_mean": 0.606213602308925, "ablated_jt_std": 0.03371787324408834,
+      "exact_task_overlap_ratio": 1.0, "first_task_divergence_step": null
+    },
+    "ablate_all": {
+      "run_id": "run-d3157963-c8f1-4cb4-b38d-b44ff25dcb50",
+      "component_effect_absolute_drop": 0.10955879422975927,
+      "jt_mean_delta": -0.1106399212782635, "jt_range_delta": -0.1032415224513783,
+      "mean_composite_distance_delta": -0.0051951481583873416, "collapsed_pair_delta": 0,
+      "ablated_jt_mean": 0.5, "ablated_jt_std": 0.0,
+      "exact_task_overlap_ratio": 1.0, "first_task_divergence_step": null,
+      "note": "All 6 components disabled -> JT collapses to the constant 0.5 (std 0.0, range 0.0): with no governance signal the joint trajectory degenerates to the neutral prior. This is the floor reference for the ablation."
+    }
+  },
+
+  "ranked_component_importance_by_jt_mean_drop": {
+    "_note": "Magnitude of JT-mean degradation when the single component is disabled (more negative = more load-bearing for the JT signal). Smoke-scale; mechanism evidence not seal magnitude.",
+    "1_uncertainty": -0.031193590246651914,
+    "2_challenge": -0.027584561229621385,
+    "3_delta_m": -0.024175442543471037,
+    "4_transfer_realized": -0.006776043284946964,
+    "5_zpd": -0.0044263189693385385,
+    "6_transfer_prospective": -0.0005377105041793895,
+    "all_combined_ablate_all": -0.1106399212782635
+  },
+
+  "selection_and_ecology_observations": {
+    "task_selection_invariance": "exact_task_overlap_ratio = 1.0 and first_task_divergence_step = null for EVERY single-component ablation -> disabling any one JT component did NOT change which tasks were selected at this smoke grid (selection robust; JT magnitude shifts but the argmax task path is unchanged at 8 interactions).",
+    "policy_ecology": "All conditions: observed_policy_count=4 of expected 9 (missing: epsilon_greedy, mastery_greedy, static, thompson, ucb); collapsed_pair persists = random__vs__uncertainty_reduction; validated_ecology=false in every condition. mean_composite_distance band 0.132-0.139 across conditions (tight). collapsed_pair_delta=0 everywhere -> ablation did not create or resolve a policy collapse.",
+    "ecology_caveat": "validated_ecology=false because only 4/9 policies were realized on the live /v3 cohort path (vs 45 conditions in the v2 offline harness). This is a smoke-scale coverage limit, NOT a finding that the ecology is invalid."
+  },
+
+  "qualitative_framing": {
+    "challenge_dominant": "challenge has the largest baseline component_abs_mean (0.1342) tied with uncertainty (0.1337) and is among the top JT-mean-drop contributors (rank 2). Per KALMAN_OVERLAY_GOVERNANCE_SCOPING.md (i), challenge = cost = response_time/10 is mastery-independent, so this holds regardless of m_K vs 3-learner.",
+    "transfer_prospective_structural_zero": "transfer_prospective is 0.0 in baseline and ablating it has ~0 effect (jt_mean_delta -0.0005, noise). Hardcoded 0.0 at unified_brain.py:2512 (design choice). HOLDS under either canonical.",
+    "additivity": "Sum of the 6 single-component drops (-0.0942) is close to but not equal to the ablate_all drop (-0.1106), indicating mild non-additivity / interaction in the JT aggregation (expected since JT is a bounded composite, not a linear sum)."
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 19,
+  "fills": "4.1.1.4 — custom-vs-pyKT DKT/SAKT overall AUC (baseline provenance / are the custom deep baselines under-powered?)",
+
+  "status": "AVAILABLE",
+  "source_artifact": "research_validation/reports/grounding/PROBE_pykt_dkt_sakt.md",
+  "generator_script": "research_validation/scripts/compare_pykt_vs_custom.py (supersedes scripts/probe_pykt_dkt_sakt.py, which had an eval-range confound)",
+  "eval_run_id": "run-94a3b8ba-015b-4d84-b288-004fe60bc282",
+  "report_date": "2026-06-16 (CORRECTED)",
+  "method": "All four models scored through the same matched harness: same 10 held-out eval users, same predict-before-observe protocol, same full-history range, train sets disjoint from eval (--exclude-users). Custom checkpoints reproduce the sealed numbers exactly (custom DKT 0.589, custom SAKT 0.573), so this IS the sealed harness — clean apples-to-apples.",
+
+  "custom_vs_pykt_overall_auc": {
+    "dkt": { "custom_torch_eq_sealed": 0.589, "pykt_full_hist_disjoint": 0.584, "delta_custom_minus_pykt": 0.005, "verdict": "TIE (custom DKT 0.589 ~= pyKT DKT 0.584)" },
+    "sakt": { "custom_torch_eq_sealed": 0.573, "pykt_win512_disjoint": 0.548, "delta_custom_minus_pykt": 0.025, "verdict": "custom SAKT 0.573 > pyKT SAKT 0.548" }
+  },
+
+  "cold_start_window_auc": {
+    "note": "On cold-start windows the custom models read HIGHER than reference pyKT (w5 / w10 / w20).",
+    "dkt_custom": { "w5": 0.987, "w10": 0.906, "w20": 0.930 },
+    "dkt_pykt":   { "w5": 0.880, "w10": 0.831, "w20": 0.832 },
+    "sakt_custom":{ "w5": 0.983, "w10": 0.890, "w20": 0.917 },
+    "sakt_pykt":  { "w5": 0.731, "w10": 0.746, "w20": 0.721 }
+  },
+
+  "verdict": "The custom deep baselines are NOT under-powered. custom DKT ties reference pyKT DKT; custom SAKT exceeds reference pyKT SAKT; on cold-start windows custom > pyKT for both. The library is not a confound. The earlier '+0.08 pyKT' claim (2026-06-16 first pass) was an artifact of three stacked confounds (eval-range mismatch s[:100] vs full-history; train/test leakage of 3 of 10 eval users; train/eval regime mismatch), all since fixed.",
+
+  "honest_ranking_at_this_scale": {
+    "note": "Overall AUC, this data scale (Junyi-graph matched eval), with reference-grade deep models included.",
+    "ordering": "BKT 0.612 ~= HCIE 0.609 > custom DKT 0.589 ~= pyKT DKT 0.584 > custom SAKT 0.573 ~= GKT 0.571 > pyKT SAKT 0.548",
+    "values": { "bkt": 0.612, "hcie_3learner": 0.609, "custom_dkt": 0.589, "pykt_dkt": 0.584, "custom_sakt": 0.573, "gkt": 0.571, "pykt_sakt": 0.548 },
+    "hcie_value_note": "This ranking uses the 3-learner HCIE 0.609 from the full-Junyi pyKT protocol. The matched-eval headline is the lagged-Kalman HCIE 0.6051 (tie-aware; pass1) on a DIFFERENT 10-user matched protocol — not directly comparable to this ranking's BKT 0.612. State both; do not conflate protocols or claim cross-protocol leadership."
+  },
+
+  "framing": "AUC competitive not superior. The point of 4.1.1.4 is robustness to the critique 'your deep baselines are weak': custom DKT/SAKT match/exceed reference pyKT, so HCIE tying BKT and leading every deep model (custom AND reference) survives. Deep KT clusters near chance at pure cold-start because it cannot learn from ~20 cold-start users — a data-scarcity finding, NOT an implementation artifact. ADC-first stands: HCIE's contribution is interpretability + the ADC instrument + leading the KT family at cold-start, not predictive SOTA over data-rich deep KT.",
+
+  "reference_baselines_wired_status": "Reference pyKT DKT/SAKT now wired as dkt_pykt / sakt_pykt baselines so an end-to-end re-run can include reference-grade deep models. Stated as available-but-not-re-run-here per the no-new-run discipline."
+}

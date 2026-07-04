@@ -1,0 +1,35 @@
+# Isolated test stack for running the suite against real infra WITHOUT touching the
+# live/sealed DB. Separate pg/redis/kafka on the app network (hcie-final-net), throwaway
+# data. Schema is copied from live (schema-only) by scripts/run_tests.sh.
+#
+#   scripts/run_tests.sh            # full flow: up -> schema-copy -> pytest+coverage -> down
+#
+# Why a separate stack: the suite's infra-gated tests (@requires_pg/_redis/_kafka) need real
+# services, and the brain only resolves `core.*` + wires its stores INSIDE a backend container.
+# Running here keeps the sealed run-94a3b8ba data untouched.
+services:
+  test-pg:
+    image: postgres:15-alpine
+    container_name: hcie-test-pg
+    environment:
+      POSTGRES_USER: hcie_user
+      POSTGRES_PASSWORD: hcie_password
+      POSTGRES_DB: hcie
+    networks: [hcie-final-net]
+    tmpfs: ["/var/lib/postgresql/data"]   # throwaway; never persists
+
+  test-redis:
+    image: redis:7-alpine
+    container_name: hcie-test-redis
+    networks: [hcie-final-net]
+
+  test-kafka:
+    image: redpandadata/redpanda:v23.1.6
+    container_name: hcie-test-kafka
+    command: redpanda start --mode dev-container --smp 1 --overprovisioned
+    networks: [hcie-final-net]
+
+networks:
+  hcie-final-net:
+    external: true
+    name: hcie-final-net

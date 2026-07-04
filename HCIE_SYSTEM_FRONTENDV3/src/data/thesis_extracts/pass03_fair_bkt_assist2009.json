@@ -1,0 +1,35 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 3,
+  "fills": "Tabel 4.6 / T8d — fair warmed BKT on ASSISTments-2009 per window",
+
+  "status": "UNAVAILABLE",
+  "unavailable_reason": "No stored artifact contains a per-window FAIR-WARMED (individualized-prior / leak-free population-prior-init) BKT result on ASSISTments-2009. The only warmed/individualized-prior BKT probe that exists (scripts/probe_coldstart_beat_bkt.py + scripts/probe_coldstart_powered.py, report COLDSTART_BEAT_BKT_2026-06-05.md) is HARDCODED to the Junyi-graph sealed run run-94a3b8ba (RUN constant + ex_junyi_graph_* eval users on lines 23-28 of probe_coldstart_beat_bkt.py) — it does NOT cover ASSIST-2009. Producing the ASSIST-2009 fair-warmed BKT cells requires a probe_coldstart_beat_bkt-style warmed-BKT run parameterized to ASSIST-2009, which is a NEW probe run and is not present on disk. Per the hard rules a new brain run / re-seal is forbidden; this slot is left UNAVAILABLE rather than fabricated.",
+
+  "what_exists_instead_for_assist2009": {
+    "note": "These are STANDARD (flat/online) BKT, NOT the fair-warmed/individualized-prior BKT the slot asks for. Recorded here only to document availability — do NOT substitute them for the warmed-BKT cells.",
+    "standard_battery_bkt_N30": {
+      "source_artifact": "research_validation/reports/kt_prediction/run-ca68d16f-bfd7-444c-b17b-140fa807c455/kt_prediction_auc.json",
+      "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455",
+      "dataset_id": "assistments_2009_skill",
+      "max_users": 30,
+      "bkt_per_window_auc": { "5": 0.5868203177444619, "10": 0.5991106237816765, "20": 0.6429921579654451 },
+      "hcie_per_window_auc": { "5": 0.5613026819923371, "10": 0.5509708737864077, "20": 0.6107630186577555 },
+      "irt_1pl_per_window_auc": { "5": 0.7176102036249721, "10": 0.683053118908382, "20": 0.6419220795450995 },
+      "dkt_per_window_auc": { "5": 0.6935556052808235, "10": 0.7475024366471735, "20": 0.7749554784890805 },
+      "sakt_per_window_auc": { "5": 0.6998209890355784, "10": 0.7655336257309941, "20": 0.770300246821008 }
+    },
+    "scale_sweep_bkt": {
+      "source_artifact": "research_validation/reports/kt_scale_sweep/scale_sweep_summary.json",
+      "note": "ASSIST-2009 BKT (online/standard, NOT warmed) per N x window also exists here; see pass04. Not the fair-warmed BKT either.",
+      "bkt_window20_auc": { "N30": 0.6429921579654451, "N100": 0.6200900207740248, "N500": 0.639310291768927 }
+    }
+  },
+
+  "to_fill_this_slot": "Run a warmed/individualized-prior BKT probe (the probe_coldstart_beat_bkt.py mechanism: leak-free per-concept population prior P(L0) as the BKT init, eval split disjoint) parameterized to dataset_id=assistments_2009_skill over EXISTING recorded ASSIST-2009 data (read-only over experiment_trajectories for the ASSIST-2009 runs). This is a read-only re-score of already-recorded data and would NOT generate a new brain run/seal — but it is not yet materialized as an artifact, so it is marked UNAVAILABLE here per the no-new-run discipline.",
+
+  "framing": "When filled, frame as: warmed BKT is the FAIR/strong baseline (individualized prior init, not flat 0.20) so the comparison is honest; AUC is competitive not superior."
+}

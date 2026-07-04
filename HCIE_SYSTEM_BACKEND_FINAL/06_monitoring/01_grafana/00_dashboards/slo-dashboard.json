@@ -1,0 +1,420 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            },
+            "axisLabel": "",
+            "axisPlacement": "hidden",
+            "lineWidth": 0,
+            "fillOpacity": 10
+          }
+        },
+        "mappings": [],
+        "thresholds": {
+          "steps": [
+            {
+              "color": "red",
+              "value": 0.95,
+              "line": true
+            },
+            {
+              "color": "yellow",
+              "value": 0.80,
+              "line": true
+            },
+            {
+              "color": "green",
+              "value": 0.98,
+              "line": true
+            }
+          ]
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "color": {
+          "mode": "value"
+        },
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "showThresholdMarkers": true,
+        "showThresholdLabels": true,
+        "thresholds": {
+          "mode": "absolute"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "up{job=\"hcie-api\"}",
+          "legendFormat": "{{job}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "up{job=\"kafka\"}",
+          "legendFormat": "{{job}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "up{job=\"postgres\"}",
+          "legendFormat": "{{job}}",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "up{job=\"redis\"}",
+          "legendFormat": "{{job}}",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "up{job=\"otel-collector\"}",
+          "legendFormat": "{{job}}",
+          "refId": "E"
+        }
+      ],
+      "title": "System Availability SLO",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "value"
+          }
+        },
+        "mappings": [],
+        "thresholds": {
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            },
+            {
+              "color": "yellow",
+              "value": 0.05
+            },
+            {
+              "color": "red",
+              "value": 0.02
+            }
+          ]
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "color": {
+          "mode": "value"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "(rate(hcie_transfer_events_total[5m]) / rate(hcie_submissions_total[5m]))",
+          "legendFormat": "Transfer Efficiency",
+          "refId": "F"
+        }
+      ],
+      "title": "Transfer Reliability SLO",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "mappings": [],
+        "thresholds": {
+          "steps": [
+            {
+              "color": "green",
+              "value": null
+            },
+            {
+              "color": "yellow",
+              "value": 2.0
+            },
+            {
+              "color": "red",
+              "value": 5.0
+            }
+          ]
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "color": {
+          "mode": "palette-classic"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "histogram_quantile(0.95, rate(hcie_response_time_seconds_bucket[5m]))",
+          "legendFormat": "95th Percentile",
+          "refId": "G"
+        }
+      ],
+      "title": "API Latency SLO",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "mappings": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "color": {
+          "mode": "palette-classic"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "redpanda_kafka_consumer_lag",
+          "legendFormat": "Consumer Lag",
+          "refId": "H"
+        }
+      ],
+      "title": "Kafka Lag SLO",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "mappings": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "color": {
+          "mode": "palette-classic"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "increase(hcie_submissions_total[5m])",
+          "legendFormat": "Submissions (5m)",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "increase(hcie_mastery_updates_total[5m])",
+          "end": "now",
+          "legendFormat": "Mastery Updates (5m)",
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "import"
+          },
+          "expr": "increase(hcie_transfer_events_total[5m])",
+          "legendFormat": "Transfer Events (5m)",
+          "refId": "K"
+        }
+      ],
+      "title": "Activity Volume",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "mappings": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "color": {
+          "mode": "palette-classic"
+        }
+      },
+      "pluginVersion": "30.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(rate(hcie_response_time_seconds_count[5m])) / sum(rate(hcie_response_time_seconds_sum[5m]))",
+          "legendFormat": "Average Response Time",
+          "refId": "L"
+        }
+      ],
+      "title": "Average Response Time",
+      "type": "stat"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [
+    "slo",
+    "service-level-objectives",
+    "production"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "SLO Dashboard",
+          "value": "slo"
+        },
+        "options": [
+          {
+            "text": "Transfer Learning Dashboard",
+            "value": "transfer-learning"
+          },
+          {
+            "text": "System Performance Dashboard",
+            "value": "system-performance"
+          },
+          {
+            "text": "Dependency Graph Dashboard", 
+            "value": "dependency-graph"
+          },
+          {
+            "text": "SLO Dashboard",
+            "value": "slo"
+          }
+        ]
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "title": "SLO Dashboard",
+  "uid": "slo-dashboard",
+  "version": 1
+}

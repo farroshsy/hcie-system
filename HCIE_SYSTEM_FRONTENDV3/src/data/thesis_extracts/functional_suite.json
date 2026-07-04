@@ -1,0 +1,27 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-18",
+  "pass": 15,
+  "fills": "§4.1.2.a functional/scenario suite passed/total",
+  "suite": "02_tests/00_unit + 01_integration + 02_behavioral (full functional suite)",
+  "command": "bash scripts/run_tests.sh",
+  "harness": "isolated stack via docker-compose.test.yml (test pg/redis/kafka on hcie-final-net), live schema copied (no data), pytest in the api image, deterministic mode (seed 42). NOT the live/sealed DB.",
+  "duration_s": 58.34,
+  "headline": "398 passed / 28 skipped / 0 failed. Full functional suite (unit+integration+behavioral) on the isolated stack, deterministic mode, host source. 00_unit alone = 208 passed / 23 skipped / 0 failed. Post test-honesty remediation: print-theater removed, sealing + correctness tests added.",
+  "counts": {
+    "passed": 398,
+    "ran_total": 398,
+    "failed": 0,
+    "skipped": 28,
+    "collection_errors_excluded": 0,
+    "scenario_logic_regressions": 0
+  },
+  "scope_breakdown": {
+    "00_unit": { "passed": 208, "skipped": 23, "failed": 0 },
+    "01_integration + 02_behavioral": { "passed": 190, "skipped": 5, "failed": 0 }
+  },
+  "skips_note": "The 28 skips are documented: integration-style tests that need a live API (exercised in the integration suite) + tests targeting retired code (learning_loop_engine / shadow_mode_engine / pre-Phase-14g system_mode / removed migration linters). No scenario-logic regressions.",
+  "apparent_failures_categorized": {},
+  "interpretation": "Full functional suite is green on the isolated stack (0 failed, 0 collection errors). Supersedes the earlier 150/159-with-9-categorized-failures snapshot: the missing endpoint_authority_manifest.yaml now exists, httpx is installed in the test image, and the stale-import modules were fixed. Reconciles Task 11 (00_unit cleanup) + FU1-3 (BOM / OtelSpan span-name / deterministic content-hash) as DONE — re-run 2026-06-18 confirms the fixes are present in-tree, not lost."
+}

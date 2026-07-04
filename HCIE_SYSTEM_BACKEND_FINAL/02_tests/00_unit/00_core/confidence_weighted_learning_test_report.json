@@ -1,0 +1,100 @@
+{
+  "summary": {
+    "total_tests": 6,
+    "passed_tests": 6,
+    "failed_tests": 0,
+    "success_rate": 100.0,
+    "timestamp": "2026-04-25T07:52:07.891789"
+  },
+  "learning_engine_stats": {
+    "base_learning_rate": 0.1,
+    "confidence_thresholds": {
+      "high": 0.8,
+      "medium": 0.6,
+      "low": 0.4,
+      "exclude": 0.4
+    },
+    "source_multipliers": {
+      "ct_direct": 1.0,
+      "ednet_transformed": 0.8,
+      "generic_transformed": 0.6,
+      "unknown": 0.3
+    },
+    "learning_validity": "confidence_weighted",
+    "exclusion_policy": "confidence < 0.4",
+    "confidence_function": "power_function_alpha_1.5",
+    "analytics": {
+      "total_events": 12,
+      "excluded_events": 2,
+      "excluded_ratio": 0.16666666666666666,
+      "confidence_distribution": {
+        "high": 7,
+        "medium": 2,
+        "low": 1,
+        "excluded": 2
+      },
+      "source_distribution": {
+        "ct_direct": {
+          "total": 2,
+          "excluded": 0
+        },
+        "ednet_transformed": {
+          "total": 6,
+          "excluded": 1
+        },
+        "generic_transformed": {
+          "total": 3,
+          "excluded": 1
+        },
+        "unknown": {
+          "total": 1,
+          "excluded": 0
+        }
+      },
+      "learning_impact": {
+        "total_mastery_change": 0.30780000000000013,
+        "weighted_updates": 10,
+        "excluded_updates": 2
+      },
+      "avg_mastery_change": 0.030780000000000012
+    }
+  },
+  "results": [
+    {
+      "test_name": "High Confidence CT Learning",
+      "success": true,
+      "details": "Full learning impact: +0.057",
+      "timestamp": "2026-04-25T07:52:07.888672"
+    },
+    {
+      "test_name": "EdNet Transformed Learning",
+      "success": true,
+      "details": "Reduced but meaningful impact: +0.030",
+      "timestamp": "2026-04-25T07:52:07.889720"
+    },
+    {
+      "test_name": "Low Confidence Exclusion",
+      "success": true,
+      "details": "Correctly excluded: Low confidence (0.35 < 0.4)",
+      "timestamp": "2026-04-25T07:52:07.889720"
+    },
+    {
+      "test_name": "Confidence Weight Scaling",
+      "success": true,
+      "details": "Learning impact scales properly with confidence",
+      "timestamp": "2026-04-25T07:52:07.890644"
+    },
+    {
+      "test_name": "Source Multiplier Effects",
+      "success": true,
+      "details": "CT direct (0.0800) > Unknown (0.0240)",
+      "timestamp": "2026-04-25T07:52:07.890644"
+    },
+    {
+      "test_name": "End-to-End Confidence Integration",
+      "success": true,
+      "details": "Complete pipeline working: ct_algorithm_design",
+      "timestamp": "2026-04-25T07:52:07.891278"
+    }
+  ]
+}

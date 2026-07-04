@@ -1,0 +1,126 @@
+{
+  "title": "HCIE Production ITS + Kafka (Phase 14e canonical)",
+  "uid": "hcie-kafka-prod",
+  "description": "Phase 14e pinned dashboard. Entry: uvicorn hcie.entrypoints.api:app. ITS: POST /v3/its/recommend, POST /v3/its/attempt, GET /v3/its/progress, GET /v3/its/session. Prometheus: hcie_its_recommend_total, hcie_its_submit_total, hcie_its_degraded_total. Full Grafana audit deferred to Phase 14h.",
+  "tags": ["phase-14e", "its-runtime", "canonical"],
+  "schemaVersion": 36,
+  "version": 2,
+  "refresh": "10s",
+  "time": { "from": "now-1h", "to": "now" },
+
+  "panels": [
+
+    {
+      "type": "stat",
+      "title": "🔥 Total Lag (Truth)",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        { "expr": "hcie_kafka_consumer_lag_total", "refId": "A" }
+      ]
+    },
+
+    {
+      "type": "stat",
+      "title": "📥 Produced (5m)",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(increase(vectorized_cluster_partition_end_offset{topic=~\"hcie.*\"}[5m]))",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "stat",
+      "title": "📤 Consumed (5m)",
+      "gridPos": { "x": 12, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(increase(vectorized_kafka_group_offset{group=\"hcie-consumer\", topic=~\"hcie.*\"}[5m]))",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "stat",
+      "title": "🧠 Consumer Health Ratio",
+      "gridPos": { "x": 18, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(increase(vectorized_kafka_group_offset{group=\"hcie-consumer\", topic=~\"hcie.*\"}[5m]) > 0) / count(vectorized_kafka_group_offset{group=\"hcie-consumer\", topic=~\"hcie.*\"})",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "steps": [
+              { "color": "red", "value": 0 },
+              { "color": "yellow", "value": 0.5 },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "type": "bargauge",
+      "title": "📊 Lag Heatmap (by Topic)",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum by (topic) (clamp_min(vectorized_cluster_partition_end_offset{topic=~\"hcie.*\"} - on(topic,partition) vectorized_kafka_group_offset{group=\"hcie-consumer\", topic=~\"hcie.*\"}, 0))",
+          "legendFormat": "{{topic}}",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "table",
+      "title": "🚨 Stalled Partitions",
+      "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "clamp_min(vectorized_cluster_partition_end_offset{topic=~\"hcie.*\"} - on(topic,partition) vectorized_kafka_group_offset{group=\"hcie-consumer\", topic=~\"hcie.*\"}, 0) and on(topic,partition) (increase(vectorized_kafka_group_offset{group=\"hcie-consumer\", topic=~\"hcie.*\"}[5m]) == 0)",
+          "format": "table",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "⚡ Lag Over Time",
+      "gridPos": { "x": 0, "y": 12, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "hcie_kafka_consumer_lag_total",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "📈 Producer vs Consumer",
+      "gridPos": { "x": 12, "y": 12, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum(increase(vectorized_cluster_partition_end_offset{topic=~\"hcie.*\"}[5m]))",
+          "legendFormat": "Produced",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(vectorized_kafka_group_offset{group=\"hcie-consumer\", topic=~\"hcie.*\"}[5m]))",
+          "legendFormat": "Consumed",
+          "refId": "B"
+        }
+      ]
+    }
+
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 8,
+  "fills": "Tabel 4.11 (L4 structure-class taxonomy: predicted vs observed dimension activation + transfer activation per dataset structure-class)",
+
+  "PROVENANCE_AND_SCOPE_WARNING": "Source: research_validation/reports/adc_l4_reveal/l4_reveal_results.json. This is a PREREGISTERED-PREDICTION vs OBSERVED comparison over 4 cross-dataset structure-class profiles (assistments_2015_skill, csedm_f19, ednet_kt1, junyi_2015) — it is NOT computed on run-d2154070 (the seal); it is the L4 cross-dataset reveal. The assistments_2009_skill prediction row exists in preregistered_predictions but has NO observed_profiles entry (UNAVAILABLE observed — see note). ADC verdicts are robust to the m_K vs 3-learner inheritance (they key on signal presence/dispersion); same governance-inheritance disclosure applies (KALMAN_OVERLAY_GOVERNANCE_SCOPING.md (iii): L4 dormant on flat topologies is driven by DAG incident-edge density, not mastery level -> HOLDS with caveat).",
+
+  "sealed_parameters": {"weight_collapse_threshold": 0.05, "nonzero_epsilon": 1e-06},
+
+  "tabel_4_11_predicted_vs_observed": {
+    "_columns": "dataset | dimension | predicted | observed | matches | confidence",
+    "assistments_2015_skill": {
+      "n_observations": 8277, "governance_concentration": 0.030550298900848594,
+      "observed_active_dims": ["delta_m", "uncertainty", "zpd"],
+      "observed_dormant_dims": ["transfer_realized", "transfer_prospective", "challenge"],
+      "per_dimension": {
+        "delta_m": {"predicted": "active", "observed": "active", "matches": true, "confidence": 0.9291269856758277},
+        "transfer_realized": {"predicted": "dormant", "observed": "dormant", "matches": true, "confidence": 0.20277422698813427},
+        "transfer_prospective": {"predicted": "dormant", "observed": "dormant", "matches": true, "confidence": 0.3028719908398562},
+        "challenge": {"predicted": "active", "observed": "dormant", "matches": false, "confidence": 1.0},
+        "uncertainty": {"predicted": "active", "observed": "active", "matches": true, "confidence": 1.0},
+        "zpd": {"predicted": "suppressed", "observed": "active", "matches": false, "confidence": 1.0}
+      },
+      "matches": 4, "of": 6
+    },
+    "csedm_f19": {
+      "n_observations": 10000, "governance_concentration": 0.026463886016866334,
+      "observed_active_dims": ["delta_m", "uncertainty", "zpd"],
+      "observed_dormant_dims": ["transfer_realized", "transfer_prospective", "challenge"],
+      "per_dimension": {
+        "delta_m": {"predicted": "active", "observed": "active", "matches": true, "confidence": 0.9013463824145546},
+        "transfer_realized": {"predicted": "dormant", "observed": "dormant", "matches": true, "confidence": 0.18645571869144073},
+        "transfer_prospective": {"predicted": "dormant", "observed": "dormant", "matches": true, "confidence": 0.4},
+        "challenge": {"predicted": "active", "observed": "dormant", "matches": false, "confidence": 1.0},
+        "uncertainty": {"predicted": "active", "observed": "active", "matches": true, "confidence": 1.0},
+        "zpd": {"predicted": "active", "observed": "active", "matches": true, "confidence": 1.0}
+      },
+      "matches": 5, "of": 6
+    },
+    "ednet_kt1": {
+      "n_observations": 8300, "governance_concentration": 0.026227038165487326,
+      "observed_active_dims": ["delta_m", "uncertainty", "zpd"],
+      "observed_dormant_dims": ["transfer_realized", "transfer_prospective", "challenge"],
+      "per_dimension": {
+        "delta_m": {"predicted": "active", "observed": "active", "matches": true, "confidence": 0.9028825947866336},
+        "transfer_realized": {"predicted": "dormant", "observed": "dormant", "matches": true, "confidence": 0.1871276055774666},
+        "transfer_prospective": {"predicted": "dormant", "observed": "dormant", "matches": true, "confidence": 0.4},
+        "challenge": {"predicted": "active", "observed": "dormant", "matches": false, "confidence": 1.0},
+        "uncertainty": {"predicted": "active", "observed": "active", "matches": true, "confidence": 1.0},
+        "zpd": {"predicted": "active", "observed": "active", "matches": true, "confidence": 1.0}
+      },
+      "matches": 5, "of": 6
+    },
+    "junyi_2015": {
+      "n_observations": 9838, "governance_concentration": 0.025807502550856842,
+      "observed_active_dims": ["delta_m", "uncertainty", "zpd"],
+      "observed_dormant_dims": ["transfer_realized", "transfer_prospective", "challenge"],
+      "per_dimension": {
+        "delta_m": {"predicted": "active", "observed": "active", "matches": true, "confidence": 0.9088403075640745},
+        "transfer_realized": {"predicted": "dormant", "observed": "dormant", "matches": true, "confidence": 0.19073814508142917},
+        "transfer_prospective": {"predicted": "dormant", "observed": "dormant", "matches": true, "confidence": 0.4},
+        "challenge": {"predicted": "active", "observed": "dormant", "matches": false, "confidence": 1.0},
+        "uncertainty": {"predicted": "active", "observed": "active", "matches": true, "confidence": 1.0},
+        "zpd": {"predicted": "suppressed", "observed": "active", "matches": false, "confidence": 1.0}
+      },
+      "matches": 4, "of": 6
+    },
+    "assistments_2009_skill": {
+      "status": "UNAVAILABLE_OBSERVED",
+      "reason": "preregistered_predictions carries assistments_2009_skill (delta_m=active, transfer_realized=dormant, transfer_prospective=dormant, challenge=active, uncertainty=active, zpd=suppressed) but l4_reveal_results.json has NO observed_profiles / comparisons entry for it -> no observed activation to compare. Not generating it (would require a new ADC profile run).",
+      "predicted_only": {"delta_m": "active", "transfer_realized": "dormant", "transfer_prospective": "dormant", "challenge": "active", "uncertainty": "active", "zpd": "suppressed"}
+    }
+  },
+
+  "transfer_activation_summary": {
+    "_note": "transfer_realized + transfer_prospective predicted DORMANT for all 5 datasets and observed DORMANT in all 4 datasets that have observed profiles. Transfer dimensions are uniformly inactive across cross-dataset structure classes (consistent with the seal's snapshot where transfer_prospective is a structural zero; transfer_realized is the one snapshot-active dim on the live cohort but DORMANT on these offline cross-datasets because their substrate carries no transfer signal). Per scoping doc, transfer findings are mastery-agnostic (RM4 offline correctness-based) -> HOLDS.",
+    "transfer_realized_observed": {"assistments_2015_skill": "dormant", "csedm_f19": "dormant", "ednet_kt1": "dormant", "junyi_2015": "dormant"},
+    "transfer_prospective_observed": {"assistments_2015_skill": "dormant", "csedm_f19": "dormant", "ednet_kt1": "dormant", "junyi_2015": "dormant"}
+  },
+
+  "summary_accuracy": {
+    "total_matches": 18, "total_predictions": 24, "accuracy": 0.75,
+    "source": "l4_reveal_results.json summary block"
+  },
+
+  "mismatch_analysis": {
+    "challenge_predicted_active_observed_dormant": "4/4 datasets: challenge predicted active but observed DORMANT (confidence 1.0). The preregistration expected challenge to carry signal on these datasets; observed it does not (no substrate variance on the offline cross-dataset replays). This is the single most consistent miss (all 4).",
+    "zpd_predicted_suppressed_observed_active": "2/4 datasets (assistments_2015_skill, junyi_2015): zpd predicted suppressed but observed ACTIVE. zpd was active everywhere observed; the suppression prediction failed on the two flatter-topology datasets. Per scoping (iii), zpd/L4 dormancy keys on DAG incident-edge density; borderline cases can shift -> these 2 misses are the predicted-borderline cases.",
+    "perfect_predictions": "csedm_f19 and ednet_kt1 = 5/6 each (only challenge missed); assistments_2015_skill and junyi_2015 = 4/6 (challenge + zpd missed).",
+    "robustness_note": "Per KALMAN_OVERLAY_GOVERNANCE_SCOPING.md, Tabel 4.11 L4 verdicts are ADC-verdict-derived -> DEPENDS/likely-unchanged under the m_K vs 3-learner inheritance; the activation classes key on incident-edge density and substrate variance, not on absolute mastery level."
+  }
+}

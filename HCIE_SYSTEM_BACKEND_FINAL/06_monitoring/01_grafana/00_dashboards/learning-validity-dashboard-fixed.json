@@ -1,0 +1,153 @@
+{
+  "title": "HCIE Learning Validity (Fixed)",
+  "uid": "hcie-learning-validity-fixed",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "10s",
+  "time": { "from": "now-1h", "to": "now" },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+
+    {
+      "type": "stat",
+      "title": "🚨 Kafka Events Produced",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(kafka_events_produced_total[5m])",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.1 },
+              { "color": "red", "value": 0.5 }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "type": "stat",
+      "title": "📊 HTTP Requests",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(http_requests_total[5m])",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0,
+          "thresholds": {
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 0.9 },
+              { "color": "green", "value": 0.95 }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "type": "timeseries",
+      "title": "📊 Reads vs Misses",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_api_canonical_state_reads_total[5m])",
+          "legendFormat": "Reads",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(hcie_api_canonical_state_misses_total[5m])",
+          "legendFormat": "Misses",
+          "refId": "B"
+        }
+      ]
+    },
+
+    {
+      "type": "piechart",
+      "title": "🧠 State Source Distribution",
+      "gridPos": { "x": 0, "y": 6, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum by (state_source) (rate(hcie_api_learning_state_source_total[5m]))",
+          "legendFormat": "{{state_source}}",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "⚡ Learning Signal Validity",
+      "gridPos": { "x": 12, "y": 6, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_mastery_updates_total[5m]) * (1 - (rate(hcie_api_canonical_state_misses_total[5m]) / rate(hcie_api_canonical_state_reads_total[5m])))",
+          "legendFormat": "Valid Learning",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(hcie_mastery_updates_total[5m]) * (rate(hcie_api_canonical_state_misses_total[5m]) / rate(hcie_api_canonical_state_reads_total[5m]))",
+          "legendFormat": "Fallback Learning",
+          "refId": "B"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "🧪 Experiment Activity",
+      "gridPos": { "x": 0, "y": 14, "w": 24, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum by (experiment_id) (rate(hcie_mastery_updates_total[5m]))",
+          "legendFormat": "{{experiment_id}}",
+          "refId": "A"
+        }
+      ]
+    }
+
+  ]
+}

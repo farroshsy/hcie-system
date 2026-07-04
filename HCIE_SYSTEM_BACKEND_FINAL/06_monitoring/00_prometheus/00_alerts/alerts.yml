@@ -1,0 +1,213 @@
+groups:
+  - name: HCIE System Alerts
+    interval: 30s
+    rules:
+      - alert: HCIEHighErrorRate
+        expr: rate(http_requests_total{status_code!~"2.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: hcie-api
+        annotations:
+          summary: "HCIE API error rate is high"
+          description: "HCIE API error rate is {{ $value | humanizePercentage }} for the last 5 minutes"
+
+      - alert: HCIEHighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+          service: hcie-api
+        annotations:
+          summary: "HCIE API response time is high"
+          description: "95th percentile response time is {{ $value }}s for the last 5 minutes"
+
+      - alert: HCIEAPIDown
+        expr: up{job="hcie-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: hcie-api
+        annotations:
+          summary: "HCIE API is down"
+          description: "HCIE API has been down for more than 1 minute"
+
+      - alert: HCIEHighMemoryUsage
+        expr: process_resident_memory_bytes{job="hcie-api"} / (1024*1024*1024) > 1
+        for: 5m
+        labels:
+          severity: warning
+          service: hcie-api
+        annotations:
+          summary: "HCIE API memory usage is high"
+          description: "HCIE API memory usage is {{ $value | humanize1024 }}B"
+
+      - alert: HCIEHighCPUUsage
+        expr: rate(process_cpu_seconds_total{job="hcie-api"}[5m]) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: hcie-api
+        annotations:
+          summary: "HCIE API CPU usage is high"
+          description: "HCIE API CPU usage is {{ $value | humanizePercentage }}"
+
+      - alert: HCIEKafkaDown
+        expr: up{job="redpanda"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: kafka
+        annotations:
+          summary: "Kafka/Redpanda is down"
+          description: "Kafka/Redpanda has been down for more than 2 minutes"
+
+      - alert: HCIEPostgresDown
+        expr: up{job="postgres"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: postgres
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL has been down for more than 2 minutes"
+
+      - alert: HCIERedisDown
+        expr: up{job="redis"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: redis
+        annotations:
+          summary: "Redis is down"
+          description: "Redis has been down for more than 2 minutes"
+
+      - alert: HCIEOTELCollectorDown
+        expr: up{job="otel-collector"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          service: otel-collector
+        annotations:
+          summary: "OpenTelemetry Collector is down"
+          description: "OpenTelemetry Collector has been down for more than 2 minutes"
+
+      # Production-grade SLO Alerts
+      - alert: HCIETransferPipelineBroken
+        expr: |
+          increase(hcie_submissions_total[5m]) > 5
+          and
+          increase(hcie_transfer_events_total[5m]) == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: transfer-learning
+        annotations:
+          summary: "Transfer learning pipeline stopped working"
+          description: "Submissions are happening but no transfer events detected for 5 minutes"
+
+      - alert: HCIEEndToEndPipelineBroken
+        expr: |
+          increase(hcie_submissions_total[5m]) > 5
+          and
+          increase(hcie_mastery_updates_total[5m]) == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: learning-pipeline
+        annotations:
+          summary: "End-to-end learning pipeline failure"
+          description: "Submissions exist but no mastery updates for 5 minutes"
+
+      - alert: HCIEHighLatency
+        expr: histogram_quantile(0.95, rate(hcie_response_time_seconds_bucket[5m])) > 2
+        for: 2m
+        labels:
+          severity: warning
+          service: api-performance
+        annotations:
+          summary: "API latency is too high"
+          description: "95th percentile response time exceeded 2 seconds"
+
+      # 🔴 A. Pipeline Falling Behind
+      - alert: HCIEKafkaFallingBehind
+        expr: hcie_kafka_lag_growth_rate > 10
+        for: 2m
+        labels:
+          severity: warning
+          service: kafka
+        annotations:
+          summary: "Kafka consumer falling behind"
+          description: "Lag increasing rapidly (>10 msgs/sec)"
+
+      # 🔴 B. Critical Backlog
+      - alert: HCIEKafkaLagCritical
+        expr: hcie_kafka_consumer_lag_total > 1000
+        for: 1m
+        labels:
+          severity: critical
+          service: kafka
+        annotations:
+          summary: "Kafka lag critical"
+          description: "Backlog exceeded 1000 messages"
+
+      # 🔴 C. STUCK CONSUMER (most important)
+      - alert: HCIEKafkaConsumerStuck
+        expr: |
+          hcie_kafka_consumer_lag_total > 100
+          and hcie_kafka_messages_consumed_rate == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: kafka
+        annotations:
+          summary: "Kafka consumer stuck"
+          description: "Lag exists but consumer is not consuming"
+
+      # 🔴 D. Producer > Consumer imbalance
+      - alert: HCIEKafkaThroughputMismatch
+        expr: |
+          hcie_kafka_messages_produced_rate
+          > hcie_kafka_messages_consumed_rate * 1.5
+        for: 3m
+        labels:
+          severity: warning
+          service: kafka
+        annotations:
+          summary: "Kafka throughput imbalance"
+          description: "Producers faster than consumers"
+
+      # 🔴 E. Recovery Detection
+      - alert: HCIEKafkaRecovering
+        expr: |
+          hcie_kafka_consumer_lag_total > 0
+          and hcie_kafka_lag_growth_rate < 0
+        for: 2m
+        labels:
+          severity: info
+          service: kafka
+        annotations:
+          summary: "Kafka recovering"
+          description: "Lag decreasing (system catching up)"
+
+      - alert: HCIENoMasteryUpdates
+        expr: increase(hcie_mastery_updates_total[5m]) == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: learning-pipeline
+        annotations:
+          summary: "No mastery updates detected"
+          description: "No mastery updates for 5 minutes - learning pipeline stopped"
+
+      - alert: HCIELowTransferEfficiency
+        expr: |
+          (rate(hcie_transfer_events_total[5m]) 
+          / rate(hcie_submissions_total[5m])) < 0.05
+        for: 5m
+        labels:
+          severity: warning
+          service: transfer-learning
+        annotations:
+          summary: "Transfer efficiency is too low"
+          description: "Transfer efficiency below 5% for 5 minutes"

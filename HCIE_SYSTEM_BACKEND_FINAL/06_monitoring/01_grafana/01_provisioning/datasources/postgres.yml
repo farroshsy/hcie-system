@@ -1,0 +1,21 @@
+apiVersion: 1
+
+# Postgres datasource so Grafana can show the REAL governance/learning data, which
+# lives in Postgres (experiment_trajectories, ~1.1M rows), not Prometheus. Password
+# is injected via the PG_PASSWORD env on the grafana container (see compose), so no
+# secret is committed here.
+datasources:
+  - name: HCIE Postgres
+    type: postgres
+    uid: hcie-pg
+    url: postgres:5432
+    user: hcie_user
+    isDefault: false
+    editable: false
+    jsonData:
+      database: hcie
+      sslmode: disable
+      postgresVersion: 1500
+      timescaledb: false
+    secureJsonData:
+      password: $PG_PASSWORD

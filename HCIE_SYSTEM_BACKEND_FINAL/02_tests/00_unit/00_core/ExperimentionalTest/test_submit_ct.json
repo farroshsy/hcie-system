@@ -1,0 +1,9 @@
+{
+  "user_id": "test_ct_user",
+  "task_id": "q24",
+  "node_id": "ct_abstraction",
+  "representation": "visual",
+  "answer": "A",
+  "response_time": 15.5,
+  "mode": "ct"
+}

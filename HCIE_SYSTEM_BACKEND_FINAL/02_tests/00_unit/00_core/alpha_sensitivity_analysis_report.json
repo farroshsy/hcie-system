@@ -1,0 +1,396 @@
+{
+  "analysis_type": "alpha_sensitivity_analysis",
+  "confidence_function": "weight = confidence^\u03b1",
+  "tested_alphas": [
+    1.0,
+    1.2,
+    1.5,
+    1.8,
+    2.0
+  ],
+  "recommended_alpha": 2.0,
+  "recommendation_justification": {
+    "stability_score": 0.9995408937830647,
+    "mastery_variance": 0.0004593170922680559,
+    "learning_sensitivity": 0.02403950000000002,
+    "excluded_scenarios": 2
+  },
+  "full_results": {
+    "1.0": {
+      "alpha": 1.0,
+      "learning_impacts": [
+        {
+          "scenario": "CT_Direct_High",
+          "confidence": 0.95,
+          "mastery_change": 0.05699999999999994,
+          "effective_rate": 0.11399999999999999,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_High",
+          "confidence": 0.85,
+          "mastery_change": 0.027200000000000002,
+          "effective_rate": 0.068,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_Medium",
+          "confidence": 0.75,
+          "mastery_change": 0.03600000000000003,
+          "effective_rate": 0.06000000000000001,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Mapped_Medium",
+          "confidence": 0.65,
+          "mastery_change": -0.012479999999999991,
+          "effective_rate": 0.031200000000000002,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Low_Boundary",
+          "confidence": 0.45,
+          "mastery_change": 0.009450000000000014,
+          "effective_rate": 0.013500000000000002,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Low_Boundary",
+          "confidence": 0.42,
+          "mastery_change": -0.010079999999999978,
+          "effective_rate": 0.020159999999999997,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Very_Low",
+          "confidence": 0.35,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        },
+        {
+          "scenario": "Generic_Very_Low",
+          "confidence": 0.25,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        }
+      ],
+      "stability_metrics": {
+        "avg_mastery_change": 0.017848333333333338,
+        "mastery_variance": 0.0006200202138888879,
+        "mastery_range": 0.06947999999999993,
+        "stability_score": 0.9993803639729731
+      },
+      "exclusion_rates": [
+        0.35,
+        0.25
+      ],
+      "learning_sensitivity": {
+        "avg_high_confidence_impact": 0.026929999999999996,
+        "sensitivity_score": 0.026929999999999996
+      }
+    },
+    "1.2": {
+      "alpha": 1.2,
+      "learning_impacts": [
+        {
+          "scenario": "CT_Direct_High",
+          "confidence": 0.95,
+          "mastery_change": 0.056418245556158375,
+          "effective_rate": 0.11283649111231668,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_High",
+          "confidence": 0.85,
+          "mastery_change": 0.026330110952067498,
+          "effective_rate": 0.06582527738016873,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_Medium",
+          "confidence": 0.75,
+          "mastery_change": 0.033987150406616484,
+          "effective_rate": 0.05664525067769412,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Mapped_Medium",
+          "confidence": 0.65,
+          "mastery_change": -0.011449783021379,
+          "effective_rate": 0.028624457553447544,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Low_Boundary",
+          "confidence": 0.45,
+          "mastery_change": 0.008055162596916132,
+          "effective_rate": 0.01150737513845165,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Low_Boundary",
+          "confidence": 0.42,
+          "mastery_change": -0.008474427921517202,
+          "effective_rate": 0.01694885584303431,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Very_Low",
+          "confidence": 0.35,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        },
+        {
+          "scenario": "Generic_Very_Low",
+          "confidence": 0.25,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        }
+      ],
+      "stability_metrics": {
+        "avg_mastery_change": 0.017477743094810382,
+        "mastery_variance": 0.0005777316082187323,
+        "mastery_range": 0.06786802857753738,
+        "stability_score": 0.999422601972872
+      },
+      "exclusion_rates": [
+        0.35,
+        0.25
+      ],
+      "learning_sensitivity": {
+        "avg_high_confidence_impact": 0.02632143097336584,
+        "sensitivity_score": 0.02632143097336584
+      }
+    },
+    "1.5": {
+      "alpha": 1.5,
+      "learning_impacts": [
+        {
+          "scenario": "CT_Direct_High",
+          "confidence": 0.95,
+          "mastery_change": 0.055556727765411096,
+          "effective_rate": 0.11111345553082218,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_High",
+          "confidence": 0.85,
+          "mastery_change": 0.025077160923836606,
+          "effective_rate": 0.06269290230959164,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_Medium",
+          "confidence": 0.75,
+          "mastery_change": 0.031176914536239775,
+          "effective_rate": 0.051961524227066326,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Mapped_Medium",
+          "confidence": 0.65,
+          "mastery_change": -0.01006169766987658,
+          "effective_rate": 0.02515424417469148,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Low_Boundary",
+          "confidence": 0.45,
+          "mastery_change": 0.006339252716211885,
+          "effective_rate": 0.009056075308874149,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Low_Boundary",
+          "confidence": 0.42,
+          "mastery_change": -0.00653258662399514,
+          "effective_rate": 0.013065173247990244,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Very_Low",
+          "confidence": 0.35,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        },
+        {
+          "scenario": "Generic_Very_Low",
+          "confidence": 0.25,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        }
+      ],
+      "stability_metrics": {
+        "avg_mastery_change": 0.016925961941304607,
+        "mastery_variance": 0.0005254305745281742,
+        "mastery_range": 0.06561842543528768,
+        "stability_score": 0.9994748453577772
+      },
+      "exclusion_rates": [
+        0.35,
+        0.25
+      ],
+      "learning_sensitivity": {
+        "avg_high_confidence_impact": 0.025437276388902724,
+        "sensitivity_score": 0.025437276388902724
+      }
+    },
+    "1.8": {
+      "alpha": 1.8,
+      "learning_impacts": [
+        {
+          "scenario": "CT_Direct_High",
+          "confidence": 0.95,
+          "mastery_change": 0.05470836552206626,
+          "effective_rate": 0.10941673104413246,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_High",
+          "confidence": 0.85,
+          "mastery_change": 0.02388383403111416,
+          "effective_rate": 0.05970958507778529,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_Medium",
+          "confidence": 0.75,
+          "mastery_change": 0.02859904370831795,
+          "effective_rate": 0.04766507284719655,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Mapped_Medium",
+          "confidence": 0.65,
+          "mastery_change": -0.0088418933189362,
+          "effective_rate": 0.022104733297340442,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Low_Boundary",
+          "confidence": 0.45,
+          "mastery_change": 0.004988865776016094,
+          "effective_rate": 0.007126951108594433,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Low_Boundary",
+          "confidence": 0.42,
+          "mastery_change": -0.005035701335266096,
+          "effective_rate": 0.010071402670532135,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Very_Low",
+          "confidence": 0.35,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        },
+        {
+          "scenario": "Generic_Very_Low",
+          "confidence": 0.25,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        }
+      ],
+      "stability_metrics": {
+        "avg_mastery_change": 0.016383752397218693,
+        "mastery_variance": 0.0004832016964340724,
+        "mastery_range": 0.06355025884100246,
+        "stability_score": 0.9995170316746801
+      },
+      "exclusion_rates": [
+        0.35,
+        0.25
+      ],
+      "learning_sensitivity": {
+        "avg_high_confidence_impact": 0.024587337485640542,
+        "sensitivity_score": 0.024587337485640542
+      }
+    },
+    "2.0": {
+      "alpha": 2.0,
+      "learning_impacts": [
+        {
+          "scenario": "CT_Direct_High",
+          "confidence": 0.95,
+          "mastery_change": 0.05415000000000003,
+          "effective_rate": 0.1083,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_High",
+          "confidence": 0.85,
+          "mastery_change": 0.02312000000000003,
+          "effective_rate": 0.0578,
+          "excluded": false
+        },
+        {
+          "scenario": "EdNet_Mapped_Medium",
+          "confidence": 0.75,
+          "mastery_change": 0.027000000000000024,
+          "effective_rate": 0.045000000000000005,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Mapped_Medium",
+          "confidence": 0.65,
+          "mastery_change": -0.008112000000000008,
+          "effective_rate": 0.020280000000000003,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Low_Boundary",
+          "confidence": 0.45,
+          "mastery_change": 0.004252499999999992,
+          "effective_rate": 0.006075000000000001,
+          "excluded": false
+        },
+        {
+          "scenario": "Generic_Low_Boundary",
+          "confidence": 0.42,
+          "mastery_change": -0.0042335999999999485,
+          "effective_rate": 0.008467199999999998,
+          "excluded": false
+        },
+        {
+          "scenario": "Unknown_Very_Low",
+          "confidence": 0.35,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        },
+        {
+          "scenario": "Generic_Very_Low",
+          "confidence": 0.25,
+          "mastery_change": 0.0,
+          "effective_rate": 0.0,
+          "excluded": true
+        }
+      ],
+      "stability_metrics": {
+        "avg_mastery_change": 0.016029483333333355,
+        "mastery_variance": 0.0004593170922680559,
+        "mastery_range": 0.06226200000000004,
+        "stability_score": 0.9995408937830647
+      },
+      "exclusion_rates": [
+        0.35,
+        0.25
+      ],
+      "learning_sensitivity": {
+        "avg_high_confidence_impact": 0.02403950000000002,
+        "sensitivity_score": 0.02403950000000002
+      }
+    }
+  },
+  "timestamp": "2026-04-25T07:51:55.508835"
+}

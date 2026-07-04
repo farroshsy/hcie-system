@@ -1,0 +1,26 @@
+# HCIE System Development Requirements
+# Development-specific dependencies
+
+# Include base requirements
+-r base.txt
+
+# Development Tools
+pytest
+pytest-asyncio
+black
+flake8
+mypy
+
+# Debugging
+ipython
+jupyter
+
+# Testing
+coverage
+pytest-cov
+
+# Development Server
+watchfiles
+
+# Documentation
+sphinx

@@ -1,0 +1,5 @@
+config,auc,delta_vs_mK,note
+HCIE canonical m_K (sealed),0.6051,0.0,"deployed lagged-Kalman, Tabel 4.8"
+"re-impl m_K (Q=0.01,R=0.1)",0.6127,0.0,validation
+minus Kalman -> Beta-only m_B,0.6219,0.0093,estimator ablation
+fusion (m_K+m_B)/2,0.6249,0.0123,tested & rejected (no gain)

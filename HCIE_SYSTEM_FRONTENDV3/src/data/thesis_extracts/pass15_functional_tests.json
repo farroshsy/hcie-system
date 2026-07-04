@@ -1,0 +1,42 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 15,
+  "fills": "4.1.2.a functional scenarios pass/total",
+
+  "authoritative_pass_total": "UNAVAILABLE",
+  "unavailable_reason": "No stored pass/total artifact exists. There is NO junit/pytest result file, no test_report json, and no stored stdout of scripts/run_tests.sh on disk. The brief instructs not to run a heavy new suite, so a fresh full-suite pass/total was not generated.",
+
+  "what_exists_on_disk": {
+    "structural_inventory": {
+      "source": "static count via ripgrep over HCIE_SYSTEM_BACKEND_FINAL/02_tests (pattern '^\\s*(async\\s+)?def test_')",
+      "test_functions": 614,
+      "test_files_with_test_funcs": 124,
+      "suite_layout": ["00_unit", "01_integration", "02_behavioral", "03_research", "04_safety", "05_performance", "06_security", "07_compliance", "golden"],
+      "caveat": "This is the count of declared test functions, NOT executed scenarios and NOT a pass count."
+    },
+    "last_host_pytest_cache": {
+      "source": "HCIE_SYSTEM_BACKEND_FINAL/.pytest_cache/v/cache (mtime 2026-06-15 21:19)",
+      "collected_nodeids": 219,
+      "lastfailed_entries": 38,
+      "NOT_a_valid_pass_total": "These 38 are HOST-environment collection/import failures, not functional scenario failures. scripts/run_coverage.sh states explicitly: 'only the UNIT tests run cleanly on the host. The integration/behavioral/research suites ... need the running stack (postgres/redis/kafka via docker hostnames)'. On the host those suites fail to import (e.g. test_k12_transfer_docker, test_c2_3_1_deterministic_replay, docker-dependent cases) -> the lastfailed list reflects missing docker network, not broken scenarios. This cache is therefore NOT a trustworthy pass/total."
+    },
+    "coverage_artifact": {
+      "source": "coverage.xml (repo root, mtime 2026-06-15 21:04)",
+      "line_rate": 0.364,
+      "lines_valid": 28700,
+      "lines_covered": 10447,
+      "note": "Coverage exists (36.4% line coverage) but coverage != functional pass/total. This is the host unit-test coverage; the isolated full-stack run (scripts/run_tests.sh) is what exercises unified_brain etc."
+    }
+  },
+
+  "isolated_stack_runner_recipe_not_executed": {
+    "script": "scripts/run_tests.sh",
+    "what_it_does": "brings up an isolated pg/redis/kafka stack (docker-compose.test.yml), copies live SCHEMA (no data), runs pytest+coverage inside the api image (so core.* resolves and the brain wires its real stores), default scope = 00_unit 01_integration 02_behavioral, deterministic mode ENABLE_DETERMINISTIC_MODE=true seed=42.",
+    "status": "NOT RUN (analysis-only; running it spins a stack and is the heavy suite the brief said to avoid). A faithful pass/total requires executing this against the isolated stack."
+  },
+
+  "honest_verdict": "Functional scenarios pass/total = UNAVAILABLE as a stored, trustworthy number. Disk holds: 614 declared test functions across 124 files (structural), 36.4% line coverage (coverage.xml), and a host pytest cache whose 38 'failures' are docker-network collection errors, not scenario failures. To fill 4.1.2.a, run scripts/run_tests.sh once on the isolated stack and record its final '=== N passed, M failed ===' line."
+}

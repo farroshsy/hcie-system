@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "HCIE Tutor",
+    "slug": "hcie-tutor",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#172F57",
+    "splash": {
+      "backgroundColor": "#172F57",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "id.its.hcie.tutor"
+    },
+    "android": {
+      "package": "id.its.hcie.tutor",
+      "adaptiveIcon": { "backgroundColor": "#172F57" }
+    },
+    "extra": {
+      "tutorUrl": "https://farrospc.tailb58de0.ts.net/"
+    }
+  }
+}

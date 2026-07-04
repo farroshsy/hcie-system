@@ -1,0 +1,91 @@
+{
+  "uid": "hcie-reviewer-live",
+  "title": "HCIE — Live System (reviewer)",
+  "tags": ["hcie", "reviewer"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "time": { "from": "now-30m", "to": "now" },
+  "templating": { "list": [] },
+  "annotations": { "list": [] },
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Services scraping (up)",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "short", "color": { "mode": "thresholds" }, "thresholds": { "steps": [ { "color": "red", "value": null }, { "color": "green", "value": 6 } ] } } },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none" },
+      "targets": [ { "refId": "A", "expr": "sum(up)", "legendFormat": "up" } ]
+    },
+    {
+      "id": 2, "type": "stat", "title": "API p95 latency",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "s", "decimals": 3, "color": { "mode": "thresholds" }, "thresholds": { "steps": [ { "color": "green", "value": null }, { "color": "orange", "value": 0.25 } ] } } },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "area" },
+      "targets": [ { "refId": "A", "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"hcie-api\"}[5m])) by (le))", "legendFormat": "p95" } ]
+    },
+    {
+      "id": 3, "type": "stat", "title": "API request rate",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "reqps", "decimals": 2, "color": { "mode": "fixed", "fixedColor": "blue" } } },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "area" },
+      "targets": [ { "refId": "A", "expr": "sum(rate(http_requests_total{job=\"hcie-api\"}[5m]))", "legendFormat": "req/s" } ]
+    },
+    {
+      "id": 4, "type": "stat", "title": "Learner-API calls (1h)",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "short", "color": { "mode": "fixed", "fixedColor": "purple" } } },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "value", "graphMode": "area" },
+      "targets": [ { "refId": "A", "expr": "sum(increase(http_requests_total{job=\"hcie-api\", endpoint=~\"/v3/learner/.+\"}[1h]))", "legendFormat": "calls" } ]
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "API request rate by status",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "reqps", "custom": { "drawStyle": "line", "fillOpacity": 12, "showPoints": "never" } } },
+      "targets": [ { "refId": "A", "expr": "sum(rate(http_requests_total{job=\"hcie-api\"}[5m])) by (status)", "legendFormat": "{{status}}" } ]
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "API latency (p50 / p95 / p99)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "s", "custom": { "drawStyle": "line", "fillOpacity": 8, "showPoints": "never" } } },
+      "targets": [
+        { "refId": "A", "expr": "histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket{job=\"hcie-api\"}[5m])) by (le))", "legendFormat": "p50" },
+        { "refId": "B", "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"hcie-api\"}[5m])) by (le))", "legendFormat": "p95" },
+        { "refId": "C", "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job=\"hcie-api\"}[5m])) by (le))", "legendFormat": "p99" }
+      ]
+    },
+    {
+      "id": 7, "type": "timeseries", "title": "API request rate by endpoint (top 5)",
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 12 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "reqps", "custom": { "drawStyle": "line", "fillOpacity": 20, "showPoints": "never", "stacking": { "mode": "normal" } } } },
+      "targets": [ { "refId": "A", "expr": "topk(5, sum by (endpoint) (rate(http_requests_total{job=\"hcie-api\"}[5m])))", "legendFormat": "{{endpoint}}" } ]
+    },
+    {
+      "id": 8, "type": "timeseries", "title": "API resident memory",
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 12 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "bytes", "custom": { "drawStyle": "line", "fillOpacity": 10, "showPoints": "never" } } },
+      "targets": [ { "refId": "A", "expr": "process_resident_memory_bytes{job=\"hcie-api\"}", "legendFormat": "rss" } ]
+    },
+    {
+      "id": 9, "type": "stat", "title": "Datastores up (postgres / redis / redpanda)",
+      "gridPos": { "h": 5, "w": 24, "x": 0, "y": 19 },
+      "datasource": { "type": "prometheus", "uid": "hcie-final-prom" },
+      "fieldConfig": { "defaults": { "unit": "short", "color": { "mode": "thresholds" }, "thresholds": { "steps": [ { "color": "red", "value": null }, { "color": "green", "value": 1 } ] } } },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "value_and_name" },
+      "targets": [
+        { "refId": "A", "expr": "up{job=\"postgres\"}", "legendFormat": "PostgreSQL" },
+        { "refId": "B", "expr": "up{job=\"redis\"}", "legendFormat": "Redis" },
+        { "refId": "C", "expr": "up{job=\"redpanda\"}", "legendFormat": "Redpanda" },
+        { "refId": "D", "expr": "up{job=\"hcie-api\"}", "legendFormat": "API" }
+      ]
+    }
+  ]
+}

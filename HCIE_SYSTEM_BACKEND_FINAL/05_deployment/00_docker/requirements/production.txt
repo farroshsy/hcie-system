@@ -1,0 +1,27 @@
+# HCIE System Production Requirements
+# Production-optimized dependencies
+
+# Include base requirements
+-r base.txt
+
+# Production Monitoring
+prometheus-client
+sentry-sdk[fastapi]
+
+# Performance
+gunicorn
+orjson
+
+# Security
+cryptography
+python-jose[cryptography]
+passlib[bcrypt]
+
+# Production Logging
+structlog
+
+# Analytics
+segment-analytics
+
+# Event Streaming (Production)
+aiokafka

@@ -1,0 +1,39 @@
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Copy HCIE components to correct locations (new structure)
+COPY storage/redis_store/redis_store.py /app/storage/
+COPY core/mastery/mastery_model.py /app/core/
+COPY core/bandit/bandit.py /app/core/
+COPY core/reward/reward.py /app/core/
+COPY core/policy/policy.py /app/core/
+COPY core/engine/engine.py /app/core/
+COPY storage/postgres_store.py /app/storage/
+COPY storage/models.py /app/storage/
+COPY config/settings.py /app/config/
+
+# Create non-root user
+RUN useradd -m -u 1000 hcie && chown -R hcie:hcie /app
+USER hcie
+
+# Expose ports
+EXPOSE 8000 8501
+
+# Default command (can be overridden)
+CMD ["python", "-m", "uvicorn", "app.api.integrated_main:app", "--host", "0.0.0.0", "--port", "8000"]

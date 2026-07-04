@@ -1,0 +1,69 @@
+{
+  "summary": {
+    "total_tests": 6,
+    "passed_tests": 6,
+    "failed_tests": 0,
+    "success_rate": 100.0,
+    "timestamp": "2026-04-25T07:43:26.480762"
+  },
+  "mapping_engine_stats": {
+    "total_ct_concepts": 11,
+    "ednet_mappings": 9,
+    "difficulty_levels": 3,
+    "behavior_patterns": 4,
+    "mapping_types": [
+      "heuristic",
+      "semantic",
+      "fallback",
+      "direct"
+    ],
+    "supported_sources": [
+      "ct_direct",
+      "ednet_transformed",
+      "generic_transformed"
+    ],
+    "confidence_thresholds": {
+      "high": 0.8,
+      "medium": 0.5,
+      "low": 0.3
+    }
+  },
+  "results": [
+    {
+      "test_name": "EdNet Problem Solving Mapping",
+      "success": true,
+      "details": "Mapped to ct_problem_identification with 0.80 confidence",
+      "timestamp": "2026-04-25T07:43:26.479391"
+    },
+    {
+      "test_name": "EdNet Algorithm Mapping",
+      "success": true,
+      "details": "Mapped to ct_algorithm_design with high confidence",
+      "timestamp": "2026-04-25T07:43:26.479758"
+    },
+    {
+      "test_name": "EdNet Unknown Skill Fallback",
+      "success": true,
+      "details": "Used difficulty fallback: ct_problem_identification",
+      "timestamp": "2026-04-25T07:43:26.479758"
+    },
+    {
+      "test_name": "CT Direct Mapping",
+      "success": true,
+      "details": "Direct mapping preserved: ct_abstraction",
+      "timestamp": "2026-04-25T07:43:26.479758"
+    },
+    {
+      "test_name": "Response Behavior Analysis",
+      "success": true,
+      "details": "All 4 behavior patterns detected correctly",
+      "timestamp": "2026-04-25T07:43:26.479758"
+    },
+    {
+      "test_name": "Mapping Quality Validation",
+      "success": true,
+      "details": "Quality validation working correctly",
+      "timestamp": "2026-04-25T07:43:26.479758"
+    }
+  ]
+}

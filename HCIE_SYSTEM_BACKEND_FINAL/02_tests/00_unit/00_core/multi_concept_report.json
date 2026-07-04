@@ -1,0 +1,831 @@
+{
+  "concept_results": {
+    "ct_algorithm_design": {
+      "concept": "ct_algorithm_design",
+      "events_needed": 50,
+      "final_mastery": 0.6341969107988962,
+      "total_mastery_gain": 0.33389661049859587,
+      "avg_mastery_per_event": 0.006677932209971918,
+      "target_reached": false,
+      "mastery_history": [
+        {
+          "event": 1,
+          "mastery_before": 0.3003003003003003,
+          "mastery_after": 0.31061525932917045,
+          "mastery_change": 0.010314959028870141,
+          "reward": 0.98,
+          "timestamp": 1777085198.4105124
+        },
+        {
+          "event": 2,
+          "mastery_before": 0.31061525932917045,
+          "mastery_after": 0.3229028870507193,
+          "mastery_change": 0.012287627721548844,
+          "reward": 0.98,
+          "timestamp": 1777085198.4553964
+        },
+        {
+          "event": 3,
+          "mastery_before": 0.3229028870507193,
+          "mastery_after": 0.3375937016674691,
+          "mastery_change": 0.014690814616749814,
+          "reward": 0.98,
+          "timestamp": 1777085198.5032766
+        },
+        {
+          "event": 4,
+          "mastery_before": 0.3375937016674691,
+          "mastery_after": 0.3549965092060533,
+          "mastery_change": 0.017402807538584197,
+          "reward": 0.98,
+          "timestamp": 1777085198.5249119
+        },
+        {
+          "event": 5,
+          "mastery_before": 0.3549965092060533,
+          "mastery_after": 0.3749580499336112,
+          "mastery_change": 0.019961540727557903,
+          "reward": 0.98,
+          "timestamp": 1777085198.563952
+        },
+        {
+          "event": 6,
+          "mastery_before": 0.3749580499336112,
+          "mastery_after": 0.3964097394491877,
+          "mastery_change": 0.021451689515576522,
+          "reward": 0.98,
+          "timestamp": 1777085198.5959263
+        },
+        {
+          "event": 7,
+          "mastery_before": 0.3964097394491877,
+          "mastery_after": 0.41735458908228396,
+          "mastery_change": 0.02094484963309623,
+          "reward": 0.98,
+          "timestamp": 1777085198.631679
+        },
+        {
+          "event": 8,
+          "mastery_before": 0.41735458908228396,
+          "mastery_after": 0.4362755810041854,
+          "mastery_change": 0.018920991921901442,
+          "reward": 0.98,
+          "timestamp": 1777085198.6516035
+        },
+        {
+          "event": 9,
+          "mastery_before": 0.4362755810041854,
+          "mastery_after": 0.45302358323222225,
+          "mastery_change": 0.01674800222803685,
+          "reward": 0.98,
+          "timestamp": 1777085198.6723986
+        },
+        {
+          "event": 10,
+          "mastery_before": 0.45302358323222225,
+          "mastery_after": 0.4677208603518473,
+          "mastery_change": 0.01469727711962504,
+          "reward": 0.98,
+          "timestamp": 1777085198.6920202
+        },
+        {
+          "event": 11,
+          "mastery_before": 0.4677208603518473,
+          "mastery_after": 0.48060743406481965,
+          "mastery_change": 0.01288657371297236,
+          "reward": 0.98,
+          "timestamp": 1777085198.7116416
+        },
+        {
+          "event": 12,
+          "mastery_before": 0.48060743406481965,
+          "mastery_after": 0.49195045335546805,
+          "mastery_change": 0.011343019290648404,
+          "reward": 0.98,
+          "timestamp": 1777085198.7565062
+        },
+        {
+          "event": 13,
+          "mastery_before": 0.49195045335546805,
+          "mastery_after": 0.5019987441875203,
+          "mastery_change": 0.010048290832052276,
+          "reward": 0.98,
+          "timestamp": 1777085198.801699
+        },
+        {
+          "event": 14,
+          "mastery_before": 0.5019987441875203,
+          "mastery_after": 0.5109664558073401,
+          "mastery_change": 0.008967711619819796,
+          "reward": 0.98,
+          "timestamp": 1777085198.8517022
+        },
+        {
+          "event": 15,
+          "mastery_before": 0.5109664558073401,
+          "mastery_after": 0.5190311480284405,
+          "mastery_change": 0.0080646922211004,
+          "reward": 0.98,
+          "timestamp": 1777085198.8978884
+        },
+        {
+          "event": 16,
+          "mastery_before": 0.5190311480284405,
+          "mastery_after": 0.5263376374398689,
+          "mastery_change": 0.0073064894114284185,
+          "reward": 0.98,
+          "timestamp": 1777085198.9330719
+        },
+        {
+          "event": 17,
+          "mastery_before": 0.5263376374398689,
+          "mastery_after": 0.5330034056037941,
+          "mastery_change": 0.006665768163925168,
+          "reward": 0.98,
+          "timestamp": 1777085198.9703658
+        },
+        {
+          "event": 18,
+          "mastery_before": 0.5330034056037941,
+          "mastery_after": 0.5391238317125638,
+          "mastery_change": 0.006120426108769728,
+          "reward": 0.98,
+          "timestamp": 1777085198.9913955
+        },
+        {
+          "event": 19,
+          "mastery_before": 0.5391238317125638,
+          "mastery_after": 0.5447766706629011,
+          "mastery_change": 0.005652838950337302,
+          "reward": 0.98,
+          "timestamp": 1777085199.011867
+        },
+        {
+          "event": 20,
+          "mastery_before": 0.5447766706629011,
+          "mastery_after": 0.5500256853471727,
+          "mastery_change": 0.005249014684271525,
+          "reward": 0.98,
+          "timestamp": 1777085199.054734
+        },
+        {
+          "event": 21,
+          "mastery_before": 0.5500256853471727,
+          "mastery_after": 0.5549235203948302,
+          "mastery_change": 0.004897835047657506,
+          "reward": 0.98,
+          "timestamp": 1777085199.0860097
+        },
+        {
+          "event": 22,
+          "mastery_before": 0.5549235203948302,
+          "mastery_after": 0.5595139514831305,
+          "mastery_change": 0.004590431088300373,
+          "reward": 0.98,
+          "timestamp": 1777085199.1184711
+        },
+        {
+          "event": 23,
+          "mastery_before": 0.5595139514831305,
+          "mastery_after": 0.563833640497809,
+          "mastery_change": 0.004319689014678496,
+          "reward": 0.98,
+          "timestamp": 1777085199.1665049
+        },
+        {
+          "event": 24,
+          "mastery_before": 0.563833640497809,
+          "mastery_after": 0.5679135068544826,
+          "mastery_change": 0.004079866356673567,
+          "reward": 0.98,
+          "timestamp": 1777085199.195349
+        },
+        {
+          "event": 25,
+          "mastery_before": 0.5679135068544826,
+          "mastery_after": 0.5717798029937637,
+          "mastery_change": 0.0038662961392811335,
+          "reward": 0.98,
+          "timestamp": 1777085199.230139
+        },
+        {
+          "event": 26,
+          "mastery_before": 0.5717798029937637,
+          "mastery_after": 0.5754549622935339,
+          "mastery_change": 0.0036751592997701366,
+          "reward": 0.98,
+          "timestamp": 1777085199.2671905
+        },
+        {
+          "event": 27,
+          "mastery_before": 0.5754549622935339,
+          "mastery_after": 0.578958271598837,
+          "mastery_change": 0.0035033093053030706,
+          "reward": 0.98,
+          "timestamp": 1777085199.2968562
+        },
+        {
+          "event": 28,
+          "mastery_before": 0.578958271598837,
+          "mastery_after": 0.5823064080817236,
+          "mastery_change": 0.0033481364828866766,
+          "reward": 0.98,
+          "timestamp": 1777085199.3270657
+        },
+        {
+          "event": 29,
+          "mastery_before": 0.5823064080817236,
+          "mastery_after": 0.5855138706211055,
+          "mastery_change": 0.0032074625393818668,
+          "reward": 0.98,
+          "timestamp": 1777085199.3587234
+        },
+        {
+          "event": 30,
+          "mastery_before": 0.5855138706211055,
+          "mastery_after": 0.588593328702242,
+          "mastery_change": 0.0030794580811365213,
+          "reward": 0.98,
+          "timestamp": 1777085199.3839295
+        },
+        {
+          "event": 31,
+          "mastery_before": 0.588593328702242,
+          "mastery_after": 0.5915559064250651,
+          "mastery_change": 0.0029625777228230454,
+          "reward": 0.98,
+          "timestamp": 1777085199.4183064
+        },
+        {
+          "event": 32,
+          "mastery_before": 0.5915559064250651,
+          "mastery_after": 0.5944114151387931,
+          "mastery_change": 0.0028555087137280832,
+          "reward": 0.98,
+          "timestamp": 1777085199.4511886
+        },
+        {
+          "event": 33,
+          "mastery_before": 0.5944114151387931,
+          "mastery_after": 0.5971685451484584,
+          "mastery_change": 0.002757130009665265,
+          "reward": 0.98,
+          "timestamp": 1777085199.48363
+        },
+        {
+          "event": 34,
+          "mastery_before": 0.5971685451484584,
+          "mastery_after": 0.5998350246124813,
+          "mastery_change": 0.002666479464022875,
+          "reward": 0.98,
+          "timestamp": 1777085199.5132062
+        },
+        {
+          "event": 35,
+          "mastery_before": 0.5998350246124813,
+          "mastery_after": 0.6024177519800217,
+          "mastery_change": 0.002582727367540394,
+          "reward": 0.98,
+          "timestamp": 1777085199.544336
+        },
+        {
+          "event": 36,
+          "mastery_before": 0.6024177519800217,
+          "mastery_after": 0.6049229069624257,
+          "mastery_change": 0.002505154982404001,
+          "reward": 0.98,
+          "timestamp": 1777085199.5984733
+        },
+        {
+          "event": 37,
+          "mastery_before": 0.6049229069624257,
+          "mastery_after": 0.6073560439911209,
+          "mastery_change": 0.002433137028695187,
+          "reward": 0.98,
+          "timestamp": 1777085199.6416132
+        },
+        {
+          "event": 38,
+          "mastery_before": 0.6073560439911209,
+          "mastery_after": 0.6097221713080856,
+          "mastery_change": 0.002366127316964728,
+          "reward": 0.98,
+          "timestamp": 1777085199.6749394
+        },
+        {
+          "event": 39,
+          "mastery_before": 0.6097221713080856,
+          "mastery_after": 0.6120258182075954,
+          "mastery_change": 0.0023036468995097925,
+          "reward": 0.98,
+          "timestamp": 1777085199.7187045
+        },
+        {
+          "event": 40,
+          "mastery_before": 0.6120258182075954,
+          "mastery_after": 0.6142710924568584,
+          "mastery_change": 0.0022452742492630184,
+          "reward": 0.98,
+          "timestamp": 1777085199.740383
+        },
+        {
+          "event": 41,
+          "mastery_before": 0.6142710924568584,
+          "mastery_after": 0.6164617295365944,
+          "mastery_change": 0.002190637079735991,
+          "reward": 0.98,
+          "timestamp": 1777085199.7618487
+        },
+        {
+          "event": 42,
+          "mastery_before": 0.6164617295365944,
+          "mastery_after": 0.6186011350366517,
+          "mastery_change": 0.002139405500057312,
+          "reward": 0.98,
+          "timestamp": 1777085199.7975886
+        },
+        {
+          "event": 43,
+          "mastery_before": 0.6186011350366517,
+          "mastery_after": 0.6206924212982761,
+          "mastery_change": 0.002091286261624359,
+          "reward": 0.98,
+          "timestamp": 1777085199.8335123
+        },
+        {
+          "event": 44,
+          "mastery_before": 0.6206924212982761,
+          "mastery_after": 0.6227384391998751,
+          "mastery_change": 0.0020460179015990843,
+          "reward": 0.98,
+          "timestamp": 1777085199.867383
+        },
+        {
+          "event": 45,
+          "mastery_before": 0.6227384391998751,
+          "mastery_after": 0.6247418058265213,
+          "mastery_change": 0.0020033666266461303,
+          "reward": 0.98,
+          "timestamp": 1777085199.8881602
+        },
+        {
+          "event": 46,
+          "mastery_before": 0.6247418058265213,
+          "mastery_after": 0.626704928636902,
+          "mastery_change": 0.001963122810380691,
+          "reward": 0.98,
+          "timestamp": 1777085199.931682
+        },
+        {
+          "event": 47,
+          "mastery_before": 0.626704928636902,
+          "mastery_after": 0.6286300266387131,
+          "mastery_change": 0.0019250980018111763,
+          "reward": 0.98,
+          "timestamp": 1777085199.9751601
+        },
+        {
+          "event": 48,
+          "mastery_before": 0.6286300266387131,
+          "mastery_after": 0.630519148999712,
+          "mastery_change": 0.0018891223609988073,
+          "reward": 0.98,
+          "timestamp": 1777085200.0078602
+        },
+        {
+          "event": 49,
+          "mastery_before": 0.630519148999712,
+          "mastery_after": 0.6323741914530306,
+          "mastery_change": 0.0018550424533186893,
+          "reward": 0.98,
+          "timestamp": 1777085200.0377316
+        },
+        {
+          "event": 50,
+          "mastery_before": 0.6323741914530306,
+          "mastery_after": 0.6341969107988962,
+          "mastery_change": 0.001822719345865531,
+          "reward": 0.98,
+          "timestamp": 1777085200.068122
+        }
+      ]
+    },
+    "ct_abstraction": {
+      "concept": "ct_abstraction",
+      "events_needed": 50,
+      "final_mastery": 0.5069228105749511,
+      "total_mastery_gain": 0.20662251027465084,
+      "avg_mastery_per_event": 0.004132450205493017,
+      "target_reached": false,
+      "mastery_history": [
+        {
+          "event": 1,
+          "mastery_before": 0.3003003003003003,
+          "mastery_after": 0.32144690118385205,
+          "mastery_change": 0.021146600883551747,
+          "reward": 0.94,
+          "timestamp": 1777085200.1380026
+        },
+        {
+          "event": 2,
+          "mastery_before": 0.32144690118385205,
+          "mastery_after": 0.3379009681330524,
+          "mastery_change": 0.016454066949200374,
+          "reward": 0.94,
+          "timestamp": 1777085200.169351
+        },
+        {
+          "event": 3,
+          "mastery_before": 0.3379009681330524,
+          "mastery_after": 0.35116512624835555,
+          "mastery_change": 0.013264158115303126,
+          "reward": 0.94,
+          "timestamp": 1777085200.2151394
+        },
+        {
+          "event": 4,
+          "mastery_before": 0.35116512624835555,
+          "mastery_after": 0.3621891660668946,
+          "mastery_change": 0.011024039818539055,
+          "reward": 0.94,
+          "timestamp": 1777085200.2430072
+        },
+        {
+          "event": 5,
+          "mastery_before": 0.3621891660668946,
+          "mastery_after": 0.3715820808868951,
+          "mastery_change": 0.009392914820000486,
+          "reward": 0.94,
+          "timestamp": 1777085200.2747934
+        },
+        {
+          "event": 6,
+          "mastery_before": 0.3715820808868951,
+          "mastery_after": 0.3797476642844235,
+          "mastery_change": 0.008165583397528431,
+          "reward": 0.94,
+          "timestamp": 1777085200.313917
+        },
+        {
+          "event": 7,
+          "mastery_before": 0.3797476642844235,
+          "mastery_after": 0.38696334594722537,
+          "mastery_change": 0.007215681662801843,
+          "reward": 0.94,
+          "timestamp": 1777085200.3451216
+        },
+        {
+          "event": 8,
+          "mastery_before": 0.38696334594722537,
+          "mastery_after": 0.393426085206496,
+          "mastery_change": 0.006462739259270656,
+          "reward": 0.94,
+          "timestamp": 1777085200.372288
+        },
+        {
+          "event": 9,
+          "mastery_before": 0.393426085206496,
+          "mastery_after": 0.3992798141707487,
+          "mastery_change": 0.00585372896425268,
+          "reward": 0.94,
+          "timestamp": 1777085200.399869
+        },
+        {
+          "event": 10,
+          "mastery_before": 0.3992798141707487,
+          "mastery_after": 0.40463239664749984,
+          "mastery_change": 0.005352582476751133,
+          "reward": 0.94,
+          "timestamp": 1777085200.4250772
+        },
+        {
+          "event": 11,
+          "mastery_before": 0.40463239664749984,
+          "mastery_after": 0.40956645590015156,
+          "mastery_change": 0.0049340592526517235,
+          "reward": 0.94,
+          "timestamp": 1777085200.4782243
+        },
+        {
+          "event": 12,
+          "mastery_before": 0.40956645590015156,
+          "mastery_after": 0.4141465008585604,
+          "mastery_change": 0.004580044958408858,
+          "reward": 0.94,
+          "timestamp": 1777085200.5132005
+        },
+        {
+          "event": 13,
+          "mastery_before": 0.4141465008585604,
+          "mastery_after": 0.41842374707274793,
+          "mastery_change": 0.004277246214187513,
+          "reward": 0.94,
+          "timestamp": 1777085200.5541992
+        },
+        {
+          "event": 14,
+          "mastery_before": 0.41842374707274793,
+          "mastery_after": 0.42243945981378894,
+          "mastery_change": 0.004015712741041011,
+          "reward": 0.94,
+          "timestamp": 1777085200.5915146
+        },
+        {
+          "event": 15,
+          "mastery_before": 0.42243945981378894,
+          "mastery_after": 0.4262273243320126,
+          "mastery_change": 0.0037878645182236603,
+          "reward": 0.94,
+          "timestamp": 1777085200.6343646
+        },
+        {
+          "event": 16,
+          "mastery_before": 0.4262273243320126,
+          "mastery_after": 0.42981516013511906,
+          "mastery_change": 0.003587835803106454,
+          "reward": 0.94,
+          "timestamp": 1777085200.6629992
+        },
+        {
+          "event": 17,
+          "mastery_before": 0.42981516013511906,
+          "mastery_after": 0.43322618321303824,
+          "mastery_change": 0.003411023077919184,
+          "reward": 0.94,
+          "timestamp": 1777085200.7024848
+        },
+        {
+          "event": 18,
+          "mastery_before": 0.43322618321303824,
+          "mastery_after": 0.4364799505382935,
+          "mastery_change": 0.0032537673252552857,
+          "reward": 0.94,
+          "timestamp": 1777085200.7380695
+        },
+        {
+          "event": 19,
+          "mastery_before": 0.4364799505382935,
+          "mastery_after": 0.4395930772226985,
+          "mastery_change": 0.0031131266844049987,
+          "reward": 0.94,
+          "timestamp": 1777085200.7675006
+        },
+        {
+          "event": 20,
+          "mastery_before": 0.4395930772226985,
+          "mastery_after": 0.44257978833103656,
+          "mastery_change": 0.002986711108338036,
+          "reward": 0.94,
+          "timestamp": 1777085200.8017614
+        },
+        {
+          "event": 21,
+          "mastery_before": 0.44257978833103656,
+          "mastery_after": 0.4454523486438792,
+          "mastery_change": 0.0028725603128426647,
+          "reward": 0.94,
+          "timestamp": 1777085200.8580966
+        },
+        {
+          "event": 22,
+          "mastery_before": 0.4454523486438792,
+          "mastery_after": 0.44822140109310615,
+          "mastery_change": 0.0027690524492269275,
+          "reward": 0.94,
+          "timestamp": 1777085200.8917112
+        },
+        {
+          "event": 23,
+          "mastery_before": 0.44822140109310615,
+          "mastery_after": 0.45089623600151935,
+          "mastery_change": 0.002674834908413193,
+          "reward": 0.94,
+          "timestamp": 1777085200.9245813
+        },
+        {
+          "event": 24,
+          "mastery_before": 0.45089623600151935,
+          "mastery_after": 0.4534850072890317,
+          "mastery_change": 0.002588771287512337,
+          "reward": 0.94,
+          "timestamp": 1777085200.960392
+        },
+        {
+          "event": 25,
+          "mastery_before": 0.4534850072890317,
+          "mastery_after": 0.4559949075993627,
+          "mastery_change": 0.0025099003103309925,
+          "reward": 0.94,
+          "timestamp": 1777085200.9907937
+        },
+        {
+          "event": 26,
+          "mastery_before": 0.4559949075993627,
+          "mastery_after": 0.45843231129279194,
+          "mastery_change": 0.002437403693429263,
+          "reward": 0.94,
+          "timestamp": 1777085201.0305142
+        },
+        {
+          "event": 27,
+          "mastery_before": 0.45843231129279194,
+          "mastery_after": 0.4608028920724708,
+          "mastery_change": 0.002370580779678888,
+          "reward": 0.94,
+          "timestamp": 1777085201.0694628
+        },
+        {
+          "event": 28,
+          "mastery_before": 0.4608028920724708,
+          "mastery_after": 0.4631117204161097,
+          "mastery_change": 0.00230882834363888,
+          "reward": 0.94,
+          "timestamp": 1777085201.1072657
+        },
+        {
+          "event": 29,
+          "mastery_before": 0.4631117204161097,
+          "mastery_after": 0.4653633448028577,
+          "mastery_change": 0.0022516243867479746,
+          "reward": 0.94,
+          "timestamp": 1777085201.1461394
+        },
+        {
+          "event": 30,
+          "mastery_before": 0.4653633448028577,
+          "mastery_after": 0.467561859840557,
+          "mastery_change": 0.0021985150376993,
+          "reward": 0.94,
+          "timestamp": 1777085201.1805596
+        },
+        {
+          "event": 31,
+          "mastery_before": 0.467561859840557,
+          "mastery_after": 0.4697109637300617,
+          "mastery_change": 0.002149103889504733,
+          "reward": 0.94,
+          "timestamp": 1777085201.2010472
+        },
+        {
+          "event": 32,
+          "mastery_before": 0.4697109637300617,
+          "mastery_after": 0.47181400699357295,
+          "mastery_change": 0.0021030432635112395,
+          "reward": 0.94,
+          "timestamp": 1777085201.2293243
+        },
+        {
+          "event": 33,
+          "mastery_before": 0.47181400699357295,
+          "mastery_after": 0.47387403400193445,
+          "mastery_change": 0.002060027008361498,
+          "reward": 0.94,
+          "timestamp": 1777085201.2733903
+        },
+        {
+          "event": 34,
+          "mastery_before": 0.47387403400193445,
+          "mastery_after": 0.4758938185319638,
+          "mastery_change": 0.0020197845300293227,
+          "reward": 0.94,
+          "timestamp": 1777085201.2941592
+        },
+        {
+          "event": 35,
+          "mastery_before": 0.4758938185319638,
+          "mastery_after": 0.47787589434755684,
+          "mastery_change": 0.001982075815593065,
+          "reward": 0.94,
+          "timestamp": 1777085201.3393347
+        },
+        {
+          "event": 36,
+          "mastery_before": 0.47787589434755684,
+          "mastery_after": 0.4798231244715159,
+          "mastery_change": 0.0019472301239590872,
+          "reward": 0.94,
+          "timestamp": 1777085201.370497
+        },
+        {
+          "event": 37,
+          "mastery_before": 0.4798231244715159,
+          "mastery_after": 0.4817690293058569,
+          "mastery_change": 0.0019459048343409835,
+          "reward": 0.94,
+          "timestamp": 1777085201.4135733
+        },
+        {
+          "event": 38,
+          "mastery_before": 0.4817690293058569,
+          "mastery_after": 0.48371355901278595,
+          "mastery_change": 0.0019445297069290435,
+          "reward": 0.94,
+          "timestamp": 1777085201.4441774
+        },
+        {
+          "event": 39,
+          "mastery_before": 0.48371355901278595,
+          "mastery_after": 0.48565666396170304,
+          "mastery_change": 0.0019431049489170849,
+          "reward": 0.94,
+          "timestamp": 1777085201.4763021
+        },
+        {
+          "event": 40,
+          "mastery_before": 0.48565666396170304,
+          "mastery_after": 0.4875982947336678,
+          "mastery_change": 0.0019416307719647419,
+          "reward": 0.94,
+          "timestamp": 1777085201.5090508
+        },
+        {
+          "event": 41,
+          "mastery_before": 0.4875982947336678,
+          "mastery_after": 0.48953840212581506,
+          "mastery_change": 0.0019401073921472833,
+          "reward": 0.94,
+          "timestamp": 1777085201.536843
+        },
+        {
+          "event": 42,
+          "mastery_before": 0.48953840212581506,
+          "mastery_after": 0.49147693715571933,
+          "mastery_change": 0.0019385350299042647,
+          "reward": 0.94,
+          "timestamp": 1777085201.5566156
+        },
+        {
+          "event": 43,
+          "mastery_before": 0.49147693715571933,
+          "mastery_after": 0.4934138510657075,
+          "mastery_change": 0.0019369139099881805,
+          "reward": 0.94,
+          "timestamp": 1777085201.574813
+        },
+        {
+          "event": 44,
+          "mastery_before": 0.4934138510657075,
+          "mastery_after": 0.49534909532711924,
+          "mastery_change": 0.0019352442614117282,
+          "reward": 0.94,
+          "timestamp": 1777085201.6042035
+        },
+        {
+          "event": 45,
+          "mastery_before": 0.49534909532711924,
+          "mastery_after": 0.49728262164451414,
+          "mastery_change": 0.0019335263173949069,
+          "reward": 0.94,
+          "timestamp": 1777085201.6440938
+        },
+        {
+          "event": 46,
+          "mastery_before": 0.49728262164451414,
+          "mastery_after": 0.4992143819598248,
+          "mastery_change": 0.001931760315310671,
+          "reward": 0.94,
+          "timestamp": 1777085201.6785471
+        },
+        {
+          "event": 47,
+          "mastery_before": 0.4992143819598248,
+          "mastery_after": 0.5011443284564567,
+          "mastery_change": 0.001929946496631918,
+          "reward": 0.94,
+          "timestamp": 1777085201.7132022
+        },
+        {
+          "event": 48,
+          "mastery_before": 0.5011443284564567,
+          "mastery_after": 0.5030724135633313,
+          "mastery_change": 0.0019280851068745886,
+          "reward": 0.94,
+          "timestamp": 1777085201.7434494
+        },
+        {
+          "event": 49,
+          "mastery_before": 0.5030724135633313,
+          "mastery_after": 0.504998589958875,
+          "mastery_change": 0.0019261763955437106,
+          "reward": 0.94,
+          "timestamp": 1777085201.7878413
+        },
+        {
+          "event": 50,
+          "mastery_before": 0.504998589958875,
+          "mastery_after": 0.5069228105749511,
+          "mastery_change": 0.001924220616076111,
+          "reward": 0.94,
+          "timestamp": 1777085201.8254664
+        }
+      ]
+    }
+  },
+  "summary": {
+    "total_concepts": 2,
+    "concepts_reached_target": 0,
+    "target_success_rate": 0.0,
+    "avg_events_per_concept": 50.0,
+    "avg_mastery_per_event": 0.005405191207732467
+  }
+}

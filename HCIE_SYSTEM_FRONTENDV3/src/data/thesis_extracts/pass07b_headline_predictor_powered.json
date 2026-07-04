@@ -1,0 +1,178 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-23",
+  "pass": "7b",
+  "fills": "Tabel 4.5 headline robustness — does the lagged-Kalman lead survive power?",
+  "predictor": "lagged-Kalman (P(correct,t)=kalman_mastery_after[t-1]) — the SAME predictor as the headline (lagged-Kalman, 0.6051 tie-aware); isolates predictor from power vs Task 7's rejected 3-learner matched predictor",
+  "phase2_run_id": "run-94a3b8ba-015b-4d84-b288-004fe60bc282",
+  "margin_table_overall_HCIE_minus_BKT": [
+    {
+      "n": 10,
+      "hcie_lagged_kalman": 0.6051,
+      "bkt": 0.5963,
+      "hcie_minus_bkt": 0.0088
+    },
+    {
+      "n": 40,
+      "hcie_lagged_kalman": 0.6638,
+      "bkt": 0.6576,
+      "hcie_minus_bkt": 0.0062
+    },
+    {
+      "n": 76,
+      "hcie_lagged_kalman": 0.6871,
+      "bkt": 0.6746,
+      "hcie_minus_bkt": 0.0125
+    }
+  ],
+  "by_power": {
+    "n10": {
+      "n_eval_users": 10,
+      "overall": {
+        "lagged_kalman": 0.6051143242054002,
+        "bkt": 0.5963486848864465,
+        "dkt": 0.5891819306304391,
+        "sakt": 0.5729518906762671,
+        "gkt": 0.5710753087233331,
+        "hcie_3learner_mastery_before": 0.6085042415790202
+      },
+      "per_window": {
+        "<=5": {
+          "lagged_kalman": 0.87375,
+          "bkt": 0.835,
+          "dkt": 0.955,
+          "sakt": 0.905,
+          "gkt": 0.655
+        },
+        "<=10": {
+          "lagged_kalman": 0.8225,
+          "bkt": 0.8275,
+          "dkt": 0.899375,
+          "sakt": 0.865625,
+          "gkt": 0.62
+        },
+        "<=20": {
+          "lagged_kalman": 0.8478260869565217,
+          "bkt": 0.8811116419812072,
+          "dkt": 0.9272177098264055,
+          "sakt": 0.9065137760789934,
+          "gkt": 0.6880076445293837
+        }
+      }
+    },
+    "n40": {
+      "n_eval_users": 40,
+      "overall": {
+        "lagged_kalman": 0.6638051203507384,
+        "bkt": 0.6576133034409352,
+        "dkt": 0.5906594258568977,
+        "sakt": 0.5854526363092163,
+        "gkt": 0.5723600212318811,
+        "hcie_3learner_mastery_before": 0.6693057578829902
+      },
+      "per_window": {
+        "<=5": {
+          "lagged_kalman": 0.7030614429458361,
+          "bkt": 0.6951402269321344,
+          "dkt": 0.6750160565189467,
+          "sakt": 0.6837936202098052,
+          "gkt": 0.555983729394134
+        },
+        "<=10": {
+          "lagged_kalman": 0.6834138486312399,
+          "bkt": 0.7382984433709071,
+          "dkt": 0.7380568974771873,
+          "sakt": 0.7652710681696189,
+          "gkt": 0.5996242619431025
+        },
+        "<=20": {
+          "lagged_kalman": 0.7090731246627091,
+          "bkt": 0.7758162439287641,
+          "dkt": 0.7492444684295737,
+          "sakt": 0.7690501888828926,
+          "gkt": 0.6299109552077712
+        }
+      }
+    },
+    "n80": {
+      "n_eval_users": 76,
+      "overall": {
+        "lagged_kalman": 0.6870860688162646,
+        "bkt": 0.6746076986355387,
+        "dkt": 0.6084312319694893,
+        "sakt": 0.5991740951733183,
+        "gkt": 0.5757824206244887,
+        "hcie_3learner_mastery_before": 0.6929792408696761
+      },
+      "per_window": {
+        "<=5": {
+          "lagged_kalman": 0.7529486331569665,
+          "bkt": 0.7160218253968254,
+          "dkt": 0.6907242063492064,
+          "sakt": 0.6508763227513228,
+          "gkt": 0.5992614638447972
+        },
+        "<=10": {
+          "lagged_kalman": 0.7121868012155267,
+          "bkt": 0.7294593199931196,
+          "dkt": 0.7130181755633278,
+          "sakt": 0.6867223783039963,
+          "gkt": 0.6100424287598188
+        },
+        "<=20": {
+          "lagged_kalman": 0.7245240347661562,
+          "bkt": 0.7552991781469875,
+          "dkt": 0.7417777744929935,
+          "sakt": 0.7179869035653048,
+          "gkt": 0.6147120558150535
+        }
+      }
+    }
+  },
+  "verdict": "HEADLINE LEAD SURVIVES POWER (tie-aware AUC). HCIE lagged-Kalman overall AUC leads BKT at EVERY power level: +0.0088 (n=10), +0.0062 (n=40), +0.0125 (n=76). The lead is POSITIVE throughout and is LARGEST and STATISTICALLY SIGNIFICANT at n=76 (95% CI [+0.0017, +0.0226], per-user cluster bootstrap), unlike n=10 (CI crosses 0). IMPORTANT honesty correction: under the tie-aware convention the margin is NOT monotonic -- it dips at n=40 -- so the claim is 'positive at all power levels, largest and significant at full power', NOT 'monotonic growth' (the earlier monotonic +0.0245->0.0252->0.0324 used the optimistic tie convention). Per-window: BKT still leads the cold-start cells (<=10/<=20) at every level -- the documented Simpson pattern -- while HCIE leads pooled-overall (and edges <=5 at n=76). Framing stays 'competitive'.",
+  "framing": "AUC = competitive, not superior. Overall lead positive at all power, significant at n=76; per-window deep/BKT leads are a Simpson/cold-start pattern, not a loss. Tie-aware AUC (Rekomendasi A).",
+  "per_window_margin_HCIE_minus_BKT_on_headline_predictor": {
+    "n40": {
+      "<=5": {
+        "hcie_lk": 0.7031,
+        "bkt": 0.6951,
+        "hcie_minus_bkt": 0.0079
+      },
+      "<=10": {
+        "hcie_lk": 0.6834,
+        "bkt": 0.7383,
+        "hcie_minus_bkt": -0.0549
+      },
+      "<=20": {
+        "hcie_lk": 0.7091,
+        "bkt": 0.7758,
+        "hcie_minus_bkt": -0.0667
+      }
+    },
+    "n80": {
+      "<=5": {
+        "hcie_lk": 0.7529,
+        "bkt": 0.716,
+        "hcie_minus_bkt": 0.0369
+      },
+      "<=10": {
+        "hcie_lk": 0.7122,
+        "bkt": 0.7295,
+        "hcie_minus_bkt": -0.0173
+      },
+      "<=20": {
+        "hcie_lk": 0.7245,
+        "bkt": 0.7553,
+        "hcie_minus_bkt": -0.0308
+      }
+    }
+  },
+  "per_window_note": "On the SAME lagged-Kalman headline predictor, tie-aware: BKT leads the per-window cold-start cells (<=10/<=20) at n=40 and n=76 -- the documented Simpson pattern -- while HCIE leads pooled-overall and edges <=5 at n=76 (+0.0369).",
+  "auc_tie_convention": {
+    "convention": "averaged-rank (tie-aware, sklearn.roc_auc_score-equivalent)",
+    "changed_2026_06_23": true,
+    "supersedes": "the optimistic-tie power sweep (+0.0245->+0.0251->+0.0324). HCIE has ~26.5% rows tied at the cold-start prior; tie-aware is the honest convention (Rekomendasi A).",
+    "tie_aware_significance_n76": "HCIE-BKT = +0.0125, 95% CI [+0.0017, +0.0226] (per-user cluster bootstrap, B=3000) -> SIGNIFICANT at n=76; at n=10 (+0.0088) the CI crosses 0 (not significant)."
+  }
+}

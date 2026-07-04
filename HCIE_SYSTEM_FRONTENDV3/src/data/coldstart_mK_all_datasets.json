@@ -1,0 +1,428 @@
+{
+  "protocol": "lagged Kalman-alone m_K, predict-before-observe, tie-aware rank-AUC; deployed = mastery_before (2-learner); baselines = recorded predicted_correct_prob; per-user first-N windows",
+  "datasets": {
+    "Junyi 2015": {
+      "run": "run-217532ca-39e6-4859-a41f-88ed53e904a2",
+      "n_traj": 9838,
+      "n_users": 500,
+      "base_rate": 0.8523,
+      "baselines_present": [
+        "bkt",
+        "dkt",
+        "greedy_correct_rate",
+        "irt_1pl",
+        "random",
+        "sakt",
+        "static_prior"
+      ],
+      "windows": {
+        "<=5": {
+          "HCIE_mK": 0.6894,
+          "HCIE_deployed_2learner": 0.56,
+          "n_hcie": 2489,
+          "bkt": 0.69,
+          "dkt": 0.7088,
+          "greedy_correct_rate": 0.694,
+          "irt_1pl": 0.683,
+          "random": 0.4861,
+          "sakt": 0.7382,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=10": {
+          "HCIE_mK": 0.7104,
+          "HCIE_deployed_2learner": 0.6241,
+          "n_hcie": 4962,
+          "bkt": 0.7007,
+          "dkt": 0.7165,
+          "greedy_correct_rate": 0.7169,
+          "irt_1pl": 0.713,
+          "random": 0.5056,
+          "sakt": 0.7408,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=20": {
+          "HCIE_mK": 0.7408,
+          "HCIE_deployed_2learner": 0.6691,
+          "n_hcie": 9838,
+          "bkt": 0.7247,
+          "dkt": 0.7217,
+          "greedy_correct_rate": 0.7442,
+          "irt_1pl": 0.7233,
+          "random": 0.5046,
+          "sakt": 0.7493,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "overall": {
+          "HCIE_mK": 0.7408,
+          "HCIE_deployed_2learner": 0.6691,
+          "n_hcie": 9838,
+          "bkt": 0.7247,
+          "dkt": 0.7217,
+          "greedy_correct_rate": 0.7442,
+          "irt_1pl": 0.7233,
+          "random": 0.5046,
+          "sakt": 0.7493,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        }
+      }
+    },
+    "ASSISTments 2015": {
+      "run": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7",
+      "n_traj": 8277,
+      "n_users": 500,
+      "base_rate": 0.7268,
+      "baselines_present": [
+        "bkt",
+        "dkt",
+        "greedy_correct_rate",
+        "irt_1pl",
+        "random",
+        "sakt",
+        "static_prior"
+      ],
+      "windows": {
+        "<=5": {
+          "HCIE_mK": 0.6102,
+          "HCIE_deployed_2learner": 0.4693,
+          "n_hcie": 2441,
+          "bkt": 0.6294,
+          "dkt": 0.6188,
+          "greedy_correct_rate": 0.619,
+          "irt_1pl": 0.5703,
+          "random": 0.4966,
+          "sakt": 0.6139,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=10": {
+          "HCIE_mK": 0.6322,
+          "HCIE_deployed_2learner": 0.5118,
+          "n_hcie": 4622,
+          "bkt": 0.6467,
+          "dkt": 0.6338,
+          "greedy_correct_rate": 0.6363,
+          "irt_1pl": 0.5785,
+          "random": 0.4946,
+          "sakt": 0.633,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=20": {
+          "HCIE_mK": 0.6303,
+          "HCIE_deployed_2learner": 0.5207,
+          "n_hcie": 8277,
+          "bkt": 0.6356,
+          "dkt": 0.6295,
+          "greedy_correct_rate": 0.6304,
+          "irt_1pl": 0.5644,
+          "random": 0.4906,
+          "sakt": 0.6255,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "overall": {
+          "HCIE_mK": 0.6303,
+          "HCIE_deployed_2learner": 0.5207,
+          "n_hcie": 8277,
+          "bkt": 0.6356,
+          "dkt": 0.6295,
+          "greedy_correct_rate": 0.6304,
+          "irt_1pl": 0.5644,
+          "random": 0.4906,
+          "sakt": 0.6255,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        }
+      }
+    },
+    "CSEDM F19": {
+      "run": "run-92428fb6-790e-46a2-84c7-71b94f471aaf",
+      "n_traj": 10000,
+      "n_users": 500,
+      "base_rate": 0.2726,
+      "baselines_present": [
+        "bkt",
+        "dkt",
+        "greedy_correct_rate",
+        "irt_1pl",
+        "random",
+        "sakt",
+        "static_prior"
+      ],
+      "windows": {
+        "<=5": {
+          "HCIE_mK": 0.6049,
+          "HCIE_deployed_2learner": 0.5934,
+          "n_hcie": 2500,
+          "bkt": 0.6289,
+          "dkt": 0.5934,
+          "greedy_correct_rate": 0.6232,
+          "irt_1pl": 0.657,
+          "random": 0.4858,
+          "sakt": 0.6475,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=10": {
+          "HCIE_mK": 0.6548,
+          "HCIE_deployed_2learner": 0.6451,
+          "n_hcie": 5000,
+          "bkt": 0.6699,
+          "dkt": 0.6385,
+          "greedy_correct_rate": 0.665,
+          "irt_1pl": 0.7147,
+          "random": 0.4944,
+          "sakt": 0.6765,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=20": {
+          "HCIE_mK": 0.6718,
+          "HCIE_deployed_2learner": 0.6637,
+          "n_hcie": 10000,
+          "bkt": 0.6792,
+          "dkt": 0.6513,
+          "greedy_correct_rate": 0.6736,
+          "irt_1pl": 0.7093,
+          "random": 0.5006,
+          "sakt": 0.6496,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "overall": {
+          "HCIE_mK": 0.6718,
+          "HCIE_deployed_2learner": 0.6637,
+          "n_hcie": 10000,
+          "bkt": 0.6792,
+          "dkt": 0.6513,
+          "greedy_correct_rate": 0.6736,
+          "irt_1pl": 0.7093,
+          "random": 0.5006,
+          "sakt": 0.6496,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        }
+      }
+    },
+    "EdNet KT1": {
+      "run": "run-691cb4ef-e59e-4da7-be5b-4f63db3e2e73",
+      "n_traj": 8300,
+      "n_users": 500,
+      "base_rate": 0.4089,
+      "baselines_present": [
+        "bkt",
+        "dkt",
+        "greedy_correct_rate",
+        "irt_1pl",
+        "random",
+        "sakt",
+        "static_prior"
+      ],
+      "windows": {
+        "<=5": {
+          "HCIE_mK": 0.5067,
+          "HCIE_deployed_2learner": 0.588,
+          "n_hcie": 2368,
+          "bkt": 0.4524,
+          "dkt": 0.6643,
+          "greedy_correct_rate": 0.4746,
+          "irt_1pl": 0.5736,
+          "random": 0.517,
+          "sakt": 0.7108,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=10": {
+          "HCIE_mK": 0.5214,
+          "HCIE_deployed_2learner": 0.5435,
+          "n_hcie": 4430,
+          "bkt": 0.51,
+          "dkt": 0.6534,
+          "greedy_correct_rate": 0.5219,
+          "irt_1pl": 0.6113,
+          "random": 0.5119,
+          "sakt": 0.6913,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=20": {
+          "HCIE_mK": 0.5744,
+          "HCIE_deployed_2learner": 0.5914,
+          "n_hcie": 8296,
+          "bkt": 0.5636,
+          "dkt": 0.6271,
+          "greedy_correct_rate": 0.5683,
+          "irt_1pl": 0.612,
+          "random": 0.5046,
+          "sakt": 0.6537,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "overall": {
+          "HCIE_mK": 0.5745,
+          "HCIE_deployed_2learner": 0.5914,
+          "n_hcie": 8300,
+          "bkt": 0.5636,
+          "dkt": 0.6269,
+          "greedy_correct_rate": 0.5683,
+          "irt_1pl": 0.6122,
+          "random": 0.5045,
+          "sakt": 0.6537,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        }
+      }
+    },
+    "STATICS 2011": {
+      "run": "run-7ee4c59c-c06c-4b94-815f-3db8a1bb9875",
+      "n_traj": 5774,
+      "n_users": 150,
+      "base_rate": 0.8748,
+      "baselines_present": [
+        "bkt",
+        "dkt",
+        "greedy_correct_rate",
+        "irt_1pl",
+        "random",
+        "sakt",
+        "static_prior"
+      ],
+      "windows": {
+        "<=5": {
+          "HCIE_mK": 0.7543,
+          "HCIE_deployed_2learner": 0.7596,
+          "n_hcie": 750,
+          "bkt": 0.7253,
+          "dkt": 0.7436,
+          "greedy_correct_rate": 0.7329,
+          "irt_1pl": 0.6357,
+          "random": 0.5124,
+          "sakt": 0.7441,
+          "static_prior": 0.5,
+          "mK_leads_all": true,
+          "deployed_leads_all": true
+        },
+        "<=10": {
+          "HCIE_mK": 0.7499,
+          "HCIE_deployed_2learner": 0.7519,
+          "n_hcie": 1495,
+          "bkt": 0.7356,
+          "dkt": 0.7779,
+          "greedy_correct_rate": 0.7442,
+          "irt_1pl": 0.6817,
+          "random": 0.5262,
+          "sakt": 0.7936,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=20": {
+          "HCIE_mK": 0.6271,
+          "HCIE_deployed_2learner": 0.6189,
+          "n_hcie": 2948,
+          "bkt": 0.5887,
+          "dkt": 0.7392,
+          "greedy_correct_rate": 0.6092,
+          "irt_1pl": 0.6271,
+          "random": 0.491,
+          "sakt": 0.7296,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "overall": {
+          "HCIE_mK": 0.6495,
+          "HCIE_deployed_2learner": 0.6432,
+          "n_hcie": 5774,
+          "bkt": 0.6181,
+          "dkt": 0.7145,
+          "greedy_correct_rate": 0.6429,
+          "irt_1pl": 0.6347,
+          "random": 0.5012,
+          "sakt": 0.7113,
+          "static_prior": 0.5,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        }
+      }
+    },
+    "ASSIST 2009": {
+      "run": "run-79390854-156e-4849-92a3-25728b61f520",
+      "n_traj": 4729,
+      "n_users": 120,
+      "base_rate": 0.7794,
+      "baselines_present": [
+        "bkt",
+        "dkt",
+        "irt_1pl",
+        "sakt"
+      ],
+      "windows": {
+        "<=5": {
+          "HCIE_mK": 0.6027,
+          "HCIE_deployed_2learner": 0.6055,
+          "n_hcie": 600,
+          "bkt": 0.607,
+          "dkt": 0.707,
+          "irt_1pl": 0.6248,
+          "sakt": 0.7198,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=10": {
+          "HCIE_mK": 0.6244,
+          "HCIE_deployed_2learner": 0.6193,
+          "n_hcie": 1200,
+          "bkt": 0.599,
+          "dkt": 0.7009,
+          "irt_1pl": 0.6166,
+          "sakt": 0.7223,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "<=20": {
+          "HCIE_mK": 0.6423,
+          "HCIE_deployed_2learner": 0.6358,
+          "n_hcie": 2395,
+          "bkt": 0.6194,
+          "dkt": 0.71,
+          "irt_1pl": 0.6089,
+          "sakt": 0.7074,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        },
+        "overall": {
+          "HCIE_mK": 0.6197,
+          "HCIE_deployed_2learner": 0.6192,
+          "n_hcie": 4729,
+          "bkt": 0.5918,
+          "dkt": 0.6913,
+          "irt_1pl": 0.5873,
+          "sakt": 0.6902,
+          "mK_leads_all": false,
+          "deployed_leads_all": false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-06-02T23:54:49.231244+00:00",
+  "r12_run_id": "run-abdfb608-c1cc-4622-94ae-da7c91701ea5",
+  "source_run_id": "run-94a3b8ba-015b-4d84-b288-004fe60bc282",
+  "max_interactions_per_user": 100,
+  "eval_users": [
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_144204",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_147151",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_147359",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_151341",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_154646",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_158155",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_165633",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_16599",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_168378",
+    "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_170360"
+  ],
+  "n_interactions_replayed": 824,
+  "graph_injection_r12": "disabled",
+  "graph_injection_phase2": "1052 DAG edges via inject_external_dependencies()",
+  "graph_on_auc": {
+    "w5": 0.7634408602150538,
+    "w10": 0.7873376623376624,
+    "w20": 0.8652482269503545,
+    "overall": 0.7492818403957326
+  },
+  "graph_off_auc": {
+    "w5": 0.5271739130434783,
+    "w10": 0.7340286831812255,
+    "w20": 0.8104395604395604,
+    "overall": 0.7307825257762679
+  },
+  "delta_auc": {
+    "w5": 0.23626694717157548,
+    "w10": 0.05330897915643695,
+    "w20": 0.05480866651079408,
+    "overall": 0.018499314619464746
+  },
+  "protocol": "Same 10 held-out eval users. Same (concept, correct) sequences from Phase 2 run replayed through a fresh HCIE run (R12) with graph injection disabled. Both conditions capped at 100 interactions/user. mastery_before used as P(correct). AUC computed with cold-start windows 5/10/20/all.",
+  "_restored_from": "tier5_r12.json r12_summary (2026-06-03) — undo multiseed overwrite of a negative-delta stray run"
+}

@@ -1,0 +1,31 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+  # REMOVED the resource processor entirely to fix the "missing key" error
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: "hcie"
+  
+  logging:
+    verbosity: normal # 'loglevel' is deprecated; use 'verbosity' instead
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging]
+    
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus, logging]

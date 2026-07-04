@@ -1,0 +1,63 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 10,
+  "fills": "4.1.1.1 cold-start journey (one sealed learner: m and sigma^2 per interaction; attempt-1 estimation; sigma^2 narrowing at interactions 1/5/10)",
+  "scope_note": "Canonical mastery on this seal = single Kalman (m = m_K = kalman_mastery_after = canonical_mastery_after; they are identical for every interaction below). sigma^2 = ensemble_variance_after (the ensemble still computes a variance even though it does not own the canonical point estimate). All values are read-only SELECTs over experiment_run_id run-d2154070; no run was generated.",
+  "source_sql": "SELECT interaction_number, concept, correctness, mastery_before, kalman_mastery_after, ensemble_variance_after, canonical_mastery_after FROM experiment_trajectories WHERE experiment_run_id = 'run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1' AND user_id = 'run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_154646' ORDER BY interaction_number",
+  "learner": {
+    "user_id": "run-94a3b8ba-015b-4d84-b288-004fe60bc282::ex_junyi_graph_154646",
+    "concept": "ext_junyi_graph_understanding_moving_the_decimal",
+    "single_concept_journey": true,
+    "single_concept_note": "interactions 1..20 are all on this one concept, so sigma^2 narrowing reflects accumulating evidence on a single skill (clean cold-start case)",
+    "starts_at_interaction": 1,
+    "cold_start_confirmed": "mastery_before is NULL at interaction 1 (no prior estimate)"
+  },
+  "attempt_1": {
+    "interaction_number": 1,
+    "concept": "ext_junyi_graph_understanding_moving_the_decimal",
+    "correctness": false,
+    "mastery_before": null,
+    "kalman_mastery_after_m": 0.14285714285714288,
+    "canonical_mastery_after": 0.14285714285714288,
+    "ensemble_variance_after_sigma2": 0.003386863391784168,
+    "narrative": "Cold start: no prior (mastery_before NULL). First attempt incorrect; canonical Kalman estimate m initializes at 0.1429 (= 1/7, the Laplace-style prior pulled down by one wrong answer). sigma^2 begins low at 0.00339 because the estimate has not yet moved off the prior."
+  },
+  "sigma2_at_milestones": {
+    "interaction_1": 0.003386863391784168,
+    "interaction_5": 0.024749830752153555,
+    "interaction_10": 0.024385796842660568,
+    "narrowing_verdict": "NON-MONOTONE early, then narrows. sigma^2 RISES from interaction 1 (0.00339) to a peak around interaction 7 (0.02806) while the Kalman estimate is moving fast off the prior, then NARROWS steadily once the canonical estimate saturates at the 0.95 ceiling: int5=0.02475, int10=0.02439, int15=0.01495, int20=0.00993. So the 1->5 leg widens (estimate in motion) and the 5->10->20 leg narrows (estimate stabilizing). Reporting the raw shape honestly rather than asserting monotone narrowing.",
+    "extended_for_context": {
+      "interaction_15": 0.014953238206372644,
+      "interaction_20": 0.009928292900260823,
+      "interaction_25": 0.018704289262184936,
+      "interaction_30": 0.0007776378919472276,
+      "extended_note": "int25 ticks back up (0.01870) then int30 drops sharply (0.000778); minor non-monotonicity persists in the tail, characteristic of the ensemble variance estimator responding to the run-time signal even after the canonical Kalman point has plateaued at 0.95."
+    }
+  },
+  "per_interaction": [
+    {"interaction_number": 1, "correctness": false, "mastery_before": null, "m_kalman_mastery_after": 0.14285714285714288, "sigma2_ensemble_variance_after": 0.003386863391784168, "canonical_mastery_after": 0.14285714285714288},
+    {"interaction_number": 2, "correctness": true, "mastery_before": 0.3, "m_kalman_mastery_after": 0.47214076246334313, "sigma2_ensemble_variance_after": 0.003805508890862976, "canonical_mastery_after": 0.47214076246334313},
+    {"interaction_number": 3, "correctness": true, "mastery_before": 0.21101522823431346, "m_kalman_mastery_after": 0.6443390634262004, "sigma2_ensemble_variance_after": 0.013248004190020455, "canonical_mastery_after": 0.6443390634262004},
+    {"interaction_number": 4, "correctness": true, "mastery_before": 0.3995254337805583, "m_kalman_mastery_after": 0.750626896274643, "sigma2_ensemble_variance_after": 0.020304510627080875, "canonical_mastery_after": 0.750626896274643},
+    {"interaction_number": 5, "correctness": true, "mastery_before": 0.5101661815082997, "m_kalman_mastery_after": 0.8217294030609061, "sigma2_ensemble_variance_after": 0.024749830752153555, "canonical_mastery_after": 0.8217294030609061},
+    {"interaction_number": 6, "correctness": true, "mastery_before": 0.5854358860509243, "m_kalman_mastery_after": 0.8712963836214351, "sigma2_ensemble_variance_after": 0.027135132336071992, "canonical_mastery_after": 0.8712963836214351},
+    {"interaction_number": 7, "correctness": true, "mastery_before": 0.6401999062374872, "m_kalman_mastery_after": 0.9066040974307923, "sigma2_ensemble_variance_after": 0.028064314397211357, "canonical_mastery_after": 0.9066040974307923},
+    {"interaction_number": 8, "correctness": true, "mastery_before": 0.681962068502425, "m_kalman_mastery_after": 0.9320427665999671, "sigma2_ensemble_variance_after": 0.028044235452302065, "canonical_mastery_after": 0.9320427665999671},
+    {"interaction_number": 9, "correctness": true, "mastery_before": 0.7147364055532428, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.027262003322802663, "canonical_mastery_after": 0.95},
+    {"interaction_number": 10, "correctness": true, "mastery_before": 0.740932955067432, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.024385796842660568, "canonical_mastery_after": 0.95},
+    {"interaction_number": 11, "correctness": true, "mastery_before": 0.7622112000219596, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.022005372036659535, "canonical_mastery_after": 0.95},
+    {"interaction_number": 12, "correctness": true, "mastery_before": 0.7740076653213179, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.019924045245976876, "canonical_mastery_after": 0.95},
+    {"interaction_number": 13, "correctness": true, "mastery_before": 0.7843845744489366, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.01806719535836725, "canonical_mastery_after": 0.95},
+    {"interaction_number": 14, "correctness": true, "mastery_before": 0.7937831910155814, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.01639023446726008, "canonical_mastery_after": 0.95},
+    {"interaction_number": 15, "correctness": true, "mastery_before": 0.8024044127778258, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.014953238206372644, "canonical_mastery_after": 0.95},
+    {"interaction_number": 16, "correctness": true, "mastery_before": 0.8103845010444486, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.013725582754651274, "canonical_mastery_after": 0.95},
+    {"interaction_number": 17, "correctness": true, "mastery_before": 0.8175760860663035, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.012610674362309834, "canonical_mastery_after": 0.95},
+    {"interaction_number": 18, "correctness": true, "mastery_before": 0.824018020007274, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.011646761440061139, "canonical_mastery_after": 0.95},
+    {"interaction_number": 19, "correctness": true, "mastery_before": 0.8299877996942915, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.010748669293995913, "canonical_mastery_after": 0.95},
+    {"interaction_number": 20, "correctness": true, "mastery_before": 0.835394942112166, "m_kalman_mastery_after": 0.95, "sigma2_ensemble_variance_after": 0.009928292900260823, "canonical_mastery_after": 0.95}
+  ]
+}

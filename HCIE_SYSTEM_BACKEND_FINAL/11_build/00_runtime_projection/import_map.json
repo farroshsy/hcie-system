@@ -1,0 +1,249 @@
+{
+  "_README": "Clean import name -> ordered list of physical dirs it resolves to (relative to HCIE_SYSTEM_BACKEND_FINAL). GENERATED from sitecustomize.PACKAGE_ROOTS by gen_import_map.py \u2014 do not edit by hand. See 00_documentation/09_adr/ARCHITECTURE_DECISIONS.md (ADR-1).",
+  "app": [
+    {
+      "path": "11_build/00_runtime_projection/app",
+      "exists": true
+    },
+    {
+      "path": "01_source/01_application",
+      "exists": true
+    }
+  ],
+  "app.api": [
+    {
+      "path": "11_build/00_runtime_projection/app/api",
+      "exists": true
+    },
+    {
+      "path": "01_source/01_application/00_api",
+      "exists": true
+    }
+  ],
+  "app.domains": [
+    {
+      "path": "01_source/01_application/02_domains",
+      "exists": true
+    }
+  ],
+  "app.infrastructure": [
+    {
+      "path": "01_source/01_application/07_infrastructure",
+      "exists": true
+    }
+  ],
+  "app.infrastructure.di": [
+    {
+      "path": "01_source/01_application/07_infrastructure/00_di",
+      "exists": true
+    },
+    {
+      "path": "01_source/01_application/07_infrastructure/di",
+      "exists": true
+    }
+  ],
+  "app.infrastructure.monitoring": [
+    {
+      "path": "01_source/02_infrastructure/03_monitoring",
+      "exists": true
+    }
+  ],
+  "app.middleware": [
+    {
+      "path": "01_source/01_application/05_middleware",
+      "exists": true
+    }
+  ],
+  "app.models": [
+    {
+      "path": "01_source/01_application/06_models",
+      "exists": true
+    }
+  ],
+  "app.repositories": [
+    {
+      "path": "01_source/01_application/03_repositories",
+      "exists": true
+    }
+  ],
+  "app.runtime": [
+    {
+      "path": "01_source/01_application/09_runtime",
+      "exists": true
+    }
+  ],
+  "app.services": [
+    {
+      "path": "01_source/01_application/01_services",
+      "exists": true
+    }
+  ],
+  "app.telemetry": [
+    {
+      "path": "11_build/00_runtime_projection/app/telemetry",
+      "exists": true
+    },
+    {
+      "path": "01_source/01_application/08_telemetry",
+      "exists": true
+    }
+  ],
+  "app.utils": [
+    {
+      "path": "01_source/01_application/10_utils",
+      "exists": true
+    }
+  ],
+  "app.workers": [
+    {
+      "path": "01_source/01_application/04_workers",
+      "exists": true
+    }
+  ],
+  "config": [
+    {
+      "path": "11_build/00_runtime_projection/config",
+      "exists": true
+    },
+    {
+      "path": "04_config/00_schemas",
+      "exists": true
+    }
+  ],
+  "core": [
+    {
+      "path": "11_build/00_runtime_projection/core",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core",
+      "exists": true
+    }
+  ],
+  "core.bandit": [
+    {
+      "path": "01_source/00_core/07_bandit",
+      "exists": true
+    }
+  ],
+  "core.determinism": [
+    {
+      "path": "01_source/00_core/11_determinism",
+      "exists": true
+    }
+  ],
+  "core.learning": [
+    {
+      "path": "01_source/00_core/03_ensemble",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/09_validation",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/04_learners",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/06_transfer",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/08_research",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/01_governance",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/02_state",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/13_reward",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/10_curriculum",
+      "exists": true
+    },
+    {
+      "path": "01_source/00_core/14_projection",
+      "exists": true
+    }
+  ],
+  "core.mapping": [
+    {
+      "path": "01_source/00_core/10_curriculum",
+      "exists": true
+    }
+  ],
+  "core.ownership": [
+    {
+      "path": "01_source/00_core/02_state",
+      "exists": true
+    }
+  ],
+  "core.projection": [
+    {
+      "path": "01_source/00_core/14_projection",
+      "exists": true
+    }
+  ],
+  "core.replay": [
+    {
+      "path": "01_source/00_core/11_determinism",
+      "exists": true
+    }
+  ],
+  "core.reward": [
+    {
+      "path": "01_source/00_core/13_reward",
+      "exists": true
+    }
+  ],
+  "core.session": [
+    {
+      "path": "01_source/00_core/18_session",
+      "exists": true
+    }
+  ],
+  "core.telemetry": [
+    {
+      "path": "01_source/01_application/08_telemetry",
+      "exists": true
+    }
+  ],
+  "infrastructure": [
+    {
+      "path": "01_source/02_infrastructure",
+      "exists": true
+    }
+  ],
+  "infrastructure.experiment": [
+    {
+      "path": "01_source/02_infrastructure/02_experiment",
+      "exists": true
+    }
+  ],
+  "messaging": [
+    {
+      "path": "01_source/02_infrastructure/00_messaging",
+      "exists": true
+    }
+  ],
+  "schema": [
+    {
+      "path": "01_source/02_infrastructure/00_messaging/02_schema",
+      "exists": true
+    }
+  ],
+  "storage": [
+    {
+      "path": "01_source/02_infrastructure/01_storage",
+      "exists": true
+    }
+  ]
+}

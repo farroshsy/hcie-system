@@ -1,0 +1,143 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 6,
+  "fills": "Tabel 4.8 (ADC classification) + Tabel 4.10 (per-dim mean/std/range/nonzero-frac, N=96,727) + Tabel 4.9 (threshold-sensitivity) + selector geometry",
+
+  "INHERITANCE_DISCLOSURE": "MANDATORY FRAMING — these JT magnitudes are 3-learner-runtime-driven. The sealed Kalman anchor re-states canonical_mastery_after = m_K (single Kalman) and uses the ensemble only for sigma^2, but the recorded JT signals / ADC / governance distributions in experiment_trajectories were inherited from the V1 runtime, which used the 3-learner mean (m_K+m_B+m_S)/3 as the mastery that drove governance. So every governance/JT magnitude below reflects 3-learner-driven governance, NOT m_K-driven. The ADC *verdicts* (active/dormant) are robust to this (they key on signal presence/dispersion, not absolute mastery); only the magnitudes (4.9/4.10/4.28/4.29) genuinely differ. An exact m_K-driven regenerate is UNAVAILABLE here (would need a from-ingest re-run: ephemeral normalization state not persisted + per-learner mastery_before not persisted) and is not load-bearing for the core claims. Source: research_validation/KALMAN_OVERLAY_GOVERNANCE_SCOPING.md.",
+
+  "thresholds_sealed": {
+    "ALPHA_FLOOR": 0.01,
+    "SIGNAL_RATIO": 0.08,
+    "definition": "ALPHA_FLOOR = minimum mean contribution; SIGNAL_RATIO = minimum std/mean dispersion. ACTIVE iff (mean > ALPHA_FLOOR) AND (std/mean > SIGNAL_RATIO) AND nonzero signal present.",
+    "source": "sealed_runs.frozen_stats.thresholds for seal-bae44d1a; SQL: SELECT frozen_stats FROM sealed_runs WHERE seal_id='seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7'"
+  },
+
+  "TWO_DISTINCT_SUBSTRATES_WARNING": "There are TWO different per-dimension number sets and they must NOT be conflated. (A) The jt_*_contribution COLUMNS in experiment_trajectories (the decomposed contribution magnitudes) — queried directly below as 'tabel_4_10_per_dim_stats_COLUMNS'. (B) The sealer's own activation_profile, computed by adaptive_dimension_controller.classify_dimension over raw_governance_snapshot (the normalized governance WEIGHTS, a different quantity) — reproduced below as 'sealer_activation_profile_SNAPSHOT'. They give different magnitudes (e.g. challenge column mean=0.158 but snapshot mean=0.0; transfer_realized column mean=0.015 but snapshot mean=0.153) because they measure different things. For the thesis Tabel 4.10 the COLUMN stats are the per-dimension contribution distribution; for the Tabel 4.8 ADC verdict the SNAPSHOT classifier is the sealed authoritative classification.",
+
+  "tabel_4_10_per_dim_stats_COLUMNS": {
+    "_source": "READ-ONLY SQL over experiment_trajectories WHERE experiment_run_id='run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1' (N=96,727). avg=mean, stddev_pop=population std, nonzero_fraction = frac of rows with value<>0, count_fraction = count(col)/96727.",
+    "_columns": "metric | count | mean | std_pop | min | max | nonzero_fraction | non_null_fraction",
+    "jt_delta_m_contribution": {
+      "count": 96727, "mean": 0.08273976199082234, "std_pop": 0.035348004558384896,
+      "min": 0.008691874421178448, "max": 0.22280089344647264, "range": 0.21410901902529419,
+      "nonzero_fraction": 1.0, "non_null_fraction": 1.0
+    },
+    "jt_transfer_contribution": {
+      "count": 96727, "mean": 0.015433131780721988, "std_pop": 0.025386723733586136,
+      "min": 0.0, "max": 0.1658316393547912, "range": 0.1658316393547912,
+      "nonzero_fraction": 0.9997208638746162, "non_null_fraction": 1.0
+    },
+    "jt_transfer_prospective_contribution": {
+      "count": 96727, "mean": 0.0, "std_pop": 0.0,
+      "min": 0.0, "max": 0.0, "range": 0.0,
+      "nonzero_fraction": 0.0, "non_null_fraction": 1.0
+    },
+    "jt_challenge_contribution": {
+      "count": 96727, "mean": 0.15790487794002636, "std_pop": 0.03507515044946514,
+      "min": 0.020300292485491905, "max": 0.22238860513090114, "range": 0.20208831264540924,
+      "nonzero_fraction": 1.0, "non_null_fraction": 1.0
+    },
+    "jt_uncertainty_contribution": {
+      "count": 96727, "mean": 0.11928593112073103, "std_pop": 0.06902669836093736,
+      "min": 0.0, "max": 0.2222142688878802, "range": 0.2222142688878802,
+      "nonzero_fraction": 0.9453513496748581, "non_null_fraction": 1.0
+    },
+    "jt_zpd_contribution": {
+      "count": 96727, "mean": 0.043805679150097705, "std_pop": 0.05634072565649189,
+      "min": 0.011624209181116176, "max": 0.1985251915071302, "range": 0.18690098232601402,
+      "nonzero_fraction": 1.0, "non_null_fraction": 1.0
+    }
+  },
+
+  "tabel_4_8_ADC_classification_OVER_COLUMNS": {
+    "_note": "Classification applying the SEALED thresholds (ALPHA_FLOOR=0.01 mean, SIGNAL_RATIO=0.08 std/mean) DIRECTLY to the jt_*_contribution column stats above (NOT the sealer's snapshot classifier). signal_ratio = std_pop/mean. ACTIVE iff mean>0.01 AND signal_ratio>0.08 AND nonzero present. Provided for the contribution-column view; for the authoritative sealed verdict see sealer_activation_profile_SNAPSHOT.",
+    "jt_delta_m_contribution": {"mean": 0.08273976199082234, "signal_ratio": 0.42722968, "mean_above_floor": true, "ratio_above_threshold": true, "class": "ACTIVE"},
+    "jt_transfer_contribution": {"mean": 0.015433131780721988, "signal_ratio": 1.64494959, "mean_above_floor": true, "ratio_above_threshold": true, "class": "ACTIVE"},
+    "jt_transfer_prospective_contribution": {"mean": 0.0, "signal_ratio": null, "mean_above_floor": false, "ratio_above_threshold": false, "class": "DORMANT", "rationale": "structural zero: hardcoded 0.0 at the call site (unified_brain.py:2512), no substrate signal"},
+    "jt_challenge_contribution": {"mean": 0.15790487794002636, "signal_ratio": 0.22212820, "mean_above_floor": true, "ratio_above_threshold": true, "class": "ACTIVE"},
+    "jt_uncertainty_contribution": {"mean": 0.11928593112073103, "signal_ratio": 0.57867862, "mean_above_floor": true, "ratio_above_threshold": true, "class": "ACTIVE"},
+    "jt_zpd_contribution": {"mean": 0.043805679150097705, "signal_ratio": 1.28615946, "mean_above_floor": true, "ratio_above_threshold": true, "class": "ACTIVE"},
+    "summary": "5 of 6 ACTIVE; only transfer_prospective DORMANT (structural zero). NOTE this column-based verdict differs from the sealer snapshot verdict for challenge (here ACTIVE from the contribution column; snapshot DORMANT because the snapshot's challenge weight carries no substrate variance) — see reconciliation note."
+  },
+
+  "sealer_activation_profile_SNAPSHOT": {
+    "_source": "sealed_runs.frozen_stats.activation_profile for seal-bae44d1a (the AUTHORITATIVE sealed ADC verdict). schema=adc-perdim-1.0, classifier=adaptive_dimension_controller.classify_dimension, source=raw_governance_snapshot. These mean/std are over the normalized governance snapshot, a DIFFERENT quantity than the jt_*_contribution columns.",
+    "headline_metric": {"metric": "jt_transfer_contribution", "n": 96727, "mean": 0.015433131780721988, "std": 0.025386723733586136, "signal_ratio": 1.6449495860132222, "adc_class": "ACTIVE"},
+    "per_dimension": {
+      "delta_m": {"mean": 0.033944, "std": 0.013393, "weight_mean": 0.1267, "nonzero_fraction": 1.0, "has_signal": true, "weight_collapsed": false, "active": true, "rationale": "active: substrate carries signal and governance weight is engaged"},
+      "transfer_realized": {"mean": 0.153209, "std": 0.35069, "weight_mean": 0.0967, "nonzero_fraction": 0.1834, "has_signal": true, "weight_collapsed": false, "active": true, "rationale": "active: substrate carries signal and governance weight is engaged"},
+      "transfer_prospective": {"mean": 0.0, "std": 0.0, "weight_mean": 0.1699, "nonzero_fraction": 0.0, "has_signal": false, "weight_collapsed": false, "active": false, "rationale": "structural dormancy: weight retained but no substrate signal observed"},
+      "challenge": {"mean": 0.0, "std": 0.0, "weight_mean": 0.2056, "nonzero_fraction": 0.0, "has_signal": false, "weight_collapsed": false, "active": false, "rationale": "structural dormancy: weight retained but no substrate signal observed"},
+      "uncertainty": {"mean": 0.01509, "std": 0.011829, "weight_mean": 0.2056, "nonzero_fraction": 0.9995, "has_signal": true, "weight_collapsed": false, "active": true, "rationale": "active: substrate carries signal and governance weight is engaged"},
+      "zpd": {"mean": 0.96982, "std": 0.023657, "weight_mean": 0.1954, "nonzero_fraction": 1.0, "has_signal": true, "weight_collapsed": false, "active": true, "rationale": "active: substrate carries signal and governance weight is engaged"}
+    },
+    "active_dimensions": ["delta_m", "transfer_realized", "uncertainty", "zpd"],
+    "dormant_dimensions": ["transfer_prospective", "challenge"],
+    "suppressed_dimensions": [],
+    "verdict_count": "4 ACTIVE / 2 DORMANT (sealed authoritative)"
+  },
+
+  "reconciliation_column_vs_snapshot": "The two views disagree on transfer_realized and challenge because the snapshot's per-dimension stats are over raw_governance_snapshot (normalized weights' substrate), where challenge shows nonzero_fraction=0.0 (DORMANT) and transfer_realized shows nonzero_fraction=0.1834 (ACTIVE with high dispersion std/mean=2.29). The jt_*_contribution COLUMNS instead show challenge as a dense, high-mean contributor (nonzero=1.0) and transfer (jt_transfer_contribution) as low-mean/high-ratio. For the thesis, the SEALED authoritative ADC verdict (Tabel 4.8) is the snapshot view: ACTIVE = {delta_m, transfer_realized, uncertainty, zpd}; DORMANT = {transfer_prospective, challenge}. The COLUMN per-dim distribution is the substrate for Tabel 4.10 magnitudes.",
+
+  "tabel_4_9_threshold_sensitivity": {
+    "_method": "Re-classify each jt_*_contribution COLUMN under perturbed thresholds, holding the sealed defaults (alpha_floor=0.01, signal_ratio=0.08) as the center. signal_ratio per dim = std_pop/mean from the COLUMN stats above. A verdict is sensitive only if a perturbation flips ACTIVE<->DORMANT.",
+    "per_dim_signal_ratio": {
+      "jt_delta_m_contribution": 0.42723, "jt_transfer_contribution": 1.64495,
+      "jt_transfer_prospective_contribution": null, "jt_challenge_contribution": 0.22213,
+      "jt_uncertainty_contribution": 0.57868, "jt_zpd_contribution": 1.28616
+    },
+    "alpha_floor_sweep": {
+      "_note": "Smallest column mean among the 5 active dims is jt_delta_m=0.0828; transfer column mean=0.0154 is the next-smallest. transfer_prospective=0 is dormant at any floor.",
+      "0.005": "5 ACTIVE / 1 DORMANT (unchanged vs sealed-column-view)",
+      "0.01_SEALED": "5 ACTIVE / 1 DORMANT",
+      "0.02": "5 ACTIVE / 1 DORMANT (transfer column mean 0.0154 < 0.02 -> would flip transfer to DORMANT)",
+      "0.0154_to_0.0828_window": "transfer column (mean 0.0154) flips DORMANT once alpha_floor exceeds 0.0154; all others stay ACTIVE until floor exceeds 0.0828 (delta_m)",
+      "verdict": "The sealed alpha_floor=0.01 sits comfortably below all 5 active means; only transfer (lowest, 0.0154) is within ~1.5x of the floor, so transfer's column-view ACTIVE verdict is the most floor-sensitive."
+    },
+    "signal_ratio_sweep": {
+      "_note": "All 5 active dims have signal_ratio >= 0.222 (challenge, the lowest) up to 1.645 (transfer). Sealed signal_ratio=0.08.",
+      "0.08_SEALED": "all 5 pass (min ratio 0.222 for challenge >> 0.08)",
+      "0.1": "all 5 pass",
+      "0.2": "all 5 pass (challenge 0.222 marginal)",
+      "0.25": "challenge (0.222) flips DORMANT; 4 ACTIVE remain",
+      "verdict": "challenge is the most ratio-sensitive (lowest dispersion among actives); the sealed ratio=0.08 is far below the 0.222 challenge ratio, so the verdict is robust to a ~2.7x ratio tightening. No active dim is near the sealed 0.08 ratio threshold."
+    },
+    "robustness_summary": "Under the sealed COLUMN view, all 5 ACTIVE verdicts are robust to modest threshold perturbation: the binding margins are transfer vs alpha_floor (active until floor>0.0154) and challenge vs signal_ratio (active until ratio>0.222). transfer_prospective DORMANT is threshold-invariant (structural zero). For the SNAPSHOT (sealed-authoritative) view, challenge and transfer_prospective are DORMANT by zero substrate variance (nonzero_fraction=0.0, threshold-invariant). Snapshot active-dim signal_ratios (std/mean): transfer_realized=2.289, uncertainty=0.784, delta_m=0.395, zpd=0.0244. transfer_realized/uncertainty/delta_m clear the 0.08 ratio; zpd's snapshot ratio (0.0244) is BELOW 0.08 yet classified ACTIVE because the snapshot classifier gates 'active' on has_signal + engaged weight (nonzero_fraction=1.0, weight_mean=0.1954), not on the std/mean ratio for a low-variance high-mean dim. This is a classifier-rule nuance, not a flippable threshold margin: zpd stays ACTIVE under any ratio threshold in the snapshot view because its activation is presence-gated.",
+    "DATA_NOTE": "A dedicated threshold-sensitivity grid artifact (research_validation/reports/**threshold**) is UNAVAILABLE (no such file exists). The sweep above is computed analytically from the sealed per-dim stats + sealed thresholds; it is exact (re-classification is a pure function), not a new run."
+  },
+
+  "selector_geometry": {
+    "_source": "research_validation/reports/governance_ecology/h12_audit/governance_ecology_report.json (per-policy ADC profile + governance concentration/entropy + pairwise selector divergence). NOTE: this artifact is the holdout_ecology_smoke / h12_audit (smoke-scale, 48 steps/policy, 9 policies), NOT the 96,727-row seal. Its thresholds: activation_contribution_floor=0.01, collapse_dominance_ratio=4.0, signal_variance_floor=1e-06. Reported for selector-geometry context only; magnitudes are smoke-scale and inherit the same 3-learner governance disclosure.",
+    "per_policy_governance_concentration": {
+      "epsilon_greedy": 0.1588286367471723, "hcie": 0.14732234780793396, "mastery_greedy": 0.1540115982852861,
+      "random": 0.16013109114769986, "static": 0.15898065878976275, "thompson": 0.15176966948156878,
+      "ucb": 0.14762655960125226, "uncertainty_reduction": 0.15761693881944017, "zpd_aligned": 0.16306433393187103
+    },
+    "per_policy_governance_entropy": {
+      "epsilon_greedy": 0.8411713632528277, "hcie": 0.852677652192066, "mastery_greedy": 0.8459884017147139,
+      "random": 0.8398689088523001, "static": 0.8410193412102372, "thompson": 0.8482303305184312,
+      "ucb": 0.8523734403987477, "uncertainty_reduction": 0.8423830611805598, "zpd_aligned": 0.836935666068129
+    },
+    "per_policy_jt_mean": {
+      "epsilon_greedy": 0.6255041330624067, "hcie": 0.623582506822751, "mastery_greedy": 0.6282143630566821,
+      "random": 0.6281268675699488, "static": 0.629507111558231, "thompson": 0.62563979613595,
+      "ucb": 0.628587608170299, "uncertainty_reduction": 0.6285214301059332, "zpd_aligned": 0.6258434157989196
+    },
+    "per_policy_active_dims_smoke": "All 9 policies: ACTIVE={delta_m, transfer_realized, challenge, uncertainty, zpd}; DORMANT={transfer_prospective}. (Note: this smoke audit classifies challenge ACTIVE and transfer_realized ACTIVE, consistent with the COLUMN view, because at smoke scale challenge carries variance here.)",
+    "selector_geometry_observation": "Across 9 policies the governance concentration band is tight (0.147-0.163, range 0.016) and entropy band is tight (0.837-0.853, range 0.016); hcie has the LOWEST concentration (0.1473) and near-highest entropy (0.8527) -> the HCIE selector spreads governance weight most evenly across dimensions, vs random/zpd_aligned which concentrate most. JT means cluster at ~0.62-0.63 across all policies (range 0.006)."
+  },
+
+  "anchor_config_restated": {
+    "canonical_mastery": "single Kalman (m = m_K)",
+    "ensemble_use": "sigma^2 only",
+    "V2_governance": "OFF",
+    "F4": "ON",
+    "rows": 96727,
+    "content_hash": "85690d8be722e1e6271abb2f860290dd",
+    "git_dirty": "false",
+    "build_time": "2026-06-17T13:36:49Z"
+  }
+}

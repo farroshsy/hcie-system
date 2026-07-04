@@ -1,0 +1,67 @@
+# SonarQube server for assessing HCIE code quality.
+# Lives alongside the app stack composes in this folder; kept as a SEPARATE file so it's
+# only up when you're scanning (it's heavy). Joins the app's hcie-final-net network so it
+# sits with the other containers.
+#
+# From this folder (HCIE_SYSTEM_BACKEND_FINAL/05_deployment/00_docker/01_compose):
+#   docker compose -f docker-compose.sonar.yml up -d    # start (http://localhost:9000; SonarQube first-login admin/admin — CHANGE IT, do not tunnel-expose without it)
+#   docker compose -f docker-compose.sonar.yml down     # stop when done
+# Run the scan from the repo root (where sonar-project.properties lives):
+#   ./scripts/run_sonar_scan.sh
+#
+# NOTE: community edition with embedded H2 DB is fine for self-assessment/eval. For a persistent/
+# team setup, swap to an external Postgres (uncomment the db service + SONAR_JDBC_* below).
+# Linux hosts may need: sysctl -w vm.max_map_count=262144 (Elasticsearch requirement).
+# hcie-final-net is marked external: start the app stack (docker-compose.final.yml) first, or
+# create it once with: docker network create hcie-final-net
+services:
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: hcie-sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      # disable ES bootstrap checks for single-node local eval
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+      # --- external Postgres (optional; uncomment + the db service to persist) ---
+      # SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
+      # SONAR_JDBC_USERNAME: sonar
+      # SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    networks:
+      - hcie-final-net
+
+  # --- optional persistent DB (uncomment to use instead of embedded H2) ---
+  # sonar-db:
+  #   image: postgres:15
+  #   container_name: hcie-sonar-db
+  #   environment:
+  #     POSTGRES_USER: sonar
+  #     POSTGRES_PASSWORD: sonar
+  #     POSTGRES_DB: sonar
+  #   volumes:
+  #     - sonar_db_data:/var/lib/postgresql/data
+  #   networks:
+  #     - hcie-final-net
+
+volumes:
+  # Scan results (H2 DB + ES index) live here — marked external so `compose down` never
+  # drops them and they persist across recreations. Created once via the running stack.
+  sonarqube_data:
+    external: true
+    name: 01_compose_sonarqube_data
+  sonarqube_extensions:
+  sonarqube_logs:
+  # sonar_db_data:
+
+networks:
+  hcie-final-net:
+    external: true
+    name: hcie-final-net

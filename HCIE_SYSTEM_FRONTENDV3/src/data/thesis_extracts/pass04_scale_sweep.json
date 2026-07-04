@@ -1,0 +1,718 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-17",
+  "pass": 4,
+  "fills": "F10 / scale sweep \u2014 AUC per (dataset, model, N in 30/100/500) at window=20",
+  "source_artifact": "research_validation/reports/kt_scale_sweep/scale_sweep_summary.json",
+  "window": 20,
+  "window_note": "window=20 ~= overall (max 20 attempts/user in the sweep config)",
+  "CRITICAL_FLAG_hcie_is_ensemble": "HCIE cells in this sweep are the runtime ENSEMBLE (mastery_after), NOT kalman-alone. Per research_validation/SCALE_SWEEP_SMALL_N.md: the per-cell runs are not in experiment_trajectories and kt_baseline_predictions is empty for them, so there is no per-row kalman posterior to re-score. A kalman-alone F10 would shift HCIE up ~uniformly by the matched-eval delta (~+0.027) but does NOT flip the conclusions. This differs from the canonical seal (single-Kalman m_K).",
+  "framing": "AUC competitive not superior. The scale sweep is a NOISE-LIMITED robustness check, NOT a small-N training-regime win: on 4 of 5 datasets the deep models lead HCIE at every N. CSEDM is the clean scoped exception (HCIE leads DKT and SAKT at all N). Small-N (N=30) AUCs are eval-noise-inflated (read higher than N=500), so do not read N=30 as 'starved'. Per SCALE_SWEEP_SMALL_N.md AGREED FRAMING (locked 2026-06-17).",
+  "scale_sweep_window20": {
+    "csedm_f19": {
+      "hcie": {
+        "N30": {
+          "auc": 0.702697240575204,
+          "n_pairs": 570,
+          "run_id": "run-0f66b645-e62f-437c-a507-e94ea02fe2cd"
+        },
+        "N100": {
+          "auc": 0.6643603878120208,
+          "n_pairs": 1900,
+          "run_id": "run-ca68c938-7b6b-45d2-ab36-837bfdb2b163"
+        },
+        "N500": {
+          "auc": 0.6810158610039222,
+          "n_pairs": 9500,
+          "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf"
+        }
+      },
+      "bkt": {
+        "N30": {
+          "auc": 0.7218229010681841,
+          "n_pairs": 600,
+          "run_id": "run-0f66b645-e62f-437c-a507-e94ea02fe2cd"
+        },
+        "N100": {
+          "auc": 0.6586528069416996,
+          "n_pairs": 2000,
+          "run_id": "run-ca68c938-7b6b-45d2-ab36-837bfdb2b163"
+        },
+        "N500": {
+          "auc": 0.679170412877673,
+          "n_pairs": 10000,
+          "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf"
+        }
+      },
+      "dkt": {
+        "N30": {
+          "auc": 0.6704174332206677,
+          "n_pairs": 600,
+          "run_id": "run-0f66b645-e62f-437c-a507-e94ea02fe2cd"
+        },
+        "N100": {
+          "auc": 0.6247645442193676,
+          "n_pairs": 2000,
+          "run_id": "run-ca68c938-7b6b-45d2-ab36-837bfdb2b163"
+        },
+        "N500": {
+          "auc": 0.6512866759689028,
+          "n_pairs": 10000,
+          "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf"
+        }
+      },
+      "sakt": {
+        "N30": {
+          "auc": 0.6460873657639157,
+          "n_pairs": 600,
+          "run_id": "run-0f66b645-e62f-437c-a507-e94ea02fe2cd"
+        },
+        "N100": {
+          "auc": 0.6283478466732543,
+          "n_pairs": 2000,
+          "run_id": "run-ca68c938-7b6b-45d2-ab36-837bfdb2b163"
+        },
+        "N500": {
+          "auc": 0.6496148505082777,
+          "n_pairs": 10000,
+          "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf"
+        }
+      },
+      "irt_1pl": {
+        "N30": {
+          "auc": 0.7210099972903208,
+          "n_pairs": 600,
+          "run_id": "run-0f66b645-e62f-437c-a507-e94ea02fe2cd"
+        },
+        "N100": {
+          "auc": 0.6844294250247036,
+          "n_pairs": 2000,
+          "run_id": "run-ca68c938-7b6b-45d2-ab36-837bfdb2b163"
+        },
+        "N500": {
+          "auc": 0.7093227297658713,
+          "n_pairs": 10000,
+          "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf"
+        }
+      },
+      "greedy_correct_rate": {
+        "N30": {
+          "auc": 0.7170595701593007,
+          "n_pairs": 600,
+          "run_id": "run-0f66b645-e62f-437c-a507-e94ea02fe2cd"
+        },
+        "N100": {
+          "auc": 0.6525972187911726,
+          "n_pairs": 2000,
+          "run_id": "run-ca68c938-7b6b-45d2-ab36-837bfdb2b163"
+        },
+        "N500": {
+          "auc": 0.6736176153582514,
+          "n_pairs": 10000,
+          "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf"
+        }
+      },
+      "random": {
+        "N30": {
+          "auc": 0.49956502517149415,
+          "n_pairs": 600,
+          "run_id": "run-0f66b645-e62f-437c-a507-e94ea02fe2cd"
+        },
+        "N100": {
+          "auc": 0.49222223937747034,
+          "n_pairs": 2000,
+          "run_id": "run-ca68c938-7b6b-45d2-ab36-837bfdb2b163"
+        },
+        "N500": {
+          "auc": 0.5005696224363965,
+          "n_pairs": 10000,
+          "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf"
+        }
+      },
+      "static_prior": {
+        "N30": {
+          "auc": 0.5,
+          "n_pairs": 600,
+          "run_id": "run-0f66b645-e62f-437c-a507-e94ea02fe2cd"
+        },
+        "N100": {
+          "auc": 0.5,
+          "n_pairs": 2000,
+          "run_id": "run-ca68c938-7b6b-45d2-ab36-837bfdb2b163"
+        },
+        "N500": {
+          "auc": 0.5,
+          "n_pairs": 10000,
+          "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf"
+        }
+      }
+    },
+    "junyi_2015": {
+      "hcie": {
+        "N30": {
+          "auc": 0.7113029866949431,
+          "n_pairs": 570,
+          "run_id": "run-4dfa4375-6e0d-4075-b0a0-0477e9066113"
+        },
+        "N100": {
+          "auc": 0.7002968323893434,
+          "n_pairs": 1889,
+          "run_id": "run-a87a9791-981d-479a-8479-619aacbcc1ac"
+        },
+        "N500": {
+          "auc": 0.6560463473716034,
+          "n_pairs": 9338,
+          "run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2"
+        }
+      },
+      "bkt": {
+        "N30": {
+          "auc": 0.7671231356534091,
+          "n_pairs": 600,
+          "run_id": "run-4dfa4375-6e0d-4075-b0a0-0477e9066113"
+        },
+        "N100": {
+          "auc": 0.7745177689624002,
+          "n_pairs": 1989,
+          "run_id": "run-a87a9791-981d-479a-8479-619aacbcc1ac"
+        },
+        "N500": {
+          "auc": 0.7247010174905948,
+          "n_pairs": 9838,
+          "run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2"
+        }
+      },
+      "dkt": {
+        "N30": {
+          "auc": 0.7122358842329546,
+          "n_pairs": 600,
+          "run_id": "run-4dfa4375-6e0d-4075-b0a0-0477e9066113"
+        },
+        "N100": {
+          "auc": 0.7588648707202462,
+          "n_pairs": 1989,
+          "run_id": "run-a87a9791-981d-479a-8479-619aacbcc1ac"
+        },
+        "N500": {
+          "auc": 0.7216881077170134,
+          "n_pairs": 9838,
+          "run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2"
+        }
+      },
+      "sakt": {
+        "N30": {
+          "auc": 0.7738259055397727,
+          "n_pairs": 600,
+          "run_id": "run-4dfa4375-6e0d-4075-b0a0-0477e9066113"
+        },
+        "N100": {
+          "auc": 0.7967541854366974,
+          "n_pairs": 1989,
+          "run_id": "run-a87a9791-981d-479a-8479-619aacbcc1ac"
+        },
+        "N500": {
+          "auc": 0.7493104349728176,
+          "n_pairs": 9838,
+          "run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2"
+        }
+      },
+      "irt_1pl": {
+        "N30": {
+          "auc": 0.7626953125,
+          "n_pairs": 600,
+          "run_id": "run-4dfa4375-6e0d-4075-b0a0-0477e9066113"
+        },
+        "N100": {
+          "auc": 0.7731721165123976,
+          "n_pairs": 1989,
+          "run_id": "run-a87a9791-981d-479a-8479-619aacbcc1ac"
+        },
+        "N500": {
+          "auc": 0.7232735840267971,
+          "n_pairs": 9838,
+          "run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2"
+        }
+      },
+      "greedy_correct_rate": {
+        "N30": {
+          "auc": 0.7716952237215909,
+          "n_pairs": 600,
+          "run_id": "run-4dfa4375-6e0d-4075-b0a0-0477e9066113"
+        },
+        "N100": {
+          "auc": 0.7918030061931763,
+          "n_pairs": 1989,
+          "run_id": "run-a87a9791-981d-479a-8479-619aacbcc1ac"
+        },
+        "N500": {
+          "auc": 0.7442018466922835,
+          "n_pairs": 9838,
+          "run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2"
+        }
+      },
+      "random": {
+        "N30": {
+          "auc": 0.4480202414772727,
+          "n_pairs": 600,
+          "run_id": "run-4dfa4375-6e0d-4075-b0a0-0477e9066113"
+        },
+        "N100": {
+          "auc": 0.4604914199481536,
+          "n_pairs": 1989,
+          "run_id": "run-a87a9791-981d-479a-8479-619aacbcc1ac"
+        },
+        "N500": {
+          "auc": 0.5046295350109432,
+          "n_pairs": 9838,
+          "run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2"
+        }
+      },
+      "static_prior": {
+        "N30": {
+          "auc": 0.5,
+          "n_pairs": 600,
+          "run_id": "run-4dfa4375-6e0d-4075-b0a0-0477e9066113"
+        },
+        "N100": {
+          "auc": 0.5,
+          "n_pairs": 1989,
+          "run_id": "run-a87a9791-981d-479a-8479-619aacbcc1ac"
+        },
+        "N500": {
+          "auc": 0.5,
+          "n_pairs": 9838,
+          "run_id": "run-217532ca-39e6-4859-a41f-88ed53e904a2"
+        }
+      }
+    },
+    "ednet_kt1": {
+      "hcie": {
+        "N30": {
+          "auc": 0.5599350412821759,
+          "n_pairs": 516,
+          "run_id": "run-f6af67d7-bd3a-4580-9784-2219121c0cf1"
+        },
+        "N100": {
+          "auc": 0.5473360244206129,
+          "n_pairs": 1439,
+          "run_id": "run-a0199a90-0480-4b8c-8bd8-04ebc76d1f04"
+        },
+        "N500": {
+          "auc": 0.5701925806141624,
+          "n_pairs": 7795,
+          "run_id": "run-295bef49-8235-4f61-ae9a-8d20f9f604c0"
+        }
+      },
+      "bkt": {
+        "N30": {
+          "auc": 0.5268197690034918,
+          "n_pairs": 547,
+          "run_id": "run-f6af67d7-bd3a-4580-9784-2219121c0cf1"
+        },
+        "N100": {
+          "auc": 0.551493629476584,
+          "n_pairs": 1540,
+          "run_id": "run-a0199a90-0480-4b8c-8bd8-04ebc76d1f04"
+        },
+        "N500": {
+          "auc": 0.5635309301595662,
+          "n_pairs": 8296,
+          "run_id": "run-295bef49-8235-4f61-ae9a-8d20f9f604c0"
+        }
+      },
+      "dkt": {
+        "N30": {
+          "auc": 0.6295124899274779,
+          "n_pairs": 547,
+          "run_id": "run-f6af67d7-bd3a-4580-9784-2219121c0cf1"
+        },
+        "N100": {
+          "auc": 0.6250903925619835,
+          "n_pairs": 1540,
+          "run_id": "run-a0199a90-0480-4b8c-8bd8-04ebc76d1f04"
+        },
+        "N500": {
+          "auc": 0.6270590343291641,
+          "n_pairs": 8296,
+          "run_id": "run-295bef49-8235-4f61-ae9a-8d20f9f604c0"
+        }
+      },
+      "sakt": {
+        "N30": {
+          "auc": 0.6616035455278002,
+          "n_pairs": 547,
+          "run_id": "run-f6af67d7-bd3a-4580-9784-2219121c0cf1"
+        },
+        "N100": {
+          "auc": 0.6738128443526171,
+          "n_pairs": 1540,
+          "run_id": "run-a0199a90-0480-4b8c-8bd8-04ebc76d1f04"
+        },
+        "N500": {
+          "auc": 0.6538057667031039,
+          "n_pairs": 8296,
+          "run_id": "run-295bef49-8235-4f61-ae9a-8d20f9f604c0"
+        }
+      },
+      "irt_1pl": {
+        "N30": {
+          "auc": 0.6118184260005372,
+          "n_pairs": 547,
+          "run_id": "run-f6af67d7-bd3a-4580-9784-2219121c0cf1"
+        },
+        "N100": {
+          "auc": 0.6190203168044077,
+          "n_pairs": 1540,
+          "run_id": "run-a0199a90-0480-4b8c-8bd8-04ebc76d1f04"
+        },
+        "N500": {
+          "auc": 0.6119271808525351,
+          "n_pairs": 8296,
+          "run_id": "run-295bef49-8235-4f61-ae9a-8d20f9f604c0"
+        }
+      },
+      "greedy_correct_rate": {
+        "N30": {
+          "auc": 0.5490061778135912,
+          "n_pairs": 547,
+          "run_id": "run-f6af67d7-bd3a-4580-9784-2219121c0cf1"
+        },
+        "N100": {
+          "auc": 0.5674035812672177,
+          "n_pairs": 1540,
+          "run_id": "run-a0199a90-0480-4b8c-8bd8-04ebc76d1f04"
+        },
+        "N500": {
+          "auc": 0.5682809082130483,
+          "n_pairs": 8296,
+          "run_id": "run-295bef49-8235-4f61-ae9a-8d20f9f604c0"
+        }
+      },
+      "random": {
+        "N30": {
+          "auc": 0.5080445876980929,
+          "n_pairs": 547,
+          "run_id": "run-f6af67d7-bd3a-4580-9784-2219121c0cf1"
+        },
+        "N100": {
+          "auc": 0.509939738292011,
+          "n_pairs": 1540,
+          "run_id": "run-a0199a90-0480-4b8c-8bd8-04ebc76d1f04"
+        },
+        "N500": {
+          "auc": 0.5020258740426208,
+          "n_pairs": 8296,
+          "run_id": "run-295bef49-8235-4f61-ae9a-8d20f9f604c0"
+        }
+      },
+      "static_prior": {
+        "N30": {
+          "auc": 0.5,
+          "n_pairs": 547,
+          "run_id": "run-f6af67d7-bd3a-4580-9784-2219121c0cf1"
+        },
+        "N100": {
+          "auc": 0.5,
+          "n_pairs": 1540,
+          "run_id": "run-a0199a90-0480-4b8c-8bd8-04ebc76d1f04"
+        },
+        "N500": {
+          "auc": 0.5,
+          "n_pairs": 8296,
+          "run_id": "run-295bef49-8235-4f61-ae9a-8d20f9f604c0"
+        }
+      }
+    },
+    "assistments_2009_skill": {
+      "hcie": {
+        "N30": {
+          "auc": 0.6107630186577555,
+          "n_pairs": 565,
+          "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455"
+        },
+        "N100": {
+          "auc": 0.5568424525221745,
+          "n_pairs": 1895,
+          "run_id": "run-5a33e3c1-a0c1-480a-ade0-516bf060d707"
+        },
+        "N500": {
+          "auc": 0.5815897979843349,
+          "n_pairs": 8881,
+          "run_id": "run-658496ae-affe-477e-8765-58cee4e69904"
+        }
+      },
+      "bkt": {
+        "N30": {
+          "auc": 0.6429921579654451,
+          "n_pairs": 595,
+          "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455"
+        },
+        "N100": {
+          "auc": 0.6200900207740248,
+          "n_pairs": 1995,
+          "run_id": "run-5a33e3c1-a0c1-480a-ade0-516bf060d707"
+        },
+        "N500": {
+          "auc": 0.639310291768927,
+          "n_pairs": 9381,
+          "run_id": "run-658496ae-affe-477e-8765-58cee4e69904"
+        }
+      },
+      "dkt": {
+        "N30": {
+          "auc": 0.7749554784890805,
+          "n_pairs": 595,
+          "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455"
+        },
+        "N100": {
+          "auc": 0.7197460952527507,
+          "n_pairs": 1995,
+          "run_id": "run-5a33e3c1-a0c1-480a-ade0-516bf060d707"
+        },
+        "N500": {
+          "auc": 0.634391399762473,
+          "n_pairs": 9381,
+          "run_id": "run-658496ae-affe-477e-8765-58cee4e69904"
+        }
+      },
+      "sakt": {
+        "N30": {
+          "auc": 0.770300246821008,
+          "n_pairs": 595,
+          "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455"
+        },
+        "N100": {
+          "auc": 0.7289297530199277,
+          "n_pairs": 1995,
+          "run_id": "run-5a33e3c1-a0c1-480a-ade0-516bf060d707"
+        },
+        "N500": {
+          "auc": 0.6890732847567578,
+          "n_pairs": 9381,
+          "run_id": "run-658496ae-affe-477e-8765-58cee4e69904"
+        }
+      },
+      "irt_1pl": {
+        "N30": {
+          "auc": 0.6419220795450995,
+          "n_pairs": 595,
+          "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455"
+        },
+        "N100": {
+          "auc": 0.615231976609987,
+          "n_pairs": 1995,
+          "run_id": "run-5a33e3c1-a0c1-480a-ade0-516bf060d707"
+        },
+        "N500": {
+          "auc": 0.5947542485110003,
+          "n_pairs": 9381,
+          "run_id": "run-658496ae-affe-477e-8765-58cee4e69904"
+        }
+      },
+      "greedy_correct_rate": {
+        "N30": {
+          "auc": 0.6380947917643015,
+          "n_pairs": 595,
+          "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455"
+        },
+        "N100": {
+          "auc": 0.6351419558359621,
+          "n_pairs": 1995,
+          "run_id": "run-5a33e3c1-a0c1-480a-ade0-516bf060d707"
+        },
+        "N500": {
+          "auc": 0.6428836249273048,
+          "n_pairs": 9381,
+          "run_id": "run-658496ae-affe-477e-8765-58cee4e69904"
+        }
+      },
+      "random": {
+        "N30": {
+          "auc": 0.5376948792451651,
+          "n_pairs": 595,
+          "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455"
+        },
+        "N100": {
+          "auc": 0.5049072862968378,
+          "n_pairs": 1995,
+          "run_id": "run-5a33e3c1-a0c1-480a-ade0-516bf060d707"
+        },
+        "N500": {
+          "auc": 0.5040351601251857,
+          "n_pairs": 9381,
+          "run_id": "run-658496ae-affe-477e-8765-58cee4e69904"
+        }
+      },
+      "static_prior": {
+        "N30": {
+          "auc": 0.5,
+          "n_pairs": 595,
+          "run_id": "run-ca68d16f-bfd7-444c-b17b-140fa807c455"
+        },
+        "N100": {
+          "auc": 0.5,
+          "n_pairs": 1995,
+          "run_id": "run-5a33e3c1-a0c1-480a-ade0-516bf060d707"
+        },
+        "N500": {
+          "auc": 0.5,
+          "n_pairs": 9381,
+          "run_id": "run-658496ae-affe-477e-8765-58cee4e69904"
+        }
+      }
+    },
+    "assistments_2015_skill": {
+      "hcie": {
+        "N30": {
+          "auc": 0.505241935483871,
+          "n_pairs": 313,
+          "run_id": "run-56d876bf-2060-4940-8df9-a69c183d2288"
+        },
+        "N100": {
+          "auc": 0.5291449866404162,
+          "n_pairs": 1393,
+          "run_id": "run-47e5345a-6569-4a85-9e7d-c1f1f148ca56"
+        },
+        "N500": {
+          "auc": 0.5457675936052714,
+          "n_pairs": 7777,
+          "run_id": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7"
+        }
+      },
+      "bkt": {
+        "N30": {
+          "auc": 0.5893532338308458,
+          "n_pairs": 343,
+          "run_id": "run-56d876bf-2060-4940-8df9-a69c183d2288"
+        },
+        "N100": {
+          "auc": 0.6187134502923977,
+          "n_pairs": 1493,
+          "run_id": "run-47e5345a-6569-4a85-9e7d-c1f1f148ca56"
+        },
+        "N500": {
+          "auc": 0.6356462745372505,
+          "n_pairs": 8277,
+          "run_id": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7"
+        }
+      },
+      "dkt": {
+        "N30": {
+          "auc": 0.64636815920398,
+          "n_pairs": 343,
+          "run_id": "run-56d876bf-2060-4940-8df9-a69c183d2288"
+        },
+        "N100": {
+          "auc": 0.6161916858511286,
+          "n_pairs": 1493,
+          "run_id": "run-47e5345a-6569-4a85-9e7d-c1f1f148ca56"
+        },
+        "N500": {
+          "auc": 0.6294660133790358,
+          "n_pairs": 8277,
+          "run_id": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7"
+        }
+      },
+      "sakt": {
+        "N30": {
+          "auc": 0.6467164179104478,
+          "n_pairs": 343,
+          "run_id": "run-56d876bf-2060-4940-8df9-a69c183d2288"
+        },
+        "N100": {
+          "auc": 0.5923248921700934,
+          "n_pairs": 1493,
+          "run_id": "run-47e5345a-6569-4a85-9e7d-c1f1f148ca56"
+        },
+        "N500": {
+          "auc": 0.6255236662134058,
+          "n_pairs": 8277,
+          "run_id": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7"
+        }
+      },
+      "irt_1pl": {
+        "N30": {
+          "auc": 0.5757462686567164,
+          "n_pairs": 343,
+          "run_id": "run-56d876bf-2060-4940-8df9-a69c183d2288"
+        },
+        "N100": {
+          "auc": 0.5557460771083063,
+          "n_pairs": 1493,
+          "run_id": "run-47e5345a-6569-4a85-9e7d-c1f1f148ca56"
+        },
+        "N500": {
+          "auc": 0.5643641502653693,
+          "n_pairs": 8277,
+          "run_id": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7"
+        }
+      },
+      "greedy_correct_rate": {
+        "N30": {
+          "auc": 0.6004477611940299,
+          "n_pairs": 343,
+          "run_id": "run-56d876bf-2060-4940-8df9-a69c183d2288"
+        },
+        "N100": {
+          "auc": 0.624476727263105,
+          "n_pairs": 1493,
+          "run_id": "run-47e5345a-6569-4a85-9e7d-c1f1f148ca56"
+        },
+        "N500": {
+          "auc": 0.6304470696453274,
+          "n_pairs": 8277,
+          "run_id": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7"
+        }
+      },
+      "random": {
+        "N30": {
+          "auc": 0.49208955223880596,
+          "n_pairs": 343,
+          "run_id": "run-56d876bf-2060-4940-8df9-a69c183d2288"
+        },
+        "N100": {
+          "auc": 0.48904501071683737,
+          "n_pairs": 1493,
+          "run_id": "run-47e5345a-6569-4a85-9e7d-c1f1f148ca56"
+        },
+        "N500": {
+          "auc": 0.4906165013597824,
+          "n_pairs": 8277,
+          "run_id": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7"
+        }
+      },
+      "static_prior": {
+        "N30": {
+          "auc": 0.5,
+          "n_pairs": 343,
+          "run_id": "run-56d876bf-2060-4940-8df9-a69c183d2288"
+        },
+        "N100": {
+          "auc": 0.5,
+          "n_pairs": 1493,
+          "run_id": "run-47e5345a-6569-4a85-9e7d-c1f1f148ca56"
+        },
+        "N500": {
+          "auc": 0.5,
+          "n_pairs": 8277,
+          "run_id": "run-9403d0c0-5610-4a1d-b1a9-198b7eb98aa7"
+        }
+      }
+    }
+  },
+  "csedm_n500_competitive_highlight": {
+    "dataset": "csedm_f19",
+    "N": 500,
+    "window": 20,
+    "run_id": "run-92428fb6-790e-46a2-84c7-71b94f471aaf",
+    "hcie_ensemble_auc": 0.6810158610039222,
+    "bkt_auc": 0.679170412877673,
+    "dkt_auc": 0.6512866759689028,
+    "sakt_auc": 0.6496148505082777,
+    "irt_1pl_auc": 0.7093227297658713,
+    "verdict": "HCIE (ensemble) 0.681 BEATS DKT 0.651 and SAKT 0.650 at N=500 on CSEDM; competitive-band with BKT 0.679; below IRT 0.709. CSEDM (programming-logs/CS domain) is the scoped accuracy win. Kalman-alone would WIDEN this (+~0.057 per SCALE_SWEEP_SMALL_N.md proj column).",
+    "kalman_proj_h_minus_dkt_n500": "~+0.057 (SCALE_SWEEP_SMALL_N.md)"
+  }
+}

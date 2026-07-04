@@ -1,0 +1,31 @@
+apiVersion: 1
+# Tracing / logs / profiling datasources. The backing services run in the
+# `tracing` profile (tempo, loki, pyroscope). Tempo receives traces via the
+# otel-collector (otlp/tempo exporter); loki + pyroscope are fed by the API
+# when OTEL log export / the pyroscope SDK are enabled (see compose api env).
+datasources:
+  - name: Tempo
+    type: tempo
+    access: proxy
+    uid: hcie-final-tempo
+    url: http://tempo:3200
+    editable: false
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: hcie-final-loki
+      tracesToMetrics:
+        datasourceUid: hcie-final-prom
+
+  - name: Loki
+    type: loki
+    access: proxy
+    uid: hcie-final-loki
+    url: http://loki:3100
+    editable: false
+
+  - name: Pyroscope
+    type: grafana-pyroscope-datasource
+    access: proxy
+    uid: hcie-final-pyroscope
+    url: http://pyroscope:4040
+    editable: false

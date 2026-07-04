@@ -1,0 +1,23 @@
+# HCIE Frontend V3 — dev image.
+#
+# Used by docker-compose.final.yml under ``--profile frontend-dev`` so the
+# frontend can hot-reload against the FINAL backend while we iterate on
+# integration. For production builds use the canonical ``Dockerfile``.
+
+FROM node:20-alpine
+WORKDIR /app
+
+RUN apk add --no-cache libc6-compat python3 make g++
+
+COPY package.json package-lock.json* ./
+RUN npm install --no-audit --no-fund
+
+COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

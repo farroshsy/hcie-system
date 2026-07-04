@@ -1,0 +1,42 @@
+{
+  "predictor": "lagged-Kalman (P(correct at t) = kalman_mastery_after[t-1]; t=0 -> cold-start prior)",
+  "faithful_proxy_note": "per-learner Kalman mastery_before is NOT persisted; the lagged posterior is the faithful pre-update proxy for the Kalman canonical (m_K)",
+  "phase2_run_id": "run-94a3b8ba-015b-4d84-b288-004fe60bc282",
+  "n_eval_users": 76,
+  "windows": {
+    "overall": {
+      "lagged_kalman": 0.6870860688162646,
+      "hcie_3learner_mastery_before": 0.6929792408696761,
+      "bkt": 0.6746076986355387,
+      "dkt": 0.6084312319694893,
+      "sakt": 0.5991740951733183,
+      "gkt": 0.5757824206244887
+    },
+    "<= 5": {
+      "lagged_kalman": 0.7529486331569665,
+      "hcie_3learner_mastery_before": 0.6586714567483798,
+      "bkt": 0.7160218253968254,
+      "dkt": 0.6907242063492064,
+      "sakt": 0.6508763227513228,
+      "gkt": 0.5992614638447972
+    },
+    "<= 10": {
+      "lagged_kalman": 0.7121868012155267,
+      "hcie_3learner_mastery_before": 0.6600254345061467,
+      "bkt": 0.7294593199931196,
+      "dkt": 0.7130181755633278,
+      "sakt": 0.6867223783039963,
+      "gkt": 0.6100424287598188
+    },
+    "<= 20": {
+      "lagged_kalman": 0.7245240347661562,
+      "hcie_3learner_mastery_before": 0.717205919237522,
+      "bkt": 0.7552991781469875,
+      "dkt": 0.7417777744929935,
+      "sakt": 0.7179869035653048,
+      "gkt": 0.6147120558150535
+    }
+  },
+  "delta_vs_3learner_overall": -0.0059,
+  "regressed_vs_3learner": true
+}

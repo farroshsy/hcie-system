@@ -1,0 +1,22 @@
+{
+  "spec": "estimator-v3 same-family vs cross-family (within-learner FE + state controls)",
+  "mode": "full",
+  "n_rows": 1976020,
+  "n_users": 232440,
+  "b_durable_CROSS_past": 0.09147,
+  "b_FUTURE_cross_PLACEBO": 0.03812,
+  "placebo_ratio_future_over_past": 0.417,
+  "placebo_verdict": "STATE/SELECTION CONFOUND (future ~ past)",
+  "b_durable_SAME": 0.11865,
+  "b_proximity": 0.13372,
+  "cross_perm_p": 0.000999000999000999,
+  "perm_K": 1000,
+  "null_mean": -0.01376,
+  "null_sd": 0.02145,
+  "n_rows_with_cross_durable": 64801,
+  "n_rows_with_same_durable": 246530,
+  "family_def": "same = shared name-stem OR same topic; cross = otherwise",
+  "interpretation": "if b_durable_CROSS ~ 0.02 -> validates+explains paper +0.020; if large -> bigger finding",
+  "paper_target_cross": 0.007,
+  "seed": 20260531
+}

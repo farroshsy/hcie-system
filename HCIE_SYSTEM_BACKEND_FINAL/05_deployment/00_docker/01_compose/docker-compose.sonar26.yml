@@ -1,0 +1,55 @@
+# SonarQube 26.6 (Community Build) — replaces the 9.9 eval instance.
+# Modern SonarQube dropped the embedded H2 DB, so this uses an external Postgres.
+# Fresh volumes (the 9.9 data in 01_compose_sonarqube_data is left untouched for rollback).
+#
+# From this folder:
+#   docker stop hcie-sonarqube                                   # free port 9000 (9.9 kept for rollback)
+#   docker compose -f docker-compose.sonar26.yml up -d           # start 26.6 + db
+#   # first login at http://localhost:9000  admin/admin -> set a new password -> mint a token
+#   docker compose -f docker-compose.sonar26.yml down            # stop when done
+services:
+  sonarqube26:
+    image: sonarqube:26.6.0.123539-community
+    container_name: hcie-sonarqube26
+    depends_on:
+      - sonar-db26
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db26:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube26_data:/opt/sonarqube/data
+      - sonarqube26_extensions:/opt/sonarqube/extensions
+      - sonarqube26_logs:/opt/sonarqube/logs
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    networks:
+      - hcie-final-net
+
+  sonar-db26:
+    image: postgres:15
+    container_name: hcie-sonar-db26
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - sonar_db26_data:/var/lib/postgresql/data
+    networks:
+      - hcie-final-net
+
+volumes:
+  sonarqube26_data:
+  sonarqube26_extensions:
+  sonarqube26_logs:
+  sonar_db26_data:
+
+networks:
+  hcie-final-net:
+    external: true
+    name: hcie-final-net

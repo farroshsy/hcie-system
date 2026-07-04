@@ -1,0 +1,51 @@
+{
+  "summary": {
+    "total_tests": 5,
+    "passed_tests": 1,
+    "failed_tests": 4,
+    "success_rate": 20.0,
+    "critical_failures": [
+      "Fallback Detection",
+      "Mastery Progression",
+      "History Persistence"
+    ],
+    "timestamp": "2026-04-22T13:03:46.538744"
+  },
+  "results": [
+    {
+      "test_name": "Fallback Detection",
+      "success": false,
+      "details": "Too many fallbacks: 5/5",
+      "response_time": 0.14261078834533691,
+      "timestamp": "2026-04-22T13:03:44.508144"
+    },
+    {
+      "test_name": "Mastery Progression",
+      "success": false,
+      "details": "All changes are fake +/-0.05 pattern",
+      "response_time": 0.1686089038848877,
+      "timestamp": "2026-04-22T13:03:44.677763"
+    },
+    {
+      "test_name": "History Persistence",
+      "success": false,
+      "details": "No history saved: 0/5 items",
+      "response_time": 1.146406650543213,
+      "timestamp": "2026-04-22T13:03:45.824170"
+    },
+    {
+      "test_name": "Redis Connectivity",
+      "success": false,
+      "details": "Exception: local variable 'response_time' referenced before assignment",
+      "response_time": 0.6981499195098877,
+      "timestamp": "2026-04-22T13:03:46.522320"
+    },
+    {
+      "test_name": "Real vs Fake",
+      "success": true,
+      "details": "Fallback properly detected: [True, True, True]",
+      "response_time": 0.013829231262207031,
+      "timestamp": "2026-04-22T13:03:46.536671"
+    }
+  ]
+}

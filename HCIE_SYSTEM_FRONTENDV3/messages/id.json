@@ -1,0 +1,92 @@
+{
+  "common": {
+    "loading": "Memuat...",
+    "error": "Error",
+    "success": "Berhasil",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "search": "Cari",
+    "filter": "Filter",
+    "back": "Kembali",
+    "next": "Selanjutnya",
+    "previous": "Sebelumnya",
+    "submit": "Kirim",
+    "confirm": "Konfirmasi"
+  },
+  "navigation": {
+    "home": "Beranda",
+    "learning": "Belajar",
+    "progress": "Kemajuan",
+    "profile": "Profil",
+    "settings": "Pengaturan",
+    "admin": "Admin",
+    "dashboard": "Dasbor",
+    "experiments": "Eksperimen",
+    "analytics": "Analitik",
+    "users": "Pengguna",
+    "logout": "Keluar"
+  },
+  "dashboard": {
+    "welcome": "Selamat datang kembali",
+    "overview": "Ringkasan",
+    "stats": {
+      "totalUsers": "Total Pengguna",
+      "activeUsers": "Pengguna Aktif",
+      "totalExperiments": "Total Eksperimen",
+      "runningExperiments": "Eksperimen Berjalan",
+      "systemHealth": "Kesehatan Sistem"
+    },
+    "recentActivity": "Aktivitas Terbaru"
+  },
+  "learning": {
+    "conceptProgress": "Kemajuan Konsep",
+    "learningPath": "Jalur Belajar",
+    "mastery": "Penguasaan",
+    "completed": "Selesai",
+    "inProgress": "Sedang Berjalan",
+    "locked": "Terkunci",
+    "available": "Tersedia",
+    "difficulty": {
+      "easy": "Mudah",
+      "medium": "Sedang",
+      "hard": "Sulit"
+    },
+    "tasks": "Tugas",
+    "startLearning": "Mulai Belajar",
+    "continueLearning": "Lanjutkan Belajar"
+  },
+  "math": {
+    "enterExpression": "Masukkan ekspresi matematika...",
+    "preview": "Pratinjau",
+    "invalidExpression": "Ekspresi tidak valid"
+  },
+  "admin": {
+    "experiments": {
+      "title": "Eksperimen",
+      "create": "Buat Eksperimen",
+      "status": {
+        "scheduled": "Dijadwalkan",
+        "running": "Berjalan",
+        "completed": "Selesai",
+        "failed": "Gagal",
+        "paused": "Jeda"
+      }
+    },
+    "analytics": {
+      "title": "Analitik",
+      "metrics": "Metrik",
+      "performance": "Kinerja"
+    },
+    "users": {
+      "title": "Pengguna",
+      "manage": "Kelola Pengguna",
+      "addUser": "Tambah Pengguna",
+      "role": {
+        "user": "Pengguna",
+        "admin": "Admin"
+      }
+    }
+  }
+}

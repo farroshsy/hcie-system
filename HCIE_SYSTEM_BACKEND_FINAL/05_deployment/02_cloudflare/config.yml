@@ -1,0 +1,32 @@
+tunnel: hcie-prod
+credentials-file: C:\Users\Farros\.cloudflared\hcie-prod.json
+
+# Quick reference:
+#   - Replace <UUID> below with the tunnel ID printed by `cloudflared tunnel create hcie-prod`.
+#   - `credentials-file` is auto-written by that same command.
+#   - This config routes the public tunnel URL to the nginx gateway on the host.
+#   - To restrict which paths are publicly accessible, list specific path rules
+#     above the catch-all instead of mapping `/` to the gateway.
+
+ingress:
+  # Optional: route specific paths only. Uncomment for path-scoped public exposure.
+  # - hostname: hcie.example.com
+  #   path: /v3/.*
+  #   service: http://localhost:80
+  # - hostname: hcie.example.com
+  #   path: /ws.*
+  #   service: http://localhost:80
+
+  # Catch-all → nginx gateway. Everything else gets a 404 by Cloudflare.
+  - service: http://localhost:80
+
+  # Required fallback rule.
+  - service: http_status:404
+
+# Production hardening (uncomment when ready):
+# loglevel: info
+# transport-loglevel: warn
+# metrics: 127.0.0.1:8081       # local metrics endpoint for prometheus scrape
+# no-autoupdate: false
+# retries: 5
+# grace-period: 30s

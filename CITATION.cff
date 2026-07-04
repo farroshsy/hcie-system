@@ -1,0 +1,51 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite the thesis below."
+title: "Cold-Start Personalization in Adaptive Learning via Embedding-Free Mastery Modeling and Multi-Armed Bandits (HCIE)"
+abstract: >-
+  Cold-start adaptive learning system without per-learner embeddings, implemented as HCIE
+  (Hierarchical Cognitive Inference Engine) — an event-sourced runtime combining a
+  low-dimensional explicit mastery ensemble (Bayesian + Kalman) with a Thompson Sampling
+  Multi-Armed Bandit policy for representation selection. The system delivers personalization
+  from the first interaction without relying on latent representations requiring extensive
+  interaction history. This work then introduces the Adaptive Dimension Controller (ADC) — an
+  observational instrument that characterizes which dimensions of a multi-dimensional governance
+  function carry empirical signal under an observed interaction ecology — as the operational
+  realization of the requirement that personalization decisions be traceable and auditable. The
+  ADC's validity is established reflexively: through a normalizer floor-artifact audit followed by
+  an ability-matched shuffled-DAG control and a committed reproducible estimator, the instrument
+  calibrates the prerequisite-topology transfer claim from a categorical verdict to a real,
+  causal, cross-concept, dose-dependent effect with roughly two-thirds attributable to curriculum
+  proximity and a durable causal component (≈ +0.053, within-learner scale) sealed at the full
+  corpus (N ≈ 1.98M first-encounters, p < 0.01). A matched evaluation on the Junyi 2015 dataset
+  (10 held-out users, N ≈ 10,500 predictions) shows HCIE competitive against BKT (0.612), DKT
+  (0.589), SAKT (0.573), and GKT (0.571; n ≤ 69) baselines with AUC 0.609 at zero offline
+  training cost.
+type: software
+authors:
+  - given-names: Farros Hilmi
+    family-names: Syafei
+    affiliation: "Institut Teknologi Sepuluh Nopember (ITS)"
+    email: farrossyafei.205025@mhs.its.ac.id
+version: 0.1.0
+date-released: "2026-06-21"
+license: MIT
+repository-code: "https://github.com/farroshsy/hcie-system"
+keywords:
+  - cold-start personalization
+  - adaptive learning systems
+  - knowledge tracing
+  - multi-armed bandits
+  - interpretable models
+  - programming education
+  - event-sourcing
+preferred-citation:
+  type: thesis
+  title: "Cold-Start Personalization in Adaptive Learning via Embedding-Free Mastery Modeling and Multi-Armed Bandits"
+  authors:
+    - given-names: Farros Hilmi
+      family-names: Syafei
+  year: 2026
+  month: 6
+  institution:
+    name: "Institut Teknologi Sepuluh Nopember (ITS)"
+  thesis-type: "Undergraduate Final Project (Tugas Akhir), Department of Informatics, Faculty of Intelligent Electrical and Informatics Technology"

@@ -1,0 +1,14 @@
+# Exclude everything except what we need
+*
+!requirements.txt
+!app/
+!storage/
+!config/
+!workers/
+!services/
+!infrastructure/
+!messaging/
+!core/
+!experiments/
+!migrations/
+!alembic.ini

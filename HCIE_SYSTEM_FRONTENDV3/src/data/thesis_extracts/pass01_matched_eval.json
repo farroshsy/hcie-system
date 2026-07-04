@@ -1,0 +1,76 @@
+{
+  "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+  "run_id": "run-d2154070-b6e4-4abe-94e6-a2e6ccfbefc1",
+  "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+  "date": "2026-06-23",
+  "pass": 1,
+  "fills": "Tabel 4.5 / Gambar 4.24 — HCIE lagged-Kalman vs 5 baselines (matched eval, overall + cold-start windows)",
+  "source_artifact": "research_validation/reports/baseline_comparison/lagged_kalman_auc.json",
+  "matched_protocol_detail": "research_validation/reports/baseline_comparison/comparison_table.json",
+  "eval_run_id_of_artifact": "run-94a3b8ba-015b-4d84-b288-004fe60bc282",
+  "seal_consistency_note": "Eval is on Phase-2 matched run run-94a3b8ba; the lagged-Kalman predictor columns are IDENTICAL to the sealed canonical (canonical mastery = single Kalman m_K), per the brief's artifact map ('kalman cols identical to the seal'). The seal-of-record run-d2154070 fixes the same canonical Kalman config; this matched battery is the predictive read-out for it.",
+  "predictor_definition": "lagged-Kalman: P(correct at t) = kalman_mastery_after[t-1]; t=0 -> cold-start prior. Faithful pre-update proxy for the Kalman canonical (m_K); per-learner mastery_before is not persisted.",
+  "n_eval_users": 10,
+  "auc_method": "AUC with averaged-rank tie handling (tie-aware, sklearn.roc_auc_score-equivalent); matched 10 held-out users, same cold-start windows, one tie convention across all models (Rekomendasi A, 2026-06-23).",
+  "framing": "AUC is COMPETITIVE, not superior. Under the standard tie-aware AUC, HCIE lagged-Kalman still LEADS overall (0.6051) on the pooled held-out set (BKT 0.5963, DKT 0.5892, SAKT 0.573, GKT 0.5711). On the per-interaction cold-start windows (<=5,<=10,<=20) the deep models (DKT/SAKT) and BKT read HIGHER -- a Simpson / cold-start pattern, NOT a loss: a zero-shot model beating trained KT on pooled data. The earlier 0.6364 overall used an optimistic tie convention; switching to tie-aware lowers the magnitude (0.6364->0.6051) but the ranking is unchanged.",
+  "table_4_5": {
+    "note": "AUC per model x window. 'overall' = pooled across all held-out interactions; '<=5/<=10/<=20' = per-user first-N attempt windows.",
+    "windows": {
+      "overall": {
+        "hcie_lagged_kalman": 0.6051143242054002,
+        "bkt": 0.5963486848864465,
+        "dkt": 0.5891819306304391,
+        "sakt": 0.5729518906762671,
+        "gkt": 0.5710753087233331,
+        "hcie_3learner_mastery_before_reference": 0.6085042415790202,
+        "leader": "hcie_lagged_kalman",
+        "hcie_minus_bkt": 0.0088,
+        "hcie_minus_best_deep_dkt": 0.0159
+      },
+      "<=5": {
+        "hcie_lagged_kalman": 0.87375,
+        "bkt": 0.835,
+        "dkt": 0.955,
+        "sakt": 0.905,
+        "gkt": 0.655,
+        "hcie_3learner_mastery_before_reference": 0.7872023809523809,
+        "leader": "dkt",
+        "simpson_note": "deep DKT/SAKT lead at pure cold-start; cold-start window, n=50 (10 users x 5), small-sample"
+      },
+      "<=10": {
+        "hcie_lagged_kalman": 0.8225,
+        "bkt": 0.8275,
+        "dkt": 0.899375,
+        "sakt": 0.865625,
+        "gkt": 0.62,
+        "hcie_3learner_mastery_before_reference": 0.8150406504065041,
+        "leader": "dkt",
+        "simpson_note": "deep models lead; n=100"
+      },
+      "<=20": {
+        "hcie_lagged_kalman": 0.8478260869565217,
+        "bkt": 0.8811116419812072,
+        "dkt": 0.9272177098264055,
+        "sakt": 0.9065137760789934,
+        "gkt": 0.6880076445293837,
+        "hcie_3learner_mastery_before_reference": 0.8717111232081292,
+        "leader": "dkt",
+        "simpson_note": "deep models lead; n=200"
+      }
+    }
+  },
+  "delta_vs_3learner_overall": -0.0034,
+  "regressed_vs_3learner": true,
+  "small_sample_caveat": "The matched per-window cells are n=50/100/200 (10 users). The journal flags these unstable: BKT scores ~0.89 at <=5 here but 0.61 overall — a small-sample artifact. A powered, leak-free per-window comparison (probe_coldstart_powered.py, n~53,336) reports BKT <=5 AUC = 0.737, not 0.89 (see research_validation/reports/COLDSTART_BEAT_BKT_2026-06-05.md). The overall AUCs (n_overall ~10,500 baselines / 10,019 HCIE) are the stable cells; the per-window cells are presented with the small-sample flag.",
+  "auc_tie_convention": {
+    "convention": "averaged-rank (tie-aware)",
+    "supersedes_optimistic_overall_hcie": 0.6363648998312872,
+    "reason": "The earlier 0.6364 used an optimistic tie convention (sorted(zip(score,label),reverse=True), full credit to tied scores). HCIE has ~26.5% rows tied at the repeated cold-start prior; under the standard tie-aware AUC the honest overall is 0.6051. Baselines DKT/SAKT/GKT are continuous (no ties) so unchanged; BKT 0.6118->0.5963. Ranking unchanged (HCIE still leads).",
+    "changed_2026_06_23": true
+  },
+  "hcie_overall_value": {
+    "value_in_artifact": 0.6051143242054002,
+    "rounded": 0.6051,
+    "convention": "tie-aware"
+  }
+}

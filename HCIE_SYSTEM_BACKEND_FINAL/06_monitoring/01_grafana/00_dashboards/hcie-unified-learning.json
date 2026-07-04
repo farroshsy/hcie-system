@@ -1,0 +1,491 @@
+{
+  "title": "HCIE Unified Learning Observability",
+  "uid": "hcie-unified-learning",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "10s",
+  "time": { "from": "now-1h", "to": "now" },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+
+    {
+      "type": "stat",
+      "title": "🏆 Truth Score",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "1 - (rate(hcie_canonical_state_misses_total[5m]) / clamp_min(rate(hcie_canonical_state_reads_total[5m]), 0.0001))",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "max": 1,
+          "thresholds": {
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 0.9 },
+              { "color": "green", "value": 0.95 }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "type": "stat",
+      "title": " Miss Rate",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_canonical_state_misses_total[5m]) / clamp_min(rate(hcie_canonical_state_reads_total[5m]), 0.0001)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "max": 1
+        }
+      }
+    },
+
+    {
+      "type": "timeseries",
+      "title": "📊 Reads vs Misses",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_canonical_state_reads_total[5m])",
+          "legendFormat": "Reads",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(hcie_canonical_state_misses_total[5m])",
+          "legendFormat": "Misses",
+          "refId": "B"
+        }
+      ]
+    },
+
+    {
+      "type": "piechart",
+      "title": "🧠 State Source Distribution",
+      "gridPos": { "x": 0, "y": 6, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum by (state_source)(rate(hcie_learning_state_source_total[5m]))",
+          "legendFormat": "{{state_source}}",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "⚡ Learning Throughput",
+      "gridPos": { "x": 6, "y": 6, "w": 6, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum by (concept)(rate(hcie_mastery_updates_total[5m]))",
+          "legendFormat": "{{concept}}",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "📚 Learning per Concept",
+      "gridPos": { "x": 12, "y": 6, "w": 6, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum by (concept)(rate(hcie_learning_events_total[5m]))",
+          "legendFormat": "{{concept}}",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "📈 Average Learning Delta",
+      "gridPos": { "x": 0, "y": 14, "w": 6, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_mastery_delta_sum[5m]) / clamp_min(rate(hcie_mastery_delta_count[5m]), 0.0001)",
+          "legendFormat": "Avg Δ mastery",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": " Median Learning Delta",
+      "gridPos": { "x": 6, "y": 14, "w": 6, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, rate(hcie_mastery_delta_distribution_bucket[5m]))",
+          "legendFormat": "Median Δ mastery",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": " Learner Agreement",
+      "gridPos": { "x": 12, "y": 14, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "kind": "PanelQuery",
+          "spec": {
+            "query": {
+              "kind": "DataQuery",
+              "group": "prometheus",
+              "version": "v0",
+              "datasource": {
+                "name": "PBFA97CFB590B2093"
+              },
+              "spec": {
+                "expr": "avg by (concept)(hcie_lyapunov_mastery)",
+                "legendFormat": "Lyapunov"
+              }
+            },
+            "refId": "A",
+            "hidden": false
+          }
+        },
+        {
+          "kind": "PanelQuery",
+          "spec": {
+            "query": {
+              "kind": "DataQuery",
+              "group": "prometheus",
+              "version": "v0",
+              "datasource": {
+                "name": "PBFA97CFB590B2093"
+              },
+              "spec": {
+                "expr": "avg by (concept)(hcie_bayesian_mastery)",
+                "legendFormat": "Bayesian"
+              }
+            },
+            "refId": "B",
+            "hidden": false
+          }
+        },
+        {
+          "kind": "PanelQuery",
+          "spec": {
+            "query": {
+              "kind": "DataQuery",
+              "group": "prometheus",
+              "version": "v0",
+              "datasource": {
+                "name": "PBFA97CFB590B2093"
+              },
+              "spec": {
+                "expr": "avg by (concept)(hcie_kalman_mastery)",
+                "legendFormat": "Kalman"
+              }
+            },
+            "refId": "C",
+            "hidden": false
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "heatmap",
+      "title": "🔥 Adaptive Learning Rate η(t) Distribution",
+      "gridPos": { "x": 0, "y": 22, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_adaptive_learning_rate_bucket[5m])",
+          "legendFormat": "η(t) - {{user_id}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "timeseries",
+      "title": "🔥 η(t) Time Series by User",
+      "gridPos": { "x": 0, "y": 30, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.5, sum(rate(hcie_adaptive_learning_rate_bucket[5m])) by (le, user_id, concept))",
+          "legendFormat": "Median η(t) - {{user_id}}",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(hcie_adaptive_learning_rate_bucket[5m])) by (le, user_id, concept))",
+          "legendFormat": "95th percentile η(t) - {{user_id}}",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      }
+    },
+
+    {
+      "type": "scatterplot",
+      "title": "⚡ Response Time vs η(t)",
+      "gridPos": { "x": 12, "y": 22, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "hcie_response_time_seconds",
+          "legendFormat": "Response Time",
+          "refId": "A"
+        },
+        {
+          "expr": "hcie_adaptive_learning_rate",
+          "legendFormat": "η(t)",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        }
+      }
+    },
+
+    {
+      "type": "timeseries",
+      "title": "✅ Correctness Impact on η(t)",
+      "gridPos": { "x": 0, "y": 30, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "avg by (correct)(hcie_adaptive_learning_rate)",
+          "legendFormat": "η(t) - {{correct}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds",
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": null },
+                { "color": "orange", "value": false },
+                { "color": "green", "value": true }
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    {
+      "type": "timeseries",
+      "title": "🎯 Energy Constraint Violations",
+      "gridPos": { "x": 12, "y": 30, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_energy_violations_total[5m])",
+          "legendFormat": "Violations/min",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": 0 },
+              { "color": "yellow", "value": 0.1 },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        }
+      }
+    },
+
+    {
+      "type": "timeseries",
+      "title": "📊 Ensemble Variance",
+      "gridPos": { "x": 0, "y": 38, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "avg(hcie_ensemble_variance)",
+          "legendFormat": "Variance",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": " Bandit Exploration Ratio",
+      "gridPos": { "x": 12, "y": 22, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_bandit_exploration_total[5m]) / clamp_min(rate(hcie_bandit_exploration_total[5m]) + rate(hcie_bandit_exploitation_total[5m]), 0.0001)",
+          "legendFormat": "Exploration Ratio",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "❄️ Cold Start Rate",
+      "gridPos": { "x": 0, "y": 30, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_cold_start_events_total[5m])",
+          "legendFormat": "Cold starts/sec",
+          "refId": "A"
+        }
+      ]
+    },
+
+    {
+      "type": "timeseries",
+      "title": "⚠️ Silent Failure (Fallback Learning)",
+      "gridPos": { "x": 12, "y": 30, "w": 12, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "rate(hcie_mastery_updates_total[5m]) * (rate(hcie_canonical_state_misses_total[5m]) / clamp_min(rate(hcie_canonical_state_reads_total[5m]), 0.0001))",
+          "legendFormat": "Fallback Learning",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(hcie_mastery_updates_total[5m]) * (1 - (rate(hcie_canonical_state_misses_total[5m]) / clamp_min(rate(hcie_canonical_state_reads_total[5m]), 0.0001)))",
+          "legendFormat": "Valid Learning",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "📈 Learning Trajectories by User Type",
+      "gridPos": { "x": 0, "y": 38, "w": 24, "h": 8 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "hcie_lyapunov_mastery{concept=\"k2_computing_systems_devices\",user_type=\"fast_learner\"}",
+          "legendFormat": "Fast Learner",
+          "refId": "A"
+        },
+        {
+          "expr": "hcie_lyapunov_mastery{concept=\"k2_computing_systems_devices\",user_type=\"average_learner\"}",
+          "legendFormat": "Average Learner",
+          "refId": "B"
+        },
+        {
+          "expr": "hcie_lyapunov_mastery{concept=\"k2_computing_systems_devices\",user_type=\"slow_learner\"}",
+          "legendFormat": "Slow Learner",
+          "refId": "C"
+        },
+        {
+          "expr": "hcie_lyapunov_mastery{concept=\"k2_computing_systems_devices\",user_type=\"struggler\"}",
+          "legendFormat": "Struggler",
+          "refId": "D"
+        }
+      ]
+    }
+
+  ]
+}

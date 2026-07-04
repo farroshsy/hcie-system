@@ -1,0 +1,90 @@
+# FINAL cutover image.
+#
+# This image boots from the numbered FINAL tree plus
+# 11_build/00_runtime_projection, not from the legacy BACKENDV2 layout.
+
+FROM python:3.10-slim
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app/11_build/00_runtime_projection:/app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    gcc \
+    g++ \
+    librdkafka-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir \
+      fastapi \
+      uvicorn[standard] \
+      pydantic \
+      pydantic-settings \
+      numpy \
+      scipy \
+      pandas \
+      email-validator \
+      PyJWT \
+      bcrypt \
+      requests \
+      psycopg2-binary \
+      redis \
+      docker \
+      alembic \
+      sqlalchemy \
+      confluent-kafka \
+      kafka-python \
+      prometheus-client \
+      opentelemetry-distro \
+      opentelemetry-exporter-otlp \
+      opentelemetry-exporter-prometheus \
+      opentelemetry-instrumentation-fastapi \
+      opentelemetry-instrumentation-requests \
+      opentelemetry-instrumentation-redis \
+      opentelemetry-instrumentation-psycopg2 \
+      pyroscope-io \
+      python-snappy
+
+# Snappy codec for Kafka message decompression (consumers fail with
+# UnsupportedCodecError without it). Pinned in a dedicated layer with an
+# explicit import check so a silent install failure breaks the build instead
+# of shipping a consumer that can't decode snappy-compressed messages.
+# python-snappy>=0.7 uses the pure-wheel `cramjam` backend (no libsnappy needed).
+RUN pip install --no-cache-dir "python-snappy>=0.7.3" cramjam && \
+    python -c "import snappy; print('snappy codec OK')"
+
+COPY . /app
+
+# G7: stamp the code/pipeline version into the image so every sealed run records WHICH code
+# produced it (run_sealing._code_provenance reads these at seal time; a consumer compares
+# git_sha to HEAD to detect a stale-vs-code seal). Late layer so the heavy pip layers stay
+# cached. Pass at build time:
+#   --build-arg HCIE_GIT_SHA=$(git rev-parse HEAD) \
+#   --build-arg HCIE_GIT_DIRTY=$([ -n "$(git status --porcelain)" ] && echo true || echo false) \
+#   --build-arg HCIE_BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+ARG HCIE_GIT_SHA=unknown
+ARG HCIE_GIT_DIRTY=unknown
+ARG HCIE_BUILD_TIME=unknown
+ENV HCIE_GIT_SHA=$HCIE_GIT_SHA \
+    HCIE_GIT_DIRTY=$HCIE_GIT_DIRTY \
+    HCIE_BUILD_TIME=$HCIE_BUILD_TIME
+
+# Defense-in-depth: run as a non-root user. chown /app so the app can still write its
+# runtime files (openapi.json, research_logs.json, determinism artifacts) and the rw
+# bind mounts. The opt-in auto-healer service overrides back to root in compose because
+# it needs the Docker socket — a documented priv-esc surface; use a socket-proxy in prod.
+RUN useradd --create-home --uid 10001 hcie && chown -R hcie:hcie /app
+USER hcie
+
+EXPOSE 8000
+
+# Canonical entrypoint per IDEAL_STRUCTURE.md line 375.
+# `app.main` is the runtime-projected alias of `01_source/01_application/main.py`
+# (via `11_build/00_runtime_projection/sitecustomize.py`). Phase 14e merged its
+# additions into that canonical file. Workers (learning-consumer, projection-consumer)
+# override this with `command: python -m app.workers.<consumer>`.
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

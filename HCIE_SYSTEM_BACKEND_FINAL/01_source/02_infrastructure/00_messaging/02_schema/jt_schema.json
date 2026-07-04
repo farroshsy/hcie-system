@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JT Governance Schema",
+  "description": "Constitutional Justified Transition (JT) governance scalar schema for HCIE research system",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^6D\\.[0-9]+\\.[0-9]+$",
+      "description": "Schema version identifier (e.g., 6D.1.0 for 6-dimensional governance)"
+    },
+    "jt_value": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "JT scalar value (bounded control scalar)"
+    },
+    "jt_unclamped": {
+      "type": "number",
+      "description": "JT value before clamping (for analysis)"
+    },
+    "jt_clamped": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "JT value after clamping (actual control scalar)"
+    },
+    "decomposition": {
+      "type": "object",
+      "description": "6D governance dimensional decomposition",
+      "properties": {
+        "delta_m": {
+          "type": "number",
+          "description": "Mastery change contribution"
+        },
+        "transfer_realized": {
+          "type": "number",
+          "description": "Realized transfer contribution"
+        },
+        "transfer_prospective": {
+          "type": "number",
+          "description": "Prospective transfer contribution (dormant unless activated)"
+        },
+        "challenge": {
+          "type": "number",
+          "description": "Task challenge contribution"
+        },
+        "uncertainty": {
+          "type": "number",
+          "description": "Epistemic uncertainty contribution"
+        },
+        "zpd": {
+          "type": "number",
+          "description": "Zone of Proximal Development contribution"
+        }
+      },
+      "required": ["delta_m", "transfer_realized", "transfer_prospective", "challenge", "uncertainty", "zpd"]
+    },
+    "weights": {
+      "type": "object",
+      "description": "6D governance weights",
+      "properties": {
+        "w1": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Delta_m weight (mastery)"
+        },
+        "w2": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Transfer_realized weight"
+        },
+        "w3": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Transfer_prospective weight"
+        },
+        "w4": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Challenge weight"
+        },
+        "w5": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Uncertainty weight"
+        },
+        "w6": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "ZPD weight"
+        }
+      },
+      "required": ["w1", "w2", "w3", "w4", "w5", "w6"]
+    },
+    "governance_metrics": {
+      "type": "object",
+      "description": "Governance telemetry metrics",
+      "properties": {
+        "volatility": {
+          "type": "number",
+          "description": "JT volatility over time"
+        },
+        "exploration_pressure": {
+          "type": "number",
+          "description": "Exploration pressure from governance"
+        },
+        "stability_index": {
+          "type": "number",
+          "description": "Governance stability index"
+        },
+        "jt_history_length": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Length of JT history buffer"
+        }
+      }
+    },
+    "attribution": {
+      "type": "object",
+      "description": "JT attribution chain for causal auditability",
+      "properties": {
+        "jt_delta_m_contribution": {
+          "type": "number",
+          "description": "Delta_m contribution to JT"
+        },
+        "jt_transfer_contribution": {
+          "type": "number",
+          "description": "Transfer contribution to JT"
+        },
+        "jt_challenge_contribution": {
+          "type": "number",
+          "description": "Challenge contribution to JT"
+        },
+        "jt_uncertainty_contribution": {
+          "type": "number",
+          "description": "Uncertainty contribution to JT"
+        },
+        "jt_zpd_contribution": {
+          "type": "number",
+          "description": "ZPD contribution to JT"
+        }
+      },
+      "required": ["jt_delta_m_contribution", "jt_transfer_contribution", "jt_challenge_contribution", "jt_uncertainty_contribution", "jt_zpd_contribution"]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of JT computation"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User identifier for this JT computation"
+    },
+    "concept": {
+      "type": "string",
+      "description": "Concept identifier for this JT computation"
+    }
+  },
+  "required": ["schema_version", "jt_value", "decomposition", "weights", "timestamp"],
+  "invariants": [
+    "JT must remain bounded in 0.57-0.63 range during normal operation",
+    "transfer_prospective must remain dormant (0.0) unless activated",
+    "6D dimensional isolation must be preserved",
+    "Weights must sum to approximately 1.0 (allowing for adaptive updates)"
+  ]
+}

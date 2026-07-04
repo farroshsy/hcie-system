@@ -1,0 +1,972 @@
+{
+  "meta": {
+    "project_key": "hcie",
+    "sonarqube_version": "26.6.0.123539",
+    "scanned_at": "2026-06-26",
+    "scm_revision": "9b4d35a (clean evidence-repo commit)",
+    "scanner": "sonarsource/sonar-scanner-cli",
+    "scope": "backend 01_source + frontend src; FE excluded from coverage; i18n mirror excluded from duplication"
+  },
+  "ratings": {
+    "reliability": "C",
+    "security": "A",
+    "maintainability": "A",
+    "security_review": "A"
+  },
+  "quality_gate": {
+    "status": "ERROR",
+    "conditions": [
+      {
+        "metric": "new_duplicated_lines_density",
+        "actual": "6.37877",
+        "status": "ERROR"
+      },
+      {
+        "metric": "new_violations",
+        "actual": "13",
+        "status": "ERROR"
+      }
+    ]
+  },
+  "counts": {
+    "bugs": 44,
+    "vulnerabilities": 0,
+    "security_hotspots_to_review": 0,
+    "security_hotspots_reviewed": 114,
+    "code_smells": 3178,
+    "duplicated_lines_density_pct": 4.3,
+    "coverage_pct": 2.0,
+    "ncloc": 118028
+  },
+  "hotspot_review": {
+    "total": 114,
+    "all_resolution": "SAFE",
+    "risks_found": 0,
+    "by_rule": {
+      "python:S2245": 36,
+      "python:S5332": 35,
+      "typescript:S2245": 37,
+      "typescript:S5852": 6
+    },
+    "method": "each hotspot reviewed against its real code (skeptical default); per-hotspot code-grounded justification posted to SonarQube; no bulk-mark",
+    "dispositions": [
+      {
+        "key": "91a0ec81-4ce6-4cc5-aec9-1617bc6a91fe",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/03_ensemble/unified_brain.py",
+        "line": 4243,
+        "verdict": "safe",
+        "justification": "random.random()*3.0 generates simulated response_time jitter (5.0 + random*3.0) fed into process_event inside a multi-round interaction-simulation loop (range(5) rounds over concepts). It is synthetic behavioral test data driving the learning model, never a token/key/nonce \u00e2\u20ac\u201d no security or crypto use."
+      },
+      {
+        "key": "2ca8d937-c2d3-45b2-8b6b-5fd9543c97e5",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/03_ensemble/unified_brain.py",
+        "line": 4244,
+        "verdict": "safe",
+        "justification": "random.random()*0.3 generates a simulated confidence value (0.7 + random*0.3) for synthetic interaction payloads in the same J-over-time simulation loop. It is sampling/simulation input to the cognitive model, not a security-sensitive value."
+      },
+      {
+        "key": "7c52bff9-789c-45b7-a75e-6533d0fb63ab",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/06_transfer/transfer_learning_engine.py",
+        "line": 981,
+        "verdict": "safe",
+        "justification": "random.shuffle(shuffled_nodes) permutes graph node labels to build a shuffled-DAG null/control topology (degree-preserving label permutation) for the transfer-learning statistical control experiment. It is scientific randomization, not generating any credential or identifier."
+      },
+      {
+        "key": "fab3369c-37fb-4263-9585-f5e22f7b211e",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/06_transfer/transfer_learning_engine.py",
+        "line": 1139,
+        "verdict": "safe",
+        "justification": "random.random() < edge_probability decides whether to add a random DAG edge when generating a null (IID) topology for the shuffled-DAG control; seedable via random.seed(seed) just above for replay. Pure Monte-Carlo graph generation for an experiment, not security-sensitive."
+      },
+      {
+        "key": "fe512ed0-06f2-4318-ab58-4f001cea25b7",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/06_transfer/transfer_learning_engine.py",
+        "line": 1154,
+        "verdict": "safe",
+        "justification": "random.randint(0, i-1) picks a source node to enforce connectivity in the generated null topology (and random.uniform sets its weight). It is graph-construction randomization for the statistical control experiment, seedable for reproducibility \u00e2\u20ac\u201d no token/key/nonce."
+      },
+      {
+        "key": "ba976d2d-3a76-4da2-94c5-4d535404c5b4",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/18_session/task_selection_service.py",
+        "line": 98,
+        "verdict": "safe",
+        "justification": "random.choice(medium_tasks) selects a learning task at random from the difficulty-filtered candidate list for an intermediate-mastery learner (curriculum task selection). It chooses pedagogical content, not a credential \u00e2\u20ac\u201d no security relevance."
+      },
+      {
+        "key": "08258c8a-de82-4eba-812a-1b1996fa12f3",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/18_session/task_selection_service.py",
+        "line": 99,
+        "verdict": "safe",
+        "justification": "random.choice(tasks) is the fallback task pick when no medium-difficulty tasks exist for an intermediate learner. It selects which exercise to present, not anything auth/crypto-related."
+      },
+      {
+        "key": "cbcd91c1-90f5-4355-b7d5-8e84bc4f3486",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/18_session/task_selection_service.py",
+        "line": 104,
+        "verdict": "safe",
+        "justification": "random.choice(hard_tasks) selects a harder learning task for an advanced-mastery learner (difficulty>0.5 branch). It is curriculum content selection, with no security or cryptographic purpose."
+      },
+      {
+        "key": "994becba-8e7f-4494-9887-9e505386779d",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/00_core/18_session/task_selection_service.py",
+        "line": 105,
+        "verdict": "safe",
+        "justification": "random.choice(tasks) is the advanced-learner fallback task pick when no hard tasks are available. It picks which task to surface to the learner, not a token/key/session id."
+      },
+      {
+        "key": "b74b7374-495e-49f2-b618-f135dc52e16c",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/autopilot.py",
+        "line": 273,
+        "verdict": "safe",
+        "justification": "rng.random() < p_correct simulates whether a synthetic learner answers correctly, where rng = random.Random(req.seed) (line 233) is an explicitly seeded RNG for reproducible autopilot simulation runs and p_correct comes from a Rasch/IRT sigmoid. It drives synthetic-attempt outcomes, not any credential \u00e2\u20ac\u201d security-irrelevant."
+      },
+      {
+        "key": "e8c037e3-f0b0-4327-b8aa-d3f208c274c6",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/experiments/cohorts.py",
+        "line": 835,
+        "verdict": "safe",
+        "justification": "`_rng_module.Random(step_seed).random() < _p` draws a Bernoulli for synthetic-learner IRT correctness (P=sigmoid(3*(mastery-difficulty+0.1))) in a replay-safe cohort simulation. The local seed (step_seed) makes outcomes deterministic for reproducible replay; this is ML/simulation sampling, not a token/key/nonce."
+      },
+      {
+        "key": "0d1bede4-b6f3-4c35-a0f6-563e0befc733",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/architecture/endpoints/runtime_authority.py",
+        "line": 575,
+        "verdict": "safe",
+        "justification": "`random.random()` immediately follows `random.seed(42)` to build sequence1 inside the 'Test 1: RNG determinism' check of a replay-equivalence behavioral validation. It generates test data to assert seeded RNG reproducibility, not any security material."
+      },
+      {
+        "key": "f08a0990-7fd1-429a-bc57-20e9210b9a35",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/architecture/endpoints/runtime_authority.py",
+        "line": 578,
+        "verdict": "safe",
+        "justification": "`random.random()` after a second `random.seed(42)` builds sequence2 and is compared to sequence1 to confirm deterministic RNG. Pure determinism-test data in a validation routine \u00e2\u20ac\u201d produces no token, key, or nonce."
+      },
+      {
+        "key": "20172464-d9f0-456a-9527-d4c01c9add18",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/architecture/endpoints/runtime_authority.py",
+        "line": 628,
+        "verdict": "safe",
+        "justification": "`sum([random.random() for _ in range(3)])` after `random.seed(42)` computes total_reward for result_run1 in 'Test 4: Replay equivalence', then compared against an identically-seeded result_run2. Non-crypto replay-equivalence check, not security-sensitive."
+      },
+      {
+        "key": "632516b2-45cc-402b-9de7-6820b76a6191",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/architecture/endpoints/runtime_authority.py",
+        "line": 634,
+        "verdict": "safe",
+        "justification": "`sum([random.random() for _ in range(3)])` after a matching `random.seed(42)` produces result_run2's total_reward, compared to result_run1 to assert replay equivalence. Deterministic test data, not a token/key/nonce."
+      },
+      {
+        "key": "6fc637b2-b3d5-429f-8672-f4277eebb9d5",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/interactions.py",
+        "line": 29,
+        "verdict": "safe",
+        "justification": "`random.choice([\"hcie\", \"dag\", \"random\"])` assigns a simulated tournament policy mode for a synthetic interaction generator (Phase 8.2). It selects an experiment arm to drive ZPD difficulty, not any auth/crypto value."
+      },
+      {
+        "key": "173f026e-26f2-4d26-a828-983c581732ee",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/interactions.py",
+        "line": 51,
+        "verdict": "safe",
+        "justification": "`correct = random.random() < prob_success` draws a Bernoulli outcome from a gaussian-centered ZPD success probability to simulate whether a synthetic learner answers correctly. ML/simulation sampling, not security-sensitive."
+      },
+      {
+        "key": "1e4bf327-8f8e-490f-bc37-43cee78df0f8",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/interactions.py",
+        "line": 74,
+        "verdict": "safe",
+        "justification": "`f\"task_{random.randint(1000, 9999)}\"` builds a cosmetic task identifier for a synthetic interaction record written to the demo store. It is a non-crypto display id, not a token/session/key \u00e2\u20ac\u201d collisions only affect demo data, no auth role."
+      },
+      {
+        "key": "757066d6-cccc-4fe6-aafc-e50cf64f54ce",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/metrics.py",
+        "line": 22,
+        "verdict": "safe",
+        "justification": "`random.choice([\"hcie\", \"dag\", \"random\"])` picks a simulated policy mode in a `/admin/metrics/test-interaction` endpoint that fabricates reward values to exercise Prometheus counters. Test/demo data only, not auth/crypto material."
+      },
+      {
+        "key": "537440b2-88b7-44e7-bb1e-9f9c717829ca",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/01_services/01_auth/auth_service.py",
+        "line": 265,
+        "verdict": "safe",
+        "justification": "`group = random.choice(groups)` (groups default [\"hcie\", \"random\"]) in assign_user_to_experiment buckets a user into an A/B experiment arm stored as experiment_group. Despite living in auth_service, the value is an experiment-assignment label, not a token/password/session id \u00e2\u20ac\u201d non-security-sensitive randomized cohort allocation."
+      },
+      {
+        "key": "9f2a582e-6e08-4ab5-8869-27a6876251af",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/01_services/experiment_runner_service.py",
+        "line": 144,
+        "verdict": "safe",
+        "justification": "policy = random.choice(policies) in the 'random' branch of cohort policy assignment, sitting alongside 'seeded' and 'balanced' branches. It assigns an experiment policy to a synthetic cohort user (cohort_{id}_user_{i}) for research runs \u00e2\u20ac\u201d experiment randomization, not security-sensitive."
+      },
+      {
+        "key": "739f1796-a9e7-4290-b9f8-74ac006b9bb0",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/01_services/task/task_service.py",
+        "line": 1062,
+        "verdict": "safe",
+        "justification": "random.random() < correctness_probability where correctness_probability = 0.7 + 0.3*current_mastery \u00e2\u20ac\u201d a probabilistic-correctness draw for the deterministic-answer branch of the simulated ITS attempt outcome. The value gates whether is_correct is True/False for a learning-model interaction; it is never a token, key, or session id. Pure pedagogical sampling tied to mastery \u00e2\u20ac\u201d not security-sensitive."
+      },
+      {
+        "key": "fd70d7d7-42b5-4709-90ad-02f856068cbc",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/01_services/task/task_service.py",
+        "line": 1066,
+        "verdict": "safe",
+        "justification": "random.random() < correctness_probability (=0.2*current_mastery) \u00e2\u20ac\u201d the low-mastery partial-credit branch producing is_correct for the simulated learner attempt. Output feeds interaction_data['correct'] for the knowledge-tracing model, not any credential or auth artifact. ML/sampling use, not crypto."
+      },
+      {
+        "key": "92ebcdb7-250f-4770-8ee4-8111e82a47b1",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/02_domains/experiment/service.py",
+        "line": 48,
+        "verdict": "safe",
+        "justification": "assigned_group = random.choice(groups) where groups defaults to ['hcie','random'] \u00e2\u20ac\u201d uniform A/B experiment-arm assignment for a research experiment (comment explicitly notes 'can be enhanced with ML-based assignment'). Selects an experiment condition label, not a token/key/session id. Non-crypto experimental randomization."
+      },
+      {
+        "key": "1b00724b-ec6e-430a-aa3f-1aa0872712b3",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/09_runtime/its_runtime_service.py",
+        "line": 573,
+        "verdict": "safe",
+        "justification": "_stdlib_random.choice(available_concepts) is the except-fallback for the 'random' baseline policy (primary path uses self.rng.get_bandit_stream().randint over concepts). It picks which concept/question to serve next under the uniform baseline policy \u00e2\u20ac\u201d a pedagogical content choice, not a security value. ML baseline sampling, not crypto."
+      },
+      {
+        "key": "d420d9a8-9a7f-438c-8b62-cba2fe7ddf26",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/09_runtime/its_runtime_service.py",
+        "line": 1219,
+        "verdict": "safe",
+        "justification": "row = _random.choice(rows) is the non-deterministic-mode branch of the 'random' task selector (deterministic mode uses self.rng.get_noise_stream().randint). It chooses which candidate task row to present to the learner; the result is a content/task selection, never a token or key. Experimental baseline sampling, not security-sensitive."
+      },
+      {
+        "key": "3c887642-8e86-471f-9a1e-fb76968ddb07",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/09_runtime/its_runtime_service.py",
+        "line": 1255,
+        "verdict": "safe",
+        "justification": "row = _random.choice(rows) in the else (unknown selector) non-deterministic fallback, paralleling the deterministic self.rng.get_bandit_stream().randint path. It selects a candidate task row to serve, a pedagogical choice with no auth/crypto role. Non-crypto task sampling."
+      },
+      {
+        "key": "92e5c1d8-6ae0-4965-83aa-cf29fa38e03e",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/10_utils/retry_logic.py",
+        "line": 230,
+        "verdict": "safe",
+        "justification": "jitter = delay * jitter_amount * (random.random()*2 - 1) \u00e2\u20ac\u201d symmetric retry-backoff jitter added to a computed delay before time.sleep. This is exactly the recommended thundering-herd mitigation; the value is a timing offset, never a token/nonce/key. Backoff jitter, not crypto."
+      },
+      {
+        "key": "9cfc92c9-103d-4fc9-b1ac-5331e43c18e6",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/02_infrastructure/02_experiment/interaction_scheduler.py",
+        "line": 234,
+        "verdict": "safe",
+        "justification": "correctness': random.random() < p_correct in the _archetype (novice/stable) fallback generator \u00e2\u20ac\u201d synthesizes a correct/incorrect outcome for a SIMULATED learner in the contextual-bandit experiment environment. p_correct = compute_correctness_probability(mastery, difficulty). Generated experiment/demo data, not a security value."
+      },
+      {
+        "key": "2dd42435-040a-4d40-b954-ef3b2716f07e",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/02_infrastructure/02_experiment/interaction_scheduler.py",
+        "line": 272,
+        "verdict": "safe",
+        "justification": "_archetype_unstable fallback: correctness'=random.random()<p_correct and response_time'=random.uniform(2.0,20.0) \u00e2\u20ac\u201d synthetic response and latency for a simulated unstable-learner archetype feeding the bandit environment. Simulation/seed data, never a token, key, or session id. Not security-sensitive."
+      },
+      {
+        "key": "22444860-9734-45d9-8be5-e8314d20a261",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/02_infrastructure/02_experiment/interaction_scheduler.py",
+        "line": 311,
+        "verdict": "safe",
+        "justification": "_archetype_transfer_heavy fallback: correctness'=random.random()<p_correct and response_time'=random.uniform(3.0,8.0) \u00e2\u20ac\u201d synthetic correctness/timing for a simulated transfer-heavy learner archetype in the experiment scheduler. Pure synthetic-data generation for ML simulation, not auth/crypto material."
+      },
+      {
+        "key": "42bfea3e-1f99-4d35-b438-14066bf82fd5",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/02_infrastructure/02_experiment/interaction_scheduler.py",
+        "line": 349,
+        "verdict": "safe",
+        "justification": "_archetype_forgetting fallback: `random.random() < p_correct` draws synthetic correctness off a forgetting-decay mastery curve (and random.uniform(4.0,10.0) response time). Simulation of decaying learner performance, not security-sensitive randomness."
+      },
+      {
+        "key": "e71378b9-32cd-4a9c-ac46-9813887d7486",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/02_infrastructure/02_experiment/interaction_scheduler.py",
+        "line": 388,
+        "verdict": "safe",
+        "justification": "_archetype_exploration_sensitive fallback: `random.random() < p_correct` (and random.uniform(4.0,12.0)) produces synthetic correctness/latency for the spacing-benefit learner archetype. Experiment-data generation, no token/key/nonce derived from it."
+      },
+      {
+        "key": "f00fa0e3-8a57-440d-883d-5afd4a654db8",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/02_infrastructure/02_experiment/interaction_scheduler.py",
+        "line": 423,
+        "verdict": "safe",
+        "justification": "_archetype_challenge_seeking fallback: `random.random() < p_correct` at difficulty 0.9 (and random.uniform(8.0,20.0) response time) generates synthetic correctness for the high-difficulty learner archetype. Monte-Carlo learner simulation, not crypto/auth."
+      },
+      {
+        "key": "1580dfb8-2962-4b5b-899e-34a253ed31dd",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/02_infrastructure/02_experiment/policy_assignment.py",
+        "line": 102,
+        "verdict": "safe",
+        "justification": "Inside the distribution_type=='random' branch of an experiment cohort splitter: `random.choice(policies)` tallies how many synthetic users land on each A/B policy when an intentionally unequal distribution is requested. It selects a policy label for experiment-arm allocation counts \u00e2\u20ac\u201d not a session id, token, or any auth secret. Non-crypto experiment sampling."
+      },
+      {
+        "key": "79b9bced-3aa5-4435-9822-e32a54067211",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 233,
+        "verdict": "safe",
+        "justification": "`f\"http://{host}:3000\"` builds the Grafana dashboard link where host = os.getenv('HCIE_OBSERVABILITY_HOST', 'localhost'); it is an internal observability-stack URL returned by an admin-gated endpoint (require_admin), defaulting to localhost and pointing at the co-located monitoring service. No application data is transmitted over this http URL \u00e2\u20ac\u201d it is a navigational link to a local/internal dashboard."
+      },
+      {
+        "key": "b96d9fb0-0d3f-49e4-ba9f-3e762c7af2b6",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 233,
+        "verdict": "safe",
+        "justification": "`f\"http://{host}:3000\"` builds the Grafana dashboard link where host = os.getenv('HCIE_OBSERVABILITY_HOST', 'localhost'); it is an internal observability-stack URL returned by an admin-gated endpoint (require_admin), defaulting to localhost and pointing at the co-located monitoring service. No application data is transmitted over this http URL \u00e2\u20ac\u201d it is a navigational link to a local/internal dashboard."
+      },
+      {
+        "key": "212076c7-e2dd-44d7-aed1-5a0d7499ed5e",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 234,
+        "verdict": "safe",
+        "justification": "`f\"http://{host}:9090\"` is the Prometheus link in the same observability_links payload; host = os.getenv('HCIE_OBSERVABILITY_HOST', 'localhost'). Internal metrics-service URL for a local Docker/monitoring stack, returned only to admins \u00e2\u20ac\u201d a dashboard link, not external plaintext data transmission."
+      },
+      {
+        "key": "cd9241dd-0a0a-4357-8b37-96a230b24343",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 234,
+        "verdict": "safe",
+        "justification": "`f\"http://{host}:9090\"` is the Prometheus link in the same observability_links payload; host = os.getenv('HCIE_OBSERVABILITY_HOST', 'localhost'). Internal metrics-service URL for a local Docker/monitoring stack, returned only to admins \u00e2\u20ac\u201d a dashboard link, not external plaintext data transmission."
+      },
+      {
+        "key": "c5d49517-9789-48f3-b534-13c318997266",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 235,
+        "verdict": "safe",
+        "justification": "f\"http://{host}:3100\" is the Loki log-aggregation link, host defaults to 'localhost'. Port 3100 is Loki's internal HTTP endpoint; the value is returned as an internal observability dashboard link in the admin-gated endpoint, not used to send sensitive data externally over plaintext."
+      },
+      {
+        "key": "c72d9d8d-84b7-47d0-a9ff-dbc90fd0a2e3",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 235,
+        "verdict": "safe",
+        "justification": "f\"http://{host}:3100\" is the Loki log-aggregation link, host defaults to 'localhost'. Port 3100 is Loki's internal HTTP endpoint; the value is returned as an internal observability dashboard link in the admin-gated endpoint, not used to send sensitive data externally over plaintext."
+      },
+      {
+        "key": "525fb338-ee22-42ce-bcc7-375d37939913",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 236,
+        "verdict": "safe",
+        "justification": "f\"http://{host}:4040\" is the Pyroscope profiling link, host defaults to 'localhost'. Port 4040 is Pyroscope's internal UI; this is an internal-infra observability dashboard link from the require_admin endpoint, not a plaintext channel carrying sensitive data to an external host."
+      },
+      {
+        "key": "bd6780fd-24ac-41ba-bd06-0830f8d6ec4b",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 236,
+        "verdict": "safe",
+        "justification": "f\"http://{host}:4040\" is the Pyroscope profiling link, host defaults to 'localhost'. Port 4040 is Pyroscope's internal UI; this is an internal-infra observability dashboard link from the require_admin endpoint, not a plaintext channel carrying sensitive data to an external host."
+      },
+      {
+        "key": "706608bf-cb70-477a-a41d-46bcf801e3d7",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 237,
+        "verdict": "safe",
+        "justification": "f\"http://{host}:9093\" is the Alertmanager link, host defaults to 'localhost'. Port 9093 is Alertmanager's internal UI; the URL is returned as an internal observability dashboard link in the admin-gated /observability/links endpoint, not used to send sensitive data over plaintext to an external host."
+      },
+      {
+        "key": "96a3afa5-c6f9-4dda-8f6c-a7a51930f4d5",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 237,
+        "verdict": "safe",
+        "justification": "f\"http://{host}:9093\" is the Alertmanager link, host defaults to 'localhost'. Port 9093 is Alertmanager's internal UI; the URL is returned as an internal observability dashboard link in the admin-gated /observability/links endpoint, not used to send sensitive data over plaintext to an external host."
+      },
+      {
+        "key": "01e4f6b2-135a-4440-8959-f2191602d62b",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/service_management.py",
+        "line": 215,
+        "verdict": "safe",
+        "justification": "requests.get('http://grafana:3000/api/health', timeout=5) in _check_grafana \u00e2\u20ac\u201d Grafana is an internal Docker Compose service name resolved on the container network, not an external host; this is an intra-cluster health probe (returns response.json() to status dashboard), no sensitive data leaves the Docker network."
+      },
+      {
+        "key": "6e510cfd-80bb-4d67-8cf5-91dce6037caa",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/service_management.py",
+        "line": 395,
+        "verdict": "safe",
+        "justification": "requests.post('http://kafka-connect:8083/connectors', json=connector_config, timeout=10) \u00e2\u20ac\u201d kafka-connect is an internal Docker service name; this registers a Debezium connector config on the cluster-internal Kafka Connect REST API, traffic never leaves the Docker network."
+      },
+      {
+        "key": "054b0867-21d1-4067-826a-8359253aa28f",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/04_workers/auto_healer.py",
+        "line": 30,
+        "verdict": "safe",
+        "justification": "HealerConfig.prometheus_url default = os.getenv('PROMETHEUS_URL', 'http://prometheus:9090') \u00e2\u20ac\u201d 'prometheus' is an internal Docker service name used by the self-healing worker to scrape the 'up' metric on the cluster network; no external/plaintext transit of real data."
+      },
+      {
+        "key": "0c1f9b10-8ac9-44b0-b79e-100bf69e71e7",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/04_workers/auto_healer.py",
+        "line": 132,
+        "verdict": "safe",
+        "justification": "requests.get('http://kafka-connect:8083/connectors', timeout=5) in check_kafka_connect \u00e2\u20ac\u201d kafka-connect is an internal Docker service name; this is a liveness check (restarts container on 5xx/unreachable) confined to the Docker network, no sensitive payload."
+      },
+      {
+        "key": "28086b6d-7e40-4811-8c62-6354a25ab9e7",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/04_workers/phase8_tournament.py",
+        "line": 102,
+        "verdict": "safe",
+        "justification": "schema_registry_url = 'http://schema-registry:8081' passed to CachedSchemaRegistryClient \u00e2\u20ac\u201d 'schema-registry' is an internal Docker service name (file comment explicitly says 'pointing to INTERNAL Docker services', bootstrap.servers='kafka:9092'); Avro schema fetches stay on the Docker network."
+      },
+      {
+        "key": "c0d19430-398a-4a34-894a-b403a95de58b",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/04_workers/research_worker.py",
+        "line": 92,
+        "verdict": "safe",
+        "justification": "schema_registry_url = 'http://schema-registry:8081' for CachedSchemaRegistryClient \u00e2\u20ac\u201d 'schema-registry' is an internal Docker service name (adjacent code comment 'INTERNAL Docker services', bootstrap.servers='kafka:9092', redis host='redis'); cluster-internal Avro schema traffic only."
+      },
+      {
+        "key": "8b2c6833-f433-4b0e-9392-e380b7770ee8",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/07_infrastructure/v3/v3_client.py",
+        "line": 31,
+        "verdict": "safe",
+        "justification": "default_v3_base_url returns 'http://api:8000' under docker_env else 'http://localhost:8000' \u00e2\u20ac\u201d both are internal: 'api' is the Docker service name and the alternate is localhost; worker-to-API calls stay inside the Docker network (function docstring documents exactly this Docker-vs-localhost behavior)."
+      },
+      {
+        "key": "70789b5a-7ed1-49d7-83d6-0e78762f47d6",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/08_telemetry/opentelemetry_setup_broken.py",
+        "line": 118,
+        "verdict": "safe",
+        "justification": "otlp_endpoint = os.getenv('OTEL_EXPORTER_OTLP_ENDPOINT', 'http://otel-collector:4317') \u00e2\u20ac\u201d 'otel-collector' is an internal Docker service name receiving OTLP spans/metrics over gRPC on the cluster network; telemetry export does not cross to an external plaintext host. (File is a dead '_broken' variant, further reducing impact.)"
+      },
+      {
+        "key": "578a2494-6738-4713-be72-4f6db57c2672",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/08_telemetry/opentelemetry_setup_old.py",
+        "line": 31,
+        "verdict": "safe",
+        "justification": "otlp_endpoint = os.getenv('OTEL_EXPORTER_OTLP_ENDPOINT', 'http://otel-collector:4317') \u00e2\u20ac\u201d 'otel-collector' is an internal Docker service name; OTLP trace export over the cluster network, no external plaintext data. (File is a dead '_old' variant.)"
+      },
+      {
+        "key": "1236bdf2-4559-4fa4-97ee-2e477e841cc4",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/08_telemetry/opentelemetry_setup_old.py",
+        "line": 33,
+        "verdict": "safe",
+        "justification": "prometheus_endpoint = os.getenv('OTEL_EXPORTER_PROMETHEXPORT_ENDPOINT', 'http://otel-collector:8889') \u00e2\u20ac\u201d 'otel-collector' is an internal Docker service name for the Prometheus metrics exporter; metrics scrape traffic stays on the Docker network, not external. (File is a dead '_old' variant.)"
+      },
+      {
+        "key": "e438c3d2-f624-41a0-93f6-5c39c415d043",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/learner/page.tsx",
+        "line": 130,
+        "verdict": "safe",
+        "justification": "challenge: 0.15 + Math.random() * 0.1 synthesizes a jitter value for the attributionEvents array feeding a dashboard visualization panel. It is demo/display data for a chart, never a token/key/id \u00e2\u20ac\u201d non-crypto UI mock value."
+      },
+      {
+        "key": "87ac2fb4-61c5-4e09-ab14-956d1a1a78c5",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/learner/page.tsx",
+        "line": 131,
+        "verdict": "safe",
+        "justification": "uncertainty: 0.08 + Math.random() * 0.08 fabricates an uncertainty figure for the same attributionEvents demo array rendered in the learner dashboard. Pure UI/chart mock data, not security-sensitive."
+      },
+      {
+        "key": "9c8112b4-cf7c-4440-aff0-0fd6820c67f9",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/learner/page.tsx",
+        "line": 132,
+        "verdict": "safe",
+        "justification": "zpd: 0.05 + Math.random() * 0.05 generates a ZPD display value for the attributionEvents dashboard mock. It drives a visualization only \u00e2\u20ac\u201d no auth/crypto role."
+      },
+      {
+        "key": "70221bf8-a96e-4c68-b600-793a92baa5ed",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/learner/page.tsx",
+        "line": 133,
+        "verdict": "safe",
+        "justification": "transfer_prospective: 0.02 + Math.random() * 0.04 produces a prospective-transfer demo value for the attributionEvents chart array. Display mock data, not a credential or identifier."
+      },
+      {
+        "key": "4dc48e59-c239-496a-b969-e7cb1d591da2",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/learn/page.tsx",
+        "line": 752,
+        "verdict": "safe",
+        "justification": "Math.random() > 0.4 is a coin-flip used only inside the if (isMock) legacy mock-grading branch (taskSignal?.correct ?? (Math.random() > 0.4)) to fake a correct/incorrect result when no real signal exists. Demo/test fallback, not security-sensitive."
+      },
+      {
+        "key": "c596ee5f-2f50-42ae-96d9-b479c9f91b07",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/register/page.tsx",
+        "line": 69,
+        "verdict": "safe",
+        "justification": "Math.floor(Math.random() * 1e9) is only a uniqueness suffix for a throwaway demo account email (demo_${stamp}@hcie.test) in tryDemo(). It is a non-crypto display id \u00e2\u20ac\u201d the account password is the hardcoded literal 'demo123456', so the random value is not a secret, token, or session id."
+      },
+      {
+        "key": "0e69fd9d-b4ce-44b0-8906-94ffad9f23fb",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/review/methods/page.tsx",
+        "line": 68,
+        "verdict": "safe",
+        "justification": "Math.random() in gaussian() = sqrt(-2*ln(Math.random()||1e-9))*cos(2*pi*Math.random()) is a Box-Muller normal draw for the client-side Thompson-sampling Beta demo (file comment: 'client-side sim; backend uses a deterministic RNG stream'). ML/statistical sampling, not crypto."
+      },
+      {
+        "key": "67ba34e5-903e-46ab-a14a-a918d4a34be4",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/review/methods/page.tsx",
+        "line": 68,
+        "verdict": "safe",
+        "justification": "Math.random() in gaussian() = sqrt(-2*ln(Math.random()||1e-9))*cos(2*pi*Math.random()) is a Box-Muller normal draw for the client-side Thompson-sampling Beta demo (file comment: 'client-side sim; backend uses a deterministic RNG stream'). ML/statistical sampling, not crypto."
+      },
+      {
+        "key": "7ccc22e2-e21f-4a32-8846-737725eb0e57",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/review/methods/page.tsx",
+        "line": 70,
+        "verdict": "safe",
+        "justification": "gammaSample()'s Math.pow(Math.random()||1e-9, 1/k) is the k<1 boost step of the Marsaglia-Tsang gamma sampler used to draw Beta samples for the Thompson-sampling demo arms. Pure ML sampling math, not auth/crypto."
+      },
+      {
+        "key": "10546e92-e97a-4ee2-ab29-b159e521967f",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/review/methods/page.tsx",
+        "line": 76,
+        "verdict": "safe",
+        "justification": "const u = Math.random() is the acceptance-rejection uniform draw inside the gammaSample() Marsaglia-Tsang loop (compared against 1 - 0.0331*x^4 / log-acceptance) for the client-side Beta/Thompson demo. Statistical sampling, no security impact on tokens/keys."
+      },
+      {
+        "key": "a5fced45-15b3-4589-b5d5-416018e15ec3",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/review/methods/page.tsx",
+        "line": 264,
+        "verdict": "safe",
+        "justification": "`Math.random() < cur[pick].rate ? 1 : 0` inside pullN() generates a Bernoulli reward to simulate bandit-arm pulls for the Thompson-sampling demo (betaSample over alpha/beta arms, armSource 'demo'). It is a Monte Carlo simulation of reward, not a token/key/id \u00e2\u20ac\u201d non-crypto sampling."
+      },
+      {
+        "key": "92c8a122-419d-4092-8194-5c7c0452d7b1",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1117,
+        "verdict": "safe",
+        "justification": "In pickTask(), Math.floor(Math.random() * tasks.length) selects a random task index only on the offline/demo fallback branch (taken when no deterministic `seed` is supplied). The output is an array index into the static K12_TASKS catalog used to show a practice item in demo mode \u00e2\u20ac\u201d not a token, id, key, or any auth/crypto value."
+      },
+      {
+        "key": "e0230970-58cd-4dd4-9989-701a92d710db",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1168,
+        "verdict": "safe",
+        "justification": "In buildDemoMasteryMap(), `0.65 + Math.random() * 0.25` jitters a fake mastery value for K-2 concepts to simulate a 'mostly mastered' learner. The function's docstring states it builds a mock mastery map for demo/offline mode; the value is display-only synthetic data, not security-sensitive."
+      },
+      {
+        "key": "d76ea96f-a9ef-4b4a-aae4-0691f92bdbb6",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1170,
+        "verdict": "safe",
+        "justification": "In buildDemoMasteryMap(), `0.30 + Math.random() * 0.35` generates a fake in-progress mastery value for K-5 demo concepts. Mock demo-data generation, not a token/key/nonce \u00e2\u20ac\u201d no security impact possible from sampling jitter on synthetic learner state."
+      },
+      {
+        "key": "fedc3d62-a13d-4404-b558-80a9d711edf5",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1172,
+        "verdict": "safe",
+        "justification": "In buildDemoMasteryMap(), `0.05 + Math.random() * 0.15` produces a fake 'just started' mastery value for K-8 demo concepts. Synthetic demo data for the offline mastery map; not auth/crypto material."
+      },
+      {
+        "key": "1335d2bb-0a64-4649-a11d-cca7a51f667b",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1196,
+        "verdict": "safe",
+        "justification": "In buildDemoTrajectory(), `Math.random() > 0.35` randomly decides whether a mock learning step is correct, to fabricate a demo learning history. Synthetic trajectory simulation (docstring: 'Build a mock JT trajectory ... for demo mode'); not a security value."
+      },
+      {
+        "key": "0825ffac-88b5-484c-ad1a-d505bd5c0a0c",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1198,
+        "verdict": "safe",
+        "justification": "In buildDemoTrajectory(), `(Math.random() - 0.5) * 0.1` adds noise to a synthetic per-step JT value (0.35 + i/steps*0.4 + noise) to make the demo curve look organic. Cosmetic jitter on mock chart data; not crypto/auth."
+      },
+      {
+        "key": "236c534a-184b-4153-9844-8ec20f02ccc2",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1204,
+        "verdict": "safe",
+        "justification": "In buildDemoTrajectory(), the correct-branch `0.02 + Math.random() * 0.04` computes a fake positive delta_m (mastery gain) for a mock learning step. Synthetic demo-trajectory data, not security-sensitive (line 1204 has two random calls; this is the correct-branch one)."
+      },
+      {
+        "key": "b9aa590a-df16-4c75-8b3c-e36548cb107d",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1204,
+        "verdict": "safe",
+        "justification": "In buildDemoTrajectory(), the correct-branch `0.02 + Math.random() * 0.04` computes a fake positive delta_m (mastery gain) for a mock learning step. Synthetic demo-trajectory data, not security-sensitive (line 1204 has two random calls; this is the correct-branch one)."
+      },
+      {
+        "key": "e07c8637-24de-47d5-a2b9-a044f11af7bd",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/catalog/k12-catalog.ts",
+        "line": 1205,
+        "verdict": "safe",
+        "justification": "In buildDemoTrajectory(), `0.12 + Math.random() * 0.10` fabricates a transfer_realized value on every 5th correct mock step. Synthetic demo-trajectory metric for offline visualization; not auth/crypto material."
+      },
+      {
+        "key": "cd78fc79-0df7-474c-812b-ecf5d713072f",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/security/request_sequencer.ts",
+        "line": 95,
+        "verdict": "safe",
+        "justification": "generateRequestId() returns `${Date.now()}-${Math.random().toString(36).substr(2, 9)}` as a client-side correlation id for ordering queued API requests in the RequestSequencer. Despite living under lib/security/, this id is only used to label/track in-flight requests for sequencing \u00e2\u20ac\u201d it is never used as a session id, auth token, CSRF token, or any credential, so weak randomness has no security consequence."
+      },
+      {
+        "key": "6874129e-882d-4906-bc92-12dc13cc3643",
+        "rule": "python:S2245",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/01_services/interaction_scheduler_service.py",
+        "line": 252,
+        "verdict": "safe",
+        "justification": "random.choice(concepts) for the synthetic \"random\" sequence-generator arm \u00e2\u20ac\u201d selects which concept to emit in a simulated sequence. Non-security content selection, not a credential."
+      },
+      {
+        "key": "0045d009-b85f-4f1a-877b-b24ac5713aab",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 238,
+        "verdict": "safe",
+        "justification": "f-string internal observability URL (pyroscope/alertmanager/dozzle) at the deploy host for the ops console. Internal endpoint, not external cleartext."
+      },
+      {
+        "key": "836f388d-d717-4ac7-b825-32ff9b64694c",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/admin/ops.py",
+        "line": 238,
+        "verdict": "safe",
+        "justification": "f-string internal observability URL (pyroscope/alertmanager/dozzle) at the deploy host for the ops console. Internal endpoint, not external cleartext."
+      },
+      {
+        "key": "fe8e2bf8-3adf-40fb-816d-92aefc54a57d",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 640,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "c9c4fd87-f5fb-4a43-9cba-1f244485762f",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 641,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "98ca9e72-86e7-4aeb-adef-30b44669c774",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 642,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "3ff816cc-c537-4735-acf0-435e02bdb701",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 643,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "f574b2d7-67e6-4de4-b2c3-d0a8f4b5eb24",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 644,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "d9d365e5-8397-4c31-af15-7a3349227565",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 645,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "9f977e70-9081-497a-97f2-e8f4824b4049",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 646,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "bf749375-4ecf-4705-823e-6429d6800ec6",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 647,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "36e8808d-0d66-4aad-a2a2-a358d592b99c",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/00_v3/frontend/thesis_evidence.py",
+        "line": 648,
+        "verdict": "safe",
+        "justification": "Observability tile URL in _OBSERVABILITY_TILES \u00e2\u20ac\u201d localhost or an internal Docker service name (grafana/prometheus/kafka-ui/dozzle/...) used for health pings inside the compose network. Internal, not external cleartext transmission."
+      },
+      {
+        "key": "b4118c2d-de6f-4b47-9741-04202bb3c6aa",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/service_management.py",
+        "line": 166,
+        "verdict": "safe",
+        "justification": "requests.get to an internal Docker service (schema-registry/kafka-connect/kafka-ui/prometheus) for a health/status check over the compose network. Internal-only http, no external data in cleartext."
+      },
+      {
+        "key": "4015e415-e5f3-40d1-9d21-d8fb48a72447",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/service_management.py",
+        "line": 177,
+        "verdict": "safe",
+        "justification": "requests.get to an internal Docker service (schema-registry/kafka-connect/kafka-ui/prometheus) for a health/status check over the compose network. Internal-only http, no external data in cleartext."
+      },
+      {
+        "key": "903e8ebb-6f0f-4ce6-976d-91b5f7060b3f",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/service_management.py",
+        "line": 193,
+        "verdict": "safe",
+        "justification": "requests.get to an internal Docker service (schema-registry/kafka-connect/kafka-ui/prometheus) for a health/status check over the compose network. Internal-only http, no external data in cleartext."
+      },
+      {
+        "key": "9d6b43f5-cdf5-4e55-97f8-6a57f23b597d",
+        "rule": "python:S5332",
+        "path": "HCIE_SYSTEM_BACKEND_FINAL/01_source/01_application/00_api/routes/admin/service_management.py",
+        "line": 204,
+        "verdict": "safe",
+        "justification": "requests.get to an internal Docker service (schema-registry/kafka-connect/kafka-ui/prometheus) for a health/status check over the compose network. Internal-only http, no external data in cleartext."
+      },
+      {
+        "key": "2e3127ba-0818-449f-b3d0-51464167c338",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 169,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "1a34d0ea-8bc2-4dff-b385-7709da6f42b9",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 173,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "35570174-4931-46eb-895e-066e368471b6",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 174,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "f3850fc3-b231-435b-8041-1dcf284fee69",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 174,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "d6a5b581-a8bb-4e17-98ab-3ae2d9c30091",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 175,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "3ba5a68a-740b-4dc8-a779-763765334c66",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 176,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "599db2f6-b416-4e6a-9565-cf8ec641911e",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 180,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "45a24884-0fd6-4c2f-9aa9-7d8256cd2f37",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 182,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "568a94f6-7d5e-4450-9a43-01da314d5953",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 183,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "2fc93cb7-db2f-4621-b698-dca6db806ebf",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 184,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "a696ce0f-a85d-4820-8a26-a345badd3485",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 185,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "430828c8-71a5-4f74-a2f1-0812e6ae3664",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 186,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "efc6771a-15e2-4ac4-bc60-1279689cda61",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 187,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "1984a5f1-eb0f-48de-b8ad-1e5e91b4bbca",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 190,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "5bf6559e-2883-42f6-8bf4-40cd5f1f0cbc",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 191,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "7691215f-0724-4ab1-9571-e9f13693645e",
+        "rule": "typescript:S2245",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/governance/page.tsx",
+        "line": 192,
+        "verdict": "safe",
+        "justification": "Math.random() inside buildMockSnapshot() \u00e2\u20ac\u201d generates MOCK governance dashboard data (jtScore/masteryDelta/weights/kafkaLag) for the demo/fallback view when live data is absent. Display-only mock, never a token/key."
+      },
+      {
+        "key": "6dd35bdb-dbd6-491e-9e25-30a84652e782",
+        "rule": "typescript:S5852",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/dashboard/thesis-evidence/page.tsx",
+        "line": 41,
+        "verdict": "safe",
+        "justification": "Thousands-grouping regex /B(?=(d{3})+(?!d))/ runs on Math.trunc(n).toString() \u00e2\u20ac\u201d a JS number's digit string (bounded ~16 chars, trusted, not attacker-controlled). No practical backtracking."
+      },
+      {
+        "key": "bab27cb1-5661-48af-a695-8d479b86f38b",
+        "rule": "typescript:S5852",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/register/page.tsx",
+        "line": 36,
+        "verdict": "safe",
+        "justification": "Standard email-format regex /^[^s@]+@[^s@]+.[^s@]+$/ on a length-limited client-side form field (validated before submit). Single non-nested ambiguity over disjoint classes, client-only \u00e2\u20ac\u201d not an exploitable ReDoS."
+      },
+      {
+        "key": "000ec1fb-c60b-42c6-ac0f-9b54451e4d19",
+        "rule": "typescript:S5852",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/review/figures/page.tsx",
+        "line": 69,
+        "verdict": "safe",
+        "justification": "Regex /^-?d+.?d*$/ is a numeric-format check \u00e2\u20ac\u201d anchored with no overlapping quantifiers (d+ then optional . then d*), linear time. Input is a rendered cell value."
+      },
+      {
+        "key": "daafdd37-8244-4c4e-9d2f-20c762d6597f",
+        "rule": "typescript:S5852",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/app/review/figures/page.tsx",
+        "line": 145,
+        "verdict": "safe",
+        "justification": "Regex /^-?d+.?d*$/ is a numeric-format check \u00e2\u20ac\u201d anchored with no overlapping quantifiers (d+ then optional . then d*), linear time. Input is a rendered cell value."
+      },
+      {
+        "key": "f1c39a86-ce58-48b8-9fcc-b6f0cd1f1cf7",
+        "rule": "typescript:S5852",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/api/backend-url.ts",
+        "line": 5,
+        "verdict": "safe",
+        "justification": "Regex //+$/ (and //v3$/i) strips trailing slashes from a config URL \u00e2\u20ac\u201d a single anchored + on \"/\", linear, no nested/overlapping quantifiers, so no catastrophic backtracking. Input is a trusted env/config URL."
+      },
+      {
+        "key": "609ddfcf-3e26-4900-91b3-51f5c5c49836",
+        "rule": "typescript:S5852",
+        "path": "HCIE_SYSTEM_FRONTENDV3/src/lib/api/backend-url.ts",
+        "line": 36,
+        "verdict": "safe",
+        "justification": "Regex //+$/ (and //v3$/i) strips trailing slashes from a config URL \u00e2\u20ac\u201d a single anchored + on \"/\", linear, no nested/overlapping quantifiers, so no catastrophic backtracking. Input is a trusted env/config URL."
+      }
+    ]
+  },
+  "notes": [
+    "Reliability is C (not rounded): 44 bugs under SonarQube 26.6 MQR model.",
+    "Quality Gate ERROR is on NEW-code conditions only (new_violations, new_duplicated_lines) because this fresh scan has no baseline set; overall ratings stand independently.",
+    "sonar26 reclassifies the older Sonar's 87 hotspots: it reports 0 vulnerabilities and 114 security hotspots (all reviewed SAFE here). Security Review A is backed by the per-hotspot review in this file."
+  ]
+}

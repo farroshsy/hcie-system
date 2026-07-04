@@ -1,0 +1,23 @@
+# dependencies / build output (regenerated)
+node_modules/
+.next/
+__pycache__/
+*.py[cod]
+*.tsbuildinfo
+
+# env / secrets (never commit)
+.env
+.env.local
+.env.production
+*.local
+
+# os / editor
+.DS_Store
+Thumbs.db
+
+# runtime
+*.log
+coverage/
+coverage.xml
+.scannerwork/
+.pytest_cache/

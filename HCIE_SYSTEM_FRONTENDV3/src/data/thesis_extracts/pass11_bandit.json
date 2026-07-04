@@ -1,0 +1,997 @@
+{
+    "seal_id": "seal-bae44d1a-a314-48f5-b145-c92e6cbe08d7",
+    "git_sha": "035b37ca374cf8723b80e217a8c4cad5acb2be3b",
+    "date": "2026-06-17",
+    "pass": 11,
+    "fills": "\u00a74.1.3.f representation (modality) bandit \u2014 arm-selection log + per-modality posteriors",
+    "status": "DEMONSTRATION_SYNTHETIC",
+    "provenance": {
+        "from_seal": false,
+        "kind": "synthetic in-memory mechanism demonstration",
+        "why_not_live": "The live representation bandit is real-learner-only by contract: its_runtime_service guards selection (`not _is_synthetic_user`) AND interaction persistence (save_interaction skipped for synthetic users); _is_synthetic_user == user_id.startswith('synthetic:'). No live human multi-modality traffic exists, so pass 11 cannot be extracted from the seal.",
+        "production_code_used": [
+            "ContextualBandit.select_representation (real Thompson sampler)",
+            "Beta posterior (alpha,beta)=(1+c, 1+(n-c)) \u2014 exact mirror of ItsRuntimeService._representation_outcomes"
+        ],
+        "synthetic_part": "only the learner responses (Bernoulli draws from fixed per-modality true probs)",
+        "no_side_effects": "no rows written to the live interactions table; no guard bypassed",
+        "determinism": "bandit Thompson RNG=numpy.default_rng(42); outcome RNG=random.Random(7)"
+    },
+    "concept_id": "k12_algorithms",
+    "modalities": [
+        "audio_listen",
+        "code",
+        "mcq",
+        "text",
+        "video_question"
+    ],
+    "true_success_probs_synthetic": {
+        "audio_listen": 0.3,
+        "code": 0.45,
+        "mcq": 0.6,
+        "text": 0.8,
+        "video_question": 0.88
+    },
+    "best_modality_by_design": "video_question",
+    "rounds": {
+        "warmup_per_arm": 2,
+        "decision_rounds": 150,
+        "total_pulls": 160
+    },
+    "posteriors": {
+        "audio_listen": {
+            "alpha": 1.0,
+            "beta": 3.0,
+            "posterior_mean": 0.25,
+            "pulls": 2,
+            "successes": 0,
+            "empirical_rate": 0.0,
+            "true_p_synthetic": 0.3
+        },
+        "code": {
+            "alpha": 7.0,
+            "beta": 3.0,
+            "posterior_mean": 0.7,
+            "pulls": 8,
+            "successes": 6,
+            "empirical_rate": 0.75,
+            "true_p_synthetic": 0.45
+        },
+        "mcq": {
+            "alpha": 5.0,
+            "beta": 3.0,
+            "posterior_mean": 0.625,
+            "pulls": 6,
+            "successes": 4,
+            "empirical_rate": 0.6667,
+            "true_p_synthetic": 0.6
+        },
+        "text": {
+            "alpha": 15.0,
+            "beta": 3.0,
+            "posterior_mean": 0.8333,
+            "pulls": 16,
+            "successes": 14,
+            "empirical_rate": 0.875,
+            "true_p_synthetic": 0.8
+        },
+        "video_question": {
+            "alpha": 118.0,
+            "beta": 12.0,
+            "posterior_mean": 0.9077,
+            "pulls": 128,
+            "successes": 117,
+            "empirical_rate": 0.9141,
+            "true_p_synthetic": 0.88
+        }
+    },
+    "convergence": {
+        "best_arm": "video_question",
+        "best_arm_pull_share_overall": 0.84,
+        "best_arm_pull_share_last_40": 0.875,
+        "interpretation": "Thompson sampling concentrates pulls on the highest-reward modality as the per-arm Beta posteriors sharpen."
+    },
+    "arm_selection_log": [
+        {
+            "t": 10,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 11,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 12,
+            "phase": "decision",
+            "arm": "code",
+            "reward": 1
+        },
+        {
+            "t": 13,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 0
+        },
+        {
+            "t": 14,
+            "phase": "decision",
+            "arm": "mcq",
+            "reward": 1
+        },
+        {
+            "t": 15,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 16,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 17,
+            "phase": "decision",
+            "arm": "code",
+            "reward": 0
+        },
+        {
+            "t": 18,
+            "phase": "decision",
+            "arm": "mcq",
+            "reward": 1
+        },
+        {
+            "t": 19,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 20,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 21,
+            "phase": "decision",
+            "arm": "mcq",
+            "reward": 1
+        },
+        {
+            "t": 22,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 23,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 24,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 25,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 26,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 27,
+            "phase": "decision",
+            "arm": "mcq",
+            "reward": 0
+        },
+        {
+            "t": 28,
+            "phase": "decision",
+            "arm": "code",
+            "reward": 1
+        },
+        {
+            "t": 29,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 30,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 31,
+            "phase": "decision",
+            "arm": "code",
+            "reward": 1
+        },
+        {
+            "t": 32,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 33,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 34,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 35,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 36,
+            "phase": "decision",
+            "arm": "code",
+            "reward": 0
+        },
+        {
+            "t": 37,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 38,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 39,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 40,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 41,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 42,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 43,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 44,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 45,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 46,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 47,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 48,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 49,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 50,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 0
+        },
+        {
+            "t": 51,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 52,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 53,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 54,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 55,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 56,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 57,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 58,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 59,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 60,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 61,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 62,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 63,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 64,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 65,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 66,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 67,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 68,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 69,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 70,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 71,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 72,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 73,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 74,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 75,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 76,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 77,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 78,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 79,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 80,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 81,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 82,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 83,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 84,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 85,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 86,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 87,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 88,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 89,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 90,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 91,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 92,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 93,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 94,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 95,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 96,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 97,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 98,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 99,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 100,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 101,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 102,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 103,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 104,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 105,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 106,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 107,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 108,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 109,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 110,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 111,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 112,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 113,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 114,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 115,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 116,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 117,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 118,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 119,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 120,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 121,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 122,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 123,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 124,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 125,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 126,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 127,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 128,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 129,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 130,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 131,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 132,
+            "phase": "decision",
+            "arm": "code",
+            "reward": 1
+        },
+        {
+            "t": 133,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 134,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 135,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 136,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 137,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 138,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 139,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 140,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 141,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 142,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 143,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 144,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 145,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 146,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 147,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 148,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 149,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 150,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 151,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 152,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 153,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        },
+        {
+            "t": 154,
+            "phase": "decision",
+            "arm": "text",
+            "reward": 1
+        },
+        {
+            "t": 155,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 156,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 157,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 158,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 1
+        },
+        {
+            "t": 159,
+            "phase": "decision",
+            "arm": "video_question",
+            "reward": 0
+        }
+    ],
+    "framing": "Mechanism demonstration on synthetic responses; not a claim about live learner modality preferences. Demonstrates the bandit explores then exploits."
+}

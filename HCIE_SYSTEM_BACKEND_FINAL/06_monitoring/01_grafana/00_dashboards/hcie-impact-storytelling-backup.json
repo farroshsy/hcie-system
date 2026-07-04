@@ -1,0 +1,784 @@
+{
+  "title": "🚀 HCIE Impact Story - Adaptive Learning Results",
+  "uid": "hcie-impact-storytelling",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "10s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "📈 Total Knowledge Gained",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum(hcie_mastery_delta_sum_total)",
+          "refId": "A",
+          "legendFormat": "Total Mastery Points"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.05
+              },
+              {
+                "color": "green",
+                "value": 0.1
+              }
+            ]
+          },
+          "description": "Total mastery points gained across all learners"
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "🚀 Learning Improvement Rate",
+      "gridPos": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum(hcie_mastery_delta_sum_total) / sum(hcie_mastery_delta_count_total)",
+          "refId": "A",
+          "legendFormat": "Improvement per Interaction"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.005
+              },
+              {
+                "color": "green",
+                "value": 0.015
+              }
+            ]
+          },
+          "description": "Average improvement per interaction (cumulative, stable)"
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "🧠 Personalization Strength",
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "max by (user_type) (hcie_adaptive_learning_rate_gauge{mode=\"adaptive\"}) / min by (user_type) (hcie_adaptive_learning_rate_gauge{mode=\"adaptive\"})",
+          "refId": "A",
+          "legendFormat": "Adaptation Spread"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "green",
+                "value": 3
+              }
+            ]
+          },
+          "description": "How much more the system adapts for different learners (higher = more personalized)"
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "📈 Learning Convergence by Mode",
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "avg by (mode) (hcie_mastery_convergence_curve)",
+          "refId": "A",
+          "legendFormat": "{{mode}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "description": "Mastery progression over time by experimental mode"
+        }
+      }
+    },
+    {
+      "type": "barchart",
+      "title": "🧪 Multi-Baseline Comparison",
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum by (mode) (hcie_mastery_delta_sum_total) / sum by (mode) (hcie_mastery_delta_count_total)",
+          "refId": "A",
+          "legendFormat": "{{mode}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "description": "Learning gain per interaction by experimental mode (4-group A/B test)"
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "type": "barchart",
+      "title": "🔒 Stability Comparison",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 4
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "avg by (mode) (hcie_ensemble_variance)",
+          "refId": "A",
+          "legendFormat": "{{mode}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 0.2
+              }
+            ]
+          },
+          "description": "Lower variance = more stable learning"
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "📊 Learning Interactions",
+      "gridPos": {
+        "x": 12,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum(hcie_mastery_delta_count_total)",
+          "refId": "A",
+          "legendFormat": "Total Interactions"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "green",
+                "value": 30
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "⚠️ No evidence",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "2": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "3": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "4": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "5": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "6": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "7": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "8": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "9": {
+                  "text": "⚠️ Very low evidence",
+                  "color": "red"
+                },
+                "10": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "11": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "12": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "13": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "14": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "15": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "16": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "17": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "18": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "19": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "20": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "21": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "22": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "23": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "24": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "25": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "26": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "27": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "28": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "29": {
+                  "text": "🟡 Low evidence",
+                  "color": "yellow"
+                },
+                "30": {
+                  "text": "🟢 Moderate evidence",
+                  "color": "green"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "description": "Total learning interactions with evidence confidence (higher = more statistical confidence)"
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "📈 Learning Progress by Learner Type",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum by (user_type) (hcie_mastery_delta_sum_total) / sum by (user_type) (hcie_mastery_delta_count_total)",
+          "refId": "A",
+          "legendFormat": "{{user_type}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Learning Gain",
+            "displayMode": "line"
+          },
+          "description": "Relative learning performance by learner type"
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "⚙️ Adaptation Levels by Learner Type",
+      "gridPos": {
+        "x": 12,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "avg by (user_type) (hcie_adaptive_learning_rate_gauge)",
+          "refId": "A",
+          "legendFormat": "{{user_type}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Adaptation Level",
+            "displayMode": "line"
+          },
+          "description": "How much the system adapts for each learner type"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "title": "🎯 The Story This Tells",
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 24,
+        "h": 6
+      },{
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "sum by (mode) (hcie_mastery_delta_count_total)",
+          "refId": "A",
+          "legendFormat": "{{mode}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "green",
+                "value": 30
+              },
+              {
+                "color": "blue",
+                "value": 100
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "🔴 No data"
+                },
+                "10": {
+                  "color": "yellow",
+                  "index": 1,
+                  "text": "🟡 Weak"
+                },
+                "30": {
+                  "color": "green",
+                  "index": 2,
+                  "text": "🟢 Moderate"
+                },
+                "100": {
+                  "color": "blue",
+                  "index": 3,
+                  "text": "🔵 Strong"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "displayMode": "list",
+        "orientation": "horizontal",
+        "text": {}
+      },
+      "type": "stat",
+      "title": "📊 Sample Size by Mode"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "(\n  sum by (mode) (hcie_mastery_delta_sum_total)\n  /\n  sum by (mode) (hcie_mastery_delta_count_total)\n)",
+          "refId": "A",
+          "legendFormat": "{{mode}} mean"
+        },
+        {
+          "expr": "(\n  (\n    sum by (mode) (hcie_mastery_delta_sq_sum_total)\n    /\n    sum by (mode) (hcie_mastery_delta_count_total)\n  )\n  -\n  (\n    (\n      sum by (mode) (hcie_mastery_delta_sum_total)\n      /\n      sum by (mode) (hcie_mastery_delta_count_total)\n    ) ^ 2\n  )\n)",
+          "refId": "B",
+          "legendFormat": "{{mode}} variance"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "options": {
+        "displayMode": "list",
+        "orientation": "horizontal"
+      },
+      "type": "stat",
+      "title": "📈 Mean ΔM & Variance by Mode"
+    },
+    {
+      "datasource": {
+        "type": "prometheus", 
+        "uid": "PBFA97CFB590B2093"
+      },
+      "targets": [
+        {
+          "expr": "(\n  (\n    sum(hcie_mastery_delta_sum_total{mode=\"adaptive\"}) / sum(hcie_mastery_delta_count_total{mode=\"adaptive\"})\n  )\n  -\n  (\n    sum(hcie_mastery_delta_sum_total{mode=\"fixed_high\"}) / sum(hcie_mastery_delta_count_total{mode=\"fixed_high\"})\n  )\n)\n/\n(\n  sqrt(\n    (\n      sum(hcie_mastery_delta_sq_sum_total{mode=\"adaptive\"}) / sum(hcie_mastery_delta_count_total{mode=\"adaptive\"})\n      -\n      (\n        sum(hcie_mastery_delta_sum_total{mode=\"adaptive\"}) / sum(hcie_mastery_delta_count_total{mode=\"adaptive\"})\n      ) ^ 2\n    ) / sum(hcie_mastery_delta_count_total{mode=\"adaptive\"})\n    +\n    (\n      sum(hcie_mastery_delta_sq_sum_total{mode=\"fixed_high\"}) / sum(hcie_mastery_delta_count_total{mode=\"fixed_high\"})\n      -\n      (\n        sum(hcie_mastery_delta_sum_total{mode=\"fixed_high\"}) / sum(hcie_mastery_delta_count_total{mode=\"fixed_high\"})\n      ) ^ 2\n    ) / sum(hcie_mastery_delta_count_total{mode=\"fixed_high\"})\n  )\n)",
+          "refId": "A",
+          "legendFormat": "t-score (adaptive vs fixed_high)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow", 
+                "value": 1.96
+              },
+              {
+                "color": "green",
+                "value": 2.5
+              }
+            ]
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "❌ Not significant"
+                },
+                "1.96": {
+                  "color": "yellow",
+                  "index": 1,
+                  "text": "⚠️ Weak evidence"
+                },
+                "2.5": {
+                  "color": "green",
+                  "index": 2,
+                  "text": "✅ Strong evidence"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        }
+      },
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "displayMode": "list",
+        "orientation": "horizontal",
+        "text": {}
+      },
+      "type": "stat",
+      "title": "🧪 Statistical Significance (t-score)"
+    },
+    {
+      "datasource": null,
+      "targets": [],
+      "fieldConfig": {
+        "defaults": {}
+      },
+      "options": {
+        "content": "### 🔬 **Experiment Status & Statistical Analysis**\n\n#### 📊 **Current Sample Sizes**\n- **Adaptive**: ${adaptive_n} interactions\n- **Fixed High**: ${fixed_high_n} interactions\n- **Fixed Mid**: ${fixed_mid_n} interactions\n- **Fixed Low**: ${fixed_low_n} interactions\n\n#### 📈 **Effect Size Analysis**\n- **Mean ΔM Difference**: ${effect_size}\n- **Statistical Significance**: ${significance}\n- **Confidence Level**: ${confidence}\n\n#### 🧪 **Research Interpretation**\n\n${if t_score > 2.5}\n✅ **Strong evidence**: Adaptive significantly outperforms baseline\n${else if t_score > 1.96}\n⚠️ **Weak evidence**: More data needed for definitive conclusions\n${else if sample_size > 10}\n❌ **No significant difference**: Adaptive not better than baseline\n${else}\n🔴 **Insufficient data**: Need n≥30 per group for statistical power\n${end}\n\n#### ⚠️ **Statistical Caveats**\n\n- **Small sample bias**: Results may not generalize\n- **Short-term focus**: Long-term convergence not measured\n- **Variance assumptions**: Normal distribution may not hold\n\n#### 🎯 **Next Research Steps**\n\n1. **Power analysis**: Calculate required n for 80% power\n2. **Longitudinal study**: Track convergence over time\n3. **Effect heterogeneity**: Analyze by user archetype\n4. **Robustness checks**: Non-parametric tests\n\n#### 💡 **Key Scientific Insight**\n\n> **We now have a statistically rigorous framework to answer: \"Does adaptive learning provide measurable benefits over fixed strategies?**\n\nThe experiment is designed for publishable research with proper statistical controls.",
+        "mode": "markdown"
+      }
+    }
+  ]
+}
