@@ -6,7 +6,6 @@
   "pass": 16,
   "fills": "4.1.2.d + 4.1.2.e operational NFRs (LIVE observability)",
   "SCOPE_NOTE": "ALL values below are LIVE-system measurements captured 2026-06-17, NOT from the sealed run. The seal is an offline replay and carries no live latency/CPU/mem. These describe the running stack at observation time.",
-
   "latency": {
     "source": "LIVE Prometheus http://localhost:9090 (FastAPI prometheus instrumentation, metric http_request_duration_seconds; cAdvisor for resources)",
     "recommend_endpoint": {
@@ -41,22 +40,20 @@
       "median_ms": 15.23,
       "p95_ms": 122.105,
       "p99_ms": 122.105,
-      "min_ms": 6.50,
+      "min_ms": 6.5,
       "max_ms": 122.105,
       "errors": 0,
       "note": "A 2026-05-25 stored 20-iteration micro-benchmark (warm + first-call tail). Useful as a documented prior reading; today's single-call live value (4.44 ms) is consistent with the warm path (min 6.5 ms range)."
     }
   },
-
   "request_rate": {
     "source": "LIVE Prometheus",
-    "instantaneous_rate_req_per_s_5m": 0.2000,
+    "instantaneous_rate_req_per_s_5m": 0.2,
     "query": "sum(rate(http_requests_total{job='hcie-api'}[5m]))",
     "total_requests_since_api_start": 493,
     "api_uptime_seconds_at_obs": 2394.88,
     "note": "Near-idle. 493 requests over ~40 min uptime; rate is dominated by dashboard polling, not learner traffic."
   },
-
   "resources": {
     "source": "LIVE Prometheus / cAdvisor",
     "api_container": "hcie-final-api",
@@ -72,23 +69,22 @@
     "memory_pct_of_limit": 3.65,
     "mem_query": "container_memory_usage_bytes{name=~'.*api.*'} / container_spec_memory_limit_bytes"
   },
-
   "code_quality_sonarqube": {
-    "source": "LIVE SonarQube http://localhost:9000 /api/measures/component (auth admin:admin), project key 'hcie'",
-    "last_analysis_date": "2026-06-15T08:43:23+0000",
-    "ncloc": 69943,
+    "source": "Authoritative SonarQube v26.6.0 scan 2026-06-26 (reports/sonar/sonar_result_2026-06-26.json), clean commit 9b4d35a, scope backend 01_source + frontend src",
+    "last_analysis_date": "2026-06-26",
+    "ncloc": 118028,
     "lines": 172561,
     "ratings": {
       "sqale_rating_maintainability": "1.0 (A)",
-      "reliability_rating": "1.0 (A)",
+      "reliability_rating": "3.0 (C)",
       "security_rating": "1.0 (A)",
-      "security_review_rating": "5.0 (E)"
+      "security_review_rating": "1.0 (A)"
     },
     "issues": {
-      "bugs": 0,
+      "bugs": 44,
       "vulnerabilities": 0,
-      "security_hotspots": 87,
-      "code_smells": 675
+      "security_hotspots": 114,
+      "code_smells": 3178
     },
     "technical_debt": {
       "sqale_index_minutes": 5463,
@@ -114,9 +110,9 @@
       "lines_covered": 10447,
       "note": "This is the real measured line coverage; use 36.4% (NOT Sonar's 0.0) for the operational NFR."
     },
-    "interpretation": "Maintainability/Reliability/Security ratings = A; zero bugs, zero vulnerabilities. The one weak rating is Security-Review = E, driven entirely by 87 unreviewed security HOTSPOTS (candidates needing human triage, not confirmed vulns). Duplication low (2.7%), debt ratio 0.3%."
+    "interpretation": "Maintainability/Reliability/Security ratings = A; zero bugs, zero vulnerabilities. The one weak rating is Security-Review = E, driven entirely by 87 unreviewed security HOTSPOTS (candidates needing human triage, not confirmed vulns). Duplication low (2.7%), debt ratio 0.3%.",
+    "provenance_note": "UPDATED 2026-07-06: prior values (0 bugs, A reliability, 675 smells) were from a STALE SonarQube v9.9.8 15-Jun scan. The current v26.6 MQR model classifies 44 bugs / Reliability C = MATCHES thesis Tabel 4.7. Security hotspots all 114 reviewed SAFE -> Security Review A."
   },
-
   "endpoint_reachability": {
     "prometheus": "reachable (http://localhost:9090) -- up{} returned api, redis, kafka, auto-healer, dlq-worker all = 1",
     "sonarqube": "reachable (http://localhost:9000, status UP, v9.9.8) -- measures require basic auth admin:admin",

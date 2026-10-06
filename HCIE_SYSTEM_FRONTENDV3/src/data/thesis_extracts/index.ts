@@ -166,7 +166,7 @@ export const PASSES: PassMeta[] = [
     pass: 9, group: 'C · Transfer (placebo-corrected)', hero: 'transferBars',
     title: 'Transfer probe — durable / placebo / proximity',
     slot: '§4.1.3.e + Bab 5 RM4', status: 'ok',
-    headline: 'b_durable_cross 0.0915; same-family 0.1187; placebo 0.0381; placebo_ratio 0.417 (~42% confounded); perm-p 0.0099. Net = placebo-corrected residual (~58%), NOT net causal.',
+    headline: 'b_durable_cross 0.0915; same-family 0.1187; placebo 0.0381; placebo_ratio 0.417 (~42% confounded); perm-p 0.000999 (K=1000, p<0.001). Net = placebo-corrected residual (~58%), NOT net causal.',
     data: pass09,
   },
   // ── D · live learner exhibits / journeys ──
@@ -225,7 +225,7 @@ export const PASSES: PassMeta[] = [
     pass: 16, group: 'F · Operational NFRs + corpus (LIVE)', hero: 'operational',
     title: 'Operational NFRs (LIVE) + SonarQube',
     slot: '§4.1.2.d / §4.1.2.e', status: 'ok',
-    headline: '/recommend 4.44 ms; api p95 7.58 / p50 2.79 ms; CPU ~1.3% core, mem 149.6 MiB. SonarQube Maint/Reliab/Security = A; 0 bugs/0 vulns, 675 smells, dup 2.7%, coverage 36.4%.',
+    headline: '/recommend 4.44 ms; api p95 7.58 / p50 2.79 ms; CPU ~1.3% core, mem 149.6 MiB. SonarQube (v26.6, 26 Jun) Maint/Reliab/Security = A/C/A; 44 bugs/0 vulns, 3178 smells, dup 4.3%, coverage 36.4% (pytest; Sonar-ingest gap). Matches thesis Tabel 4.7.',
     deepLink: { label: 'Observability', href: '/dashboard/observability' }, data: pass16,
   },
   {

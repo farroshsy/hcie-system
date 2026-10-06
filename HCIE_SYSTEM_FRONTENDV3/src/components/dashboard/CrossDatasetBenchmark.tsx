@@ -22,7 +22,7 @@ const BACKEND = getBackendUrl()
 // Fixed model order so the matrix reads the same every time (HCIE = the subject, first).
 const MODEL_ORDER = ['hcie', 'sakt', 'dkt', 'bkt', 'irt_1pl', 'greedy_correct_rate', 'random', 'static_prior']
 const MODEL_LABEL: Record<string, string> = {
-  hcie: 'HCIE', sakt: 'SAKT', dkt: 'DKT', bkt: 'BKT', irt_1pl: 'IRT-1PL',
+  hcie: 'HCIE (ensemble)', sakt: 'SAKT', dkt: 'DKT', bkt: 'BKT', irt_1pl: 'IRT-1PL',
   greedy_correct_rate: 'Greedy', random: 'Random', static_prior: 'Static',
 }
 const MODEL_COLOR: Record<string, string> = {
@@ -137,7 +137,7 @@ export function CrossDatasetBenchmark() {
           Cross-dataset AUC matrix — 8 models × 5 datasets (overall window)
         </div>
         <div style={{ fontSize: 11, color: '#718096', marginBottom: 14 }}>
-          Each cell = overall AUC; greener = stronger. HCIE row highlighted. Live from the canonical sealed runs.
+          Each cell = overall AUC; greener = stronger. HCIE row = deployed ENSEMBLE lens (headline kanonik = m_K single-Kalman — lihat /review/cross-dataset & Tabel 4.9). Live from the canonical sealed runs.
         </div>
 
         {!matrix && <div style={{ textAlign: 'center', padding: 30, color: '#A0AEC0' }}>⟳ Loading matrix…</div>}

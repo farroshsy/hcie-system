@@ -64,10 +64,14 @@ from .frontend.thesis_evidence import router as thesis_evidence_router
 from .frontend.grounding import router as method_grounding_router
 from .frontend.thesis_figures import router as thesis_figures_router
 from .concepts import router as concepts_router
+# Additive observability: modality-effectiveness read aggregates (no MAB, no
+# sealed-eval impact). Shares the /frontend/dashboard prefix, mirrors session-trace.
+from .learner.material_engagement import modality_effectiveness_router
 
 # Register enhanced auth and frontend APIs
 router.include_router(auth_router)
 router.include_router(dashboard_router)
+router.include_router(modality_effectiveness_router)
 router.include_router(thesis_evidence_router)
 router.include_router(method_grounding_router)
 router.include_router(thesis_figures_router)

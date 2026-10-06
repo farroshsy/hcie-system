@@ -20,6 +20,7 @@ const GROUPS = [
     { href: '/review/topology',  labelKey: 'nav.reviewTopology',  icon: '◈' },
     { href: '/review/ablation',  labelKey: 'nav.reviewAblation',  icon: '⊿' },
     { href: '/review/trace',     labelKey: 'nav.reviewTrace',     icon: '◉' },
+    { href: '/review/modality-lab', labelKey: 'nav.reviewModalityLab', icon: '🧪' },
     { href: '/review/replay',    labelKey: 'nav.reviewReplay',    icon: '▶' },
   ] },
   { titleKey: 'nav.grpReference', items: [

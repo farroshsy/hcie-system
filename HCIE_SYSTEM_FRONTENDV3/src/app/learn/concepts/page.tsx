@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { getBackendUrl } from '@/lib/api/backend-url'
 import { K12_CONCEPTS, conceptLabel } from '@/lib/catalog/k12-catalog'
+import { ConceptGraph } from '@/components/learn/ConceptGraph'
 import { useT } from '@/contexts/language_context'
 import { Panel, Tag, Stat, Eyebrow } from '@/lib/ui/primitives'
 import { t as ui, type Tone } from '@/lib/ui/theme'
@@ -54,6 +55,7 @@ export default function ConceptMapPage() {
   const [masteryMap, setMasteryMap] = useState<Record<string, number>>({})
   const [lockMap, setLockMap] = useState<Record<string, ConceptLockState>>({})
   const [loadingMastery, setLoadingMastery] = useState(true)
+  const [view, setView] = useState<'grid' | 'graph'>('grid')
 
   useEffect(() => {
     if (authLoading) return
@@ -134,6 +136,24 @@ export default function ConceptMapPage() {
           />
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: ui.space.sm, alignItems: 'center' }}>
+          {/* Grid ↔ Graph toggle: the graph is the honest picture — prerequisites
+              lock, transfer edges carry mastery — so give it equal billing. */}
+          <div style={{ display: 'flex', gap: 2, background: ui.color.subtle,
+                        border: `1px solid ${ui.color.line}`, borderRadius: ui.radius.md, padding: 2 }}>
+            {([['grid', '▦ Grid'], ['graph', '🕸 Graph']] as const).map(([v, label]) => (
+              <button key={v} type="button" onClick={() => setView(v)}
+                style={{
+                  padding: `${ui.space.sm}px ${ui.space.lg}px`, fontSize: ui.font.size.sm,
+                  fontWeight: ui.font.weight.bold, border: 'none', borderRadius: ui.radius.sm,
+                  cursor: 'pointer',
+                  background: view === v ? ui.color.surface : 'transparent',
+                  color: view === v ? ui.tone.info.fg : ui.color.muted,
+                  boxShadow: view === v ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                }}>
+                {label}
+              </button>
+            ))}
+          </div>
           <button
             onClick={() => router.push('/learn')}
             style={{
@@ -147,8 +167,15 @@ export default function ConceptMapPage() {
         </div>
       </div>
 
+      {/* ── Graph view: prerequisite + transfer topology ─────────────────────── */}
+      {view === 'graph' && (
+        <div style={{ marginBottom: ui.space.xxl }}>
+          <ConceptGraph masteryMap={masteryMap} lockMap={lockMap} />
+        </div>
+      )}
+
       {/* ── Grade bands ──────────────────────────────────────────────────────── */}
-      {GRADE_ORDER.map(band => {
+      {view === 'grid' && GRADE_ORDER.map(band => {
         const concepts = byGrade[band] ?? []
         const g = GRADE_META[band]
         const gt = ui.tone[g.tone]
@@ -269,6 +296,12 @@ export default function ConceptMapPage() {
                           {' · '}Bloom L{concept.cognitiveLevel}
                         </div>
                       )}
+
+                      {/* Study formats available (intro+deep reading, diagram, audio) */}
+                      <div title="Intro & deeper reading · labelled diagram · narrated audio"
+                           style={{ fontSize: ui.font.size.xs, color: ui.color.faint, marginTop: ui.space.xs }}>
+                        📖×2 · 🗺 · ♪ &nbsp;study material
+                      </div>
                     </Panel>
                   </Link>
                 )

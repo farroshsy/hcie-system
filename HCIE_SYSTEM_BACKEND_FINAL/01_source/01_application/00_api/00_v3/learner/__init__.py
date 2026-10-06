@@ -12,6 +12,8 @@ from app.api.v3.its.progress import router as progress_router
 from app.api.v3.its.recommend import router as recommend_router
 from app.api.v3.learner.material import router as material_router
 from app.api.v3.learner.archetype_profile import router as archetype_profile_router
+# Additive observability beacon target: POST /v3/learner/material-view
+from app.api.v3.learner.material_engagement import material_engagement_router
 
 router = APIRouter(prefix="/learner", tags=["v3-learner-production"])
 
@@ -20,4 +22,5 @@ router.include_router(attempt_router)
 router.include_router(progress_router)
 router.include_router(material_router)
 router.include_router(archetype_profile_router)
+router.include_router(material_engagement_router)
 

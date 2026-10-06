@@ -1,0 +1,23 @@
+# TEMPORARY Mac workaround (2026-07-04): Laravel Valet's root-owned nginx holds
+# host port 80 and stopping it needs sudo. This override republishes the HCIE
+# gateway on 127.0.0.1:8080 so the stack can run alongside it.
+#
+# To restore the canonical :80 once Valet's nginx is stopped
+# (`sudo brew services stop nginx` or `valet stop`):
+#   docker compose -f docker-compose.final.yml up -d --force-recreate gateway
+#   docker restart hcie-final-gateway
+# ...and this file can be deleted.
+services:
+  gateway:
+    volumes:
+      # Mac-local conf = final.conf + proxy_hide_header Strict-Transport-Security
+      # (WebKit honors HSTS over plain HTTP and force-upgrades to https://:8080,
+      # killing CSS loads in sim Safari and the Expo WebView). Same target path,
+      # so this replaces the final.conf mount from the base compose file.
+      - ./gateway/nginx-gateway.mac.conf:/etc/nginx/nginx.conf:ro
+    ports: !override
+      # 8080 on ALL interfaces: localhost for the Mac, http://<mac-ip>:8080/ for
+      # LAN devices (Expo phones). Plain :80 is blocked twice over on this Mac —
+      # Valet's nginx holds 127.0.0.1:80, and Docker Desktop's privileged-port
+      # helper (vmnetd) isn't installed, so per-IP :80 binds fail too.
+      - "8080:80"

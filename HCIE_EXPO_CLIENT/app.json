@@ -16,10 +16,15 @@
     },
     "android": {
       "package": "id.its.hcie.tutor",
-      "adaptiveIcon": { "backgroundColor": "#172F57" }
+      "adaptiveIcon": {
+        "backgroundColor": "#172F57"
+      }
     },
     "extra": {
-      "tutorUrl": "https://farrospc.tailb58de0.ts.net/"
-    }
+      "tutorUrl": "http://192.168.100.170:8080/"
+    },
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }
