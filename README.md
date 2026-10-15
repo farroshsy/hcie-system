@@ -1,25 +1,45 @@
-# HCIE — Clean Code Evidence Bundle
+# HCIE — Cold-Start Adaptive Tutoring Without Embeddings
 
-[![Status: Research & Development](https://img.shields.io/badge/status-research%20%26%20development-orange.svg)](#status)
-[![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![CI](https://github.com/farroshsy/hcie-system/actions/workflows/ci.yml/badge.svg)](https://github.com/farroshsy/hcie-system/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/)
-[![Node 20](https://img.shields.io/badge/node-20-339933.svg)](https://nodejs.org/)
 [![Deterministic replay](https://img.shields.io/badge/deterministic%20replay-verified-success.svg)](REPRODUCIBILITY.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A cleaned, **runnable** export of the live HCIE system (an event-sourced, cold-start, embedding-free
-Intelligent Tutoring System + research instrument). Legacy/dead/duplicate code, build artifacts, docs, data
-dumps, and secrets have been removed; the result is a self-contained product you can
-build, run, migrate, and verify anywhere.
+An adaptive tutoring system that personalizes practice for a **brand-new learner on a brand-new subject** —
+no interaction history, no per-learner embeddings, no GPU. Built as my undergraduate thesis
+(Informatics Engineering, ITS) for the case Indonesia created in 2025: coding and AI opened as a school subject,
+where every learner and every concept starts cold.
 
-Stack: FastAPI · PostgreSQL · Redis · Kafka/Redpanda (outbox→CQRS projection) · Next.js. Two trees kept as
-siblings so the compose build-contexts + mounts resolve: `HCIE_SYSTEM_BACKEND_FINAL/` + `HCIE_SYSTEM_FRONTENDV3/`.
+**How:** each learner's mastery of each concept is a lagged-Kalman estimate over a prerequisite graph, so a
+new concept starts from what its prerequisites say, not from zero. A multi-armed bandit picks the next
+task. Every interaction is an immutable event; learner state is a projection rebuilt from the log.
 
-**Start here:** [HOW_IT_WORKS.md](HOW_IT_WORKS.md) — architecture tour + directory map + walkthrough · [MANUAL.md](MANUAL.md) — operate · [REPRODUCIBILITY.md](REPRODUCIBILITY.md) — replicate from scratch · [docs/FIGURES.md](docs/FIGURES.md) — concept-graph & causal-control figures · [postman/](postman/) — importable API collection.
+| Result | Value |
+|---|---|
+| Cold-start AUC (pooled) | **0.6051** vs BKT 0.5963 · 95% CI [+0.0017, +0.0226], n=76 |
+| Scale | **1.98M** interaction rows · **232,440** learners |
+| Replay | **Bit-identical** across fresh processes (`make verify`, md5 `3ab07694…`) |
+| Tests | 398 passed · 0 failed on an isolated stack |
 
-![HCIE cold-start journey](docs/screenshots/cold-start.png)
-<sub>Cold-start mastery (lagged-Kalman proxy): leads in the <em>pooled</em> aggregate; per-window it's mixed — BKT is competitive/better at very low N. Honest framing in <a href="REPRODUCIBILITY.md">REPRODUCIBILITY.md §5</a>. More in the <a href="HOW_IT_WORKS.md#demo">Demo</a>.</sub>
+What the numbers do **not** show, stated up front: the lead holds in the pooled aggregate but is mixed per
+window (BKT is competitive at very low N), and the transfer effect (+0.053) is correlational, not causal.
+Details in [REPRODUCIBILITY.md §5](REPRODUCIBILITY.md).
+
+**Stack:** FastAPI · PostgreSQL · Redis · Kafka/Redpanda (transactional outbox → 7 CQRS consumers) · Next.js 16 / React 19 · Docker Compose · GitHub Actions
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/readme/benchmarks.png" alt="Benchmarks"><br><sub><b>Benchmarks</b> — HCIE vs BKT / DKT / SAKT across evaluation windows</sub></td>
+<td width="50%"><img src="docs/screenshots/readme/cold-start.png" alt="Cold-start journey"><br><sub><b>Cold-start journey</b> — mastery and the per-step attribution behind each recommendation</sub></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/readme/learn-loop.png" alt="Learn loop"><br><sub><b>Learn loop</b> — recommend → attempt → update, with "why this task" (UI shown on mock data)</sub></td>
+<td><img src="docs/screenshots/readme/reproducibility.png" alt="Reproducibility"><br><sub><b>Reproducibility</b> — sealed run, content hash and the determinism check</sub></td>
+</tr>
+</table>
+
+**Read next:** [HOW_IT_WORKS.md](HOW_IT_WORKS.md) (architecture tour + walkthrough) ·
+[REPRODUCIBILITY.md](REPRODUCIBILITY.md) (replicate the results) · [MANUAL.md](MANUAL.md) (operate) ·
+[postman/](postman/) (API collection)
 
 ## Quickstart
 ```
@@ -71,7 +91,7 @@ development. It is *research-grade*, not production-supported — APIs and inter
 uptime/SLA or backward-compatibility guarantees. Use it to reproduce, study, and build on the results.
 
 ## Author & License
-**Author:** Farros Hilmi Syafei · [@farroshsy](https://github.com/farroshsy) · farrossyafei.205025@mhs.its.ac.id
+**Author:** Farros Hilmi Syafei · [@farroshsy](https://github.com/farroshsy) · farros.syafei@gmail.com
 (Institut Teknologi Sepuluh Nopember).
 
 Licensed under the **MIT License** — see [LICENSE](LICENSE). © 2026 Farros Hilmi Syafei.

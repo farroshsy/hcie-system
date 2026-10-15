@@ -10,7 +10,7 @@ setup. For the full operator reference see [MANUAL.md](MANUAL.md); to reproduce 
 
 Screenshots of the running system (sealed-anchor data; captions name the surface):
 
-**Adaptive learn loop** — the closed recommend → attempt → learn cycle; mastery updates live as the learner works.
+**Adaptive learn loop** — the closed recommend → attempt → learn cycle; mastery updates live as the learner works. (Captured with the frontend on mock data — note the badge.)
 ![Learn loop](docs/screenshots/learn-loop.png)
 
 **Cold-start journey** — lagged-Kalman mastery; leads in the *pooled* aggregate (per-window mixed — BKT competitive at very low N; honest framing in REPRODUCIBILITY.md §5).
