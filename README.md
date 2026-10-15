@@ -15,14 +15,15 @@ task. Every interaction is an immutable event; learner state is a projection reb
 
 | Result | Value |
 |---|---|
-| Cold-start AUC (pooled) | **0.6051** vs BKT 0.5963 · 95% CI [+0.0017, +0.0226], n=76 |
-| Scale | **1.98M** interaction rows · **232,440** learners |
+| Cold-start AUC | **0.6051**, on par with BKT (0.5963) and above DKT / SAKT / GKT — with **zero training**; the three deep models needed 17 users of pre-training. Sealed evaluation: 96,727 interactions from 93 learners |
+| First attempt per learner | AUC **0.62–0.76**, where BKT without history sits at ~0.50 (a coin flip) |
+| Cross-concept transfer | residual effect **+0.053** after a placebo correction, p<0.001 against 1,000 shuffled graphs — measured on 1.98M rows from 232,440 learners |
 | Replay | **Bit-identical** across fresh processes (`make verify`, md5 `3ab07694…`) |
-| Tests | 398 passed · 0 failed on an isolated stack |
+| Cost | **4.44 ms** per recommendation, ~1.3% of one CPU core, 149.6 MiB |
 
-What the numbers do **not** show, stated up front: the lead holds in the pooled aggregate but is mixed per
-window (BKT is competitive at very low N), and the transfer effect (+0.053) is correlational, not causal.
-Details in [REPRODUCIBILITY.md §5](REPRODUCIBILITY.md).
+What the numbers do **not** show, stated up front: the AUC gap to BKT is small (95% CI [+0.002, +0.023] on a
+76-learner companion set) — the claim is parity without training, not superiority; per-window results are mixed;
+and the transfer effect is correlational, not causal. Details in [REPRODUCIBILITY.md §5](REPRODUCIBILITY.md).
 
 **Stack:** FastAPI · PostgreSQL · Redis · Kafka/Redpanda (transactional outbox → 7 CQRS consumers) · Next.js 16 / React 19 · Docker Compose · GitHub Actions
 
